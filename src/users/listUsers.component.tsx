@@ -1,0 +1,91 @@
+import React from "react";
+import {RunsContainer, UsersContainer} from "../Provider.component";
+import {UserResource} from "../common/resources/User.resource";
+import {Button, Icon, ListItem} from "react-native-elements";
+import {getUserStatus, userStatusColor} from "../common/utils/User.utils";
+import {RunStatus} from "../common/resources/Run.resource";
+import {useNavigation} from "@react-navigation/native";
+import {callPhoneNumber} from "../common/utils/Phone.utils";
+import {SafeAreaView, StyleSheet, Text} from "react-native";
+import {ListCommonResourceComponent} from "../common/component/ListCommonResource.component";
+import {StatusCircleComponent} from "../common/component/StatusCircle.component";
+
+
+export function ListUsersComponent() {
+    const navigation = useNavigation();
+    const runContainer = RunsContainer.useContainer();
+    const startedRuns = runContainer.items.filter(run => run.status == RunStatus.GONE)
+
+    const buildUserDisplayName = (user: UserResource) => `${user.lastname} ${user.firstname}`
+
+    const renderItem = (item: UserResource) => {
+        const userCurrentRun = startedRuns.find(run => !!run.runners.find(runner => runner.user?.id == item.id));
+
+        return (
+            <ListItem bottomDivider={true}>
+                <ListItem.Content>
+                    <ListItem.Title style={styles.columnName}>
+                        {`${buildUserDisplayName(item)}`}
+                    </ListItem.Title>
+                    <ListItem.Subtitle style={styles.columnState} onPress={() => {
+                        if (userCurrentRun) {
+                            navigation.navigate("Runs", {
+                                screen: 'detail',
+                                params: {runId: userCurrentRun.id},
+                            })
+                        }
+                    }}>
+
+
+                            {getUserStatus(item.status)}
+                        <Text style={styles.runState}>
+                            {userCurrentRun ? (getUserStatus(item.status) == "En run" ? " pour : " + userCurrentRun?.title : "") : null}
+                        </Text>
+
+                    </ListItem.Subtitle>
+                </ListItem.Content>
+
+                <ListItem.Content style={{flexDirection: "row"}}>
+                    <StatusCircleComponent color={userStatusColor(item.status)}/>
+                </ListItem.Content>
+
+                <Button
+                    icon={
+                        <Icon
+                            type='font-awesome'
+                            name={'phone'}
+                            color={'white'}
+                        />
+                    }
+                    onPress={() => callPhoneNumber(item.phone_number)}
+                />
+            </ListItem>
+        )
+    }
+
+    return (
+        <SafeAreaView>
+            <ListCommonResourceComponent
+                sort={(userA: UserResource, userB: UserResource) => {
+                    return buildUserDisplayName(userA) > buildUserDisplayName(userB) ? 1 : -1
+                }}
+                dataContainer={UsersContainer}
+                renderItem={renderItem}/>
+        </SafeAreaView>
+    )
+}
+
+const styles = StyleSheet.create({
+    columnName: {
+        marginTop: 3,
+        fontFamily: 'Montserrat-Medium'
+    },
+    columnState: {
+        fontFamily: 'Montserrat-Regular',
+        marginTop: 5,
+    },
+    runState: {
+        color: '#F24F13'
+    },
+})
+
