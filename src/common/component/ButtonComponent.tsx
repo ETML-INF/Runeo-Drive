@@ -15,7 +15,9 @@ export function ButtonComponent(props: ButtonComponentProps) {
     let btnStyle = styles.button;
 
     if (props.color) {
-        btnStyle.backgroundColor = props.color
+        
+        // btnStyle.backgroundColor = props.color
+        // console.log(btnStyle)
     }
 
     return (
