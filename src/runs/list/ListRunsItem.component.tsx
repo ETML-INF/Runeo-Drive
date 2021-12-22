@@ -32,6 +32,7 @@ export class ListRunsItemComponent extends React.PureComponent<ListRunsItemCompo
                     }</ListItem.Subtitle>
                 </ListItem.Content>
 
+                <ListItem.Chevron color="grey"/>
             </ListItem>
         )
     }
