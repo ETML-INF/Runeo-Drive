@@ -4,7 +4,7 @@
 
 import {RunResource} from "../../common/resources/Run.resource";
 
-export function LastUpdated(run :RunResource): Boolean { 
+export function LastUpdatedRun(run :RunResource): Boolean { 
     const ONE_HOUR = 60 * 60 * 1000;
     let now = new Date();
     
