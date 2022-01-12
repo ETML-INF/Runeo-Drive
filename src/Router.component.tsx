@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {AuthContainer} from "./Provider.component";
 import {AuthComponent} from "./auth/Auth.component";
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -9,6 +9,7 @@ import {VehiclesComponent} from "./vehicles/Vehicles.components";
 import {ListFastDialsComponent} from "./fastDials/FastDials.component";
 import {NotificationsComponent} from "./notifications/Notifications.component";
 import {Colors} from "./common/utils/Color.utils";
+import RunnersEnrollment from "./Enrollment.component";
 
 const Tab = createBottomTabNavigator();
 
@@ -18,6 +19,7 @@ const ACTIVE_TAB_COLOR = Colors.BLUE;
 const INACTIVE_TAB_COLOR = Colors.BLACK;
 
 export function RouterComponent() {
+    const [stateValidation, setStateValidation] = useState();
     const authContainer = AuthContainer.useContainer();
 
     const tabBarIconGen = (name: string) => {
@@ -27,8 +29,13 @@ export function RouterComponent() {
             color={focused ? ACTIVE_TAB_COLOR : INACTIVE_TAB_COLOR}
         />)
     };
-
+    
     if (authContainer.authenticatedUser) {
+        if(!stateValidation){
+            return(
+                <RunnersEnrollment/>
+            )
+        }
         return (
             <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
                 activeTintColor: ACTIVE_TAB_COLOR,
@@ -74,6 +81,7 @@ export function RouterComponent() {
     }
 
     return (
+        // <RunnersEnrollment></RunnersEnrollment>
         <AuthComponent/>
     )
 }
