@@ -33,7 +33,7 @@ export function RouterComponent() {
     if (authContainer.authenticatedUser) {
         if(!stateValidation){
             return(
-                <RunnersEnrollment/>
+                <RunnersEnrollment setStateValidation={setStateValidation}/>
             )
         }
         return (
