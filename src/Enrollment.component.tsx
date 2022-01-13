@@ -1,24 +1,23 @@
 import Axios from "axios";
 import { Form, Formik } from "formik";
-import React, { useState,useEffect } from "react";
-import { View,SafeAreaView,Text,StyleSheet } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import React, { useState, useEffect } from "react";
+import { View, SafeAreaView, Text, StyleSheet, Button } from "react-native";
 import { ButtonComponent } from "./common/component/ButtonComponent";
+import { TextInputComponent } from "./common/component/TextInput.component";
 
-
-const RunnersEnrollment = (props:any) => {
+const RunnersEnrollment = (props: any) => {
     const initialValues = {
         token: ""
     };
-    const [response, setResponse]=useState(<div></div>);
+    const [response, setResponse] = useState(<div></div>);
     function getUserState() {
-        return Axios.get("/me").then((res)=>{
+        return Axios.get("/me").then((res) => {
             return res.data.status
         })
     }
     useEffect(() => {
-        getUserState().then((status)=>{
-            if(status){
+        getUserState().then((status) => {
+            if (status) {
                 switch (status) {
                     case "hired":
                     case "taken":
@@ -30,37 +29,65 @@ const RunnersEnrollment = (props:any) => {
                         setResponse(<View>On n'a pas besoin de toi, Merci.</View>)
                         break;
                     case "requested":
-                        setResponse(<View>
-                            Vous êtes sollicité
-                        </View>)
+                        setResponse(
+                           
+                                    <View>
+                                        <Text style={{ fontFamily: 'Montserrat-ExtraBold', marginLeft: 10 }}>Participer en tant que conducteur pour le Runeo de cette année ?</Text>
+                                        <View style={{marginTop:10}}>
+                                        <ButtonComponent
+                                            title="Je participe"
+                                            onPress={()=>setNewState(3)}
+                                        />
+                                        </View>
+                                        <View style={{marginTop:10}}>
+                                        <ButtonComponent
+                                            title="Je ne participe pas"
+                                            onPress={()=>setNewState(1)}
+                                        />
+                                        </View>
+                                        <View style={{marginTop:10}}>
+                                        <ButtonComponent
+                                            title="Je ne veux plus jamais participer en tant que conducteur"
+                                            onPress={()=>setNewState(8)}
+                                        />
+                                        </View>
+                                    </View>
+                            
+
+                        
+                        )
                         break;
                     case "retired":
-                        setResponse(<View>Merci pour ces années passées.</View>)
+                        setResponse(<View>Vous n'êtes plus sollicité pour runeo.</View>)
                         break;
                     case "confirmed":
                         setResponse(<View>Validation des données du permis...</View>)
                         break;
                     case "validated":
-                        setResponse(<View>Ton inscription est en cours de validation.</View>)
+                        setResponse(<View>En attente de la validation d'engagement de la part d'un administrateur.</View>)
                         break;
                     default:
                         break;
                 }
             }
-            
+
         });
-    },[]);
-    
-    function onSubmit(){
+    }, []);
 
+    async function setNewState(state:Number) {
+        let user = JSON.parse(localStorage.getItem("authenticatedUser")!);
+        Axios.patch(`/users/${user.id}`,{"status":state}).then((res)=>{
+            props.setStateValidation(1);
+        }).catch((err)=>{console.log(err)})
     }
-
     return (
         <SafeAreaView style={styles.wrapper}>
             <View style={styles.textCenter}>
-                <Text style={{fontFamily: 'Montserrat-SemiBold', fontSize: 30, marginBottom: 50}}>Processus d'inscription</Text>
+                <Text style={{ fontFamily: 'Montserrat-SemiBold', fontSize: 30, marginBottom: 50 }}>Processus d'inscription</Text>
             </View>
-            <Text style={styles.textCenter}>{response}</Text>
+            <View style={{marginTop:10}}>
+                {response}
+            </View>
         </SafeAreaView>
     )
 }
