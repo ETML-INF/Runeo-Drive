@@ -81,7 +81,6 @@ export function RouterComponent() {
     }
 
     return (
-        // <RunnersEnrollment></RunnersEnrollment>
         <AuthComponent/>
     )
 }

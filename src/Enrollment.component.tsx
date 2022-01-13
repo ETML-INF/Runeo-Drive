@@ -1,14 +1,16 @@
 import Axios from "axios";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
 import React, { useState,useEffect } from "react";
-import { View } from "react-native";
+import { View,SafeAreaView,Text,StyleSheet } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { ButtonComponent } from "./common/component/ButtonComponent";
 
 
 const RunnersEnrollment = (props:any) => {
-    const [userState,setUserState]=useState('');
-
+    const initialValues = {
+        token: ""
+    };
+    const [response, setResponse]=useState(<div></div>);
     function getUserState() {
         return Axios.get("/me").then((res)=>{
             return res.data.status
@@ -16,38 +18,60 @@ const RunnersEnrollment = (props:any) => {
     }
     useEffect(() => {
         getUserState().then((status)=>{
-            setUserState(status);
+            if(status){
+                switch (status) {
+                    case "hired":
+                    case "taken":
+                    case "free":
+                    case "not-present":
+                        props.setStateValidation(1);
+                        break;
+                    case "inactive":
+                        setResponse(<View>On n'a pas besoin de toi, Merci.</View>)
+                        break;
+                    case "requested":
+                        setResponse(<View>
+                            Vous êtes sollicité
+                        </View>)
+                        break;
+                    case "retired":
+                        setResponse(<View>Merci pour ces années passées.</View>)
+                        break;
+                    case "confirmed":
+                        setResponse(<View>Validation des données du permis...</View>)
+                        break;
+                    case "validated":
+                        setResponse(<View>Ton inscription est en cours de validation.</View>)
+                        break;
+                    default:
+                        break;
+                }
+            }
             
         });
-    });
-    if(userState){
-        switch (userState) {
-            case "hired":
-            case "taken":
-            case "free":
-            case "not-present":
-                props.setStateValidation(1);
-                break;
-            case "inactive":
-                break;
-            case "requested":
-                break;
-            case "retired":
-                break;
-            case "confirmed":
-                break;
-            case "validated":
-                break;
-            default:
-                break;
-        }
-    }
+    },[]);
     
+    function onSubmit(){
+
+    }
+
     return (
-        
-        <View>
-          <div>test</div>
-        </View>
+        <SafeAreaView style={styles.wrapper}>
+            <View style={styles.textCenter}>
+                <Text style={{fontFamily: 'Montserrat-SemiBold', fontSize: 30, marginBottom: 50}}>Processus d'inscription</Text>
+            </View>
+            <Text style={styles.textCenter}>{response}</Text>
+        </SafeAreaView>
     )
 }
+const styles = StyleSheet.create({
+    wrapper: {
+        flex: 1,
+        margin: 30
+    },
+    textCenter: {
+        flexDirection: "row",
+        justifyContent: "center",
+    }
+});
 export default RunnersEnrollment;
