@@ -37,11 +37,9 @@ export function RouterComponent() {
         })
     }
     if (authContainer.authenticatedUser) {
-        if (!userState) {
-            getUserState().then((status) => {
-                setUserState(status);
-            })
-        } else 
+        getUserState().then((status) => {
+            setUserState(status);
+        })
         switch (userState) {
             case "hired":
             case "taken":
@@ -90,7 +88,6 @@ export function RouterComponent() {
                     </Tab.Navigator>
                 )
             default:
-                console.log(userState)
                 return (<RunnersEnrollment userState={userState} setUserState={setUserState}/>)
         }
         
