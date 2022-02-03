@@ -18,7 +18,7 @@ export function ListRunsItemComponent ({onSelectRun, run} : ListRunsItemComponen
     const {authenticatedUser} = AuthContainer.useContainer();
     
     return (
-        <ListItem bottomDivider onPress={() => onSelectRun(run)} containerStyle={ lastUpdatedRun(run, authenticatedUser?.id) ? {backgroundColor:"#00ff4336"} : false }>
+        <ListItem bottomDivider onPress={() => onSelectRun(run)} containerStyle={ lastUpdatedRun(run, authenticatedUser?.id) ? {backgroundColor:"#8ee8a5"} : false}>
             {getRunStatusIcon(run.status)}
             <ListItem.Content>
                 <ListItem.Title style={{fontFamily: 'Montserrat-Medium'}}>{`${run.title.toUpperCase()} ${run.waypoints.get(0)?.nickname}`}</ListItem.Title>
