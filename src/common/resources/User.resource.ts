@@ -19,6 +19,7 @@ export interface UserResource extends CommonResource {
     email: string,
     phone_number: string,
     status: UserStatus,
+    role: string,
     image_profile: string,
     has_notification_token: string
 }
