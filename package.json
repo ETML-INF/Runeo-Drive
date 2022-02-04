@@ -39,7 +39,8 @@
     "react-native-vector-icons": "^7.0.0",
     "react-native-web": "0.17.1",
     "unstated-next": "^1.1.0",
-    "yup": "^0.29.3"
+    "yup": "^0.29.3",
+    "expo-font": "~10.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
