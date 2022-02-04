@@ -4,38 +4,33 @@ import {DATE_FORMAT} from "../../common/utils/Date.utils";
 import React from "react";
 import {RunResource} from "../../common/resources/Run.resource";
 import {Colors} from "../../common/utils/Color.utils";
+import {lastUpdatedRun} from "../../common/utils/LastUpdatedRun.utils";
+import {AuthContainer} from "../../Provider.component";
 
-export interface ListRunsItemComponentProps {
+export type ListRunsItemComponentProps = {
     run: RunResource,
     onSelectRun: (run: RunResource) => void
 }
 
 //use a react PureComponent to limit number of render when used in animated flat list
-export class ListRunsItemComponent extends React.PureComponent<ListRunsItemComponentProps> {
-    constructor(props: ListRunsItemComponentProps) {
-        super(props);
-    }
+export function ListRunsItemComponent ({onSelectRun, run} : ListRunsItemComponentProps) {
+    
+    const {authenticatedUser} = AuthContainer.useContainer();
+    
+    return (
+        <ListItem bottomDivider onPress={() => onSelectRun(run)} containerStyle={ lastUpdatedRun(run, authenticatedUser?.id) ? {backgroundColor:"#8ee8a5"} : false}>
+            {getRunStatusIcon(run.status)}
+            <ListItem.Content>
+                <ListItem.Title style={{fontFamily: 'Montserrat-Medium'}}>{`${run.title.toUpperCase()} ${run.waypoints.get(0)?.nickname}`}</ListItem.Title>
+                <ListItem.Subtitle style={{color: Colors.GREY, fontFamily: 'Montserrat-Regular'}}>{
+                    run
+                        .begin_at
+                        .toFormat(DATE_FORMAT)
+                }</ListItem.Subtitle>
+            </ListItem.Content>
 
-
-    render() {
-        const {onSelectRun, run} = this.props;
-
-        return (
-            <ListItem bottomDivider onPress={() => onSelectRun(run)}>
-                {getRunStatusIcon(run.status)}
-
-                <ListItem.Content>
-                    <ListItem.Title style={{fontFamily: 'Montserrat-Medium'}}>{`${run.title.toUpperCase()} ${run.waypoints.get(0)?.nickname}`}</ListItem.Title>
-                    <ListItem.Subtitle style={{color: Colors.GREY, fontFamily: 'Montserrat-Regular'}}>{
-                        run
-                            .begin_at
-                            .toFormat(DATE_FORMAT)
-                    }</ListItem.Subtitle>
-                </ListItem.Content>
-
-                <ListItem.Chevron/>
-            </ListItem>
-        )
-    }
-
+            <ListItem.Chevron color="grey"/>
+        </ListItem>
+    )
+    
 }
