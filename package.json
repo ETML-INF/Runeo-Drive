@@ -31,7 +31,7 @@
     "react-native-camera": "^3.40.0",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^1.7.0",
-    "react-native-image-picker": "^4.7.1",
+    "react-native-image-picker": "^4.7.3",
     "react-native-permissions": "^3.0.0",
     "react-native-qrcode-scanner": "^1.4.1",
     "react-native-reanimated": "^1.13.0",
@@ -40,7 +40,9 @@
     "react-native-vector-icons": "^7.0.0",
     "react-native-web": "0.17.1",
     "unstated-next": "^1.1.0",
-    "yup": "^0.29.3"
+    "yup": "^0.29.3",
+    "expo-image-picker": "~11.0.3",
+    "expo-image-manipulator": "~10.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

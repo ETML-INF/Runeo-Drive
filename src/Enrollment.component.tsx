@@ -4,19 +4,23 @@ import React, { useState, useEffect } from "react";
 import { View, SafeAreaView, Text, StyleSheet, Button } from "react-native";
 import { ButtonComponent } from "./common/component/ButtonComponent";
 import { TextInputComponent } from "./common/component/TextInput.component";
-import ImagePicker from 'react-native-image-picker';
+import * as ImagePicker from 'expo-image-picker';
+
 
 const RunnersEnrollment = (props: any) => {
-    async function saveImage() {
-        const res = ImagePicker.launchImageLibrary({ mediaType: 'photo', maxWidth: 200, maxHeight: 200 })
-        console.log(res)
-
+    async function  validateDatas() {
+        let result:ImagePicker.ImagePickerResult;
+        result = await ImagePicker.launchImageLibraryAsync({
+            base64:true,
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            quality: 1,
+        });
+        console.log(result.base64)
+        
     }
-    function validateDatas() {
 
-    }
-
-    let response = <div></div>;
+    let response = <View></View>;
     switch (props.userState) {
         case "inactive":
             response = <View>On n'a pas besoin de toi, Merci.</View>;
@@ -54,7 +58,6 @@ const RunnersEnrollment = (props: any) => {
             response = (<View>Vous n'êtes plus sollicité pour runeo.</View>)
             break;
         case "confirmed":
-            console.log("Validations données permis")
             response = (
                 <Formik
                     onSubmit={validateDatas}
@@ -66,7 +69,7 @@ const RunnersEnrollment = (props: any) => {
                             <ButtonComponent
                                 title="Importer permis de conduire"
                                 onPress={formik.handleSubmit}
-                                disabled={formik.isSubmitting || !formik.isValid} />
+                                />
                 
 
                             <Text style={{ fontFamily: 'Montserrat-ExtraBold', marginLeft: 10 }}>Pseudo</Text>
