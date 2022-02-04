@@ -144,7 +144,7 @@ export class ListRunsViewComponent<T extends CommonResource> extends Component<L
                         translateY: navbarTranslate
                     }],
                 }]}>
-                    {this.filterBtn(ListRunsFilterEnum.MY_RUNS, "MES RUNS")}
+                    {this.props.role == "manager" ? null : this.filterBtn(ListRunsFilterEnum.MY_RUNS, "MES RUNS")}
                     {this.filterBtn(ListRunsFilterEnum.OPEN, "OUVERT")}
                     {this.filterBtn(ListRunsFilterEnum.RUNNING, "EN COURS")}
                     {this.filterBtn(ListRunsFilterEnum.DONE, "TERMINE")}

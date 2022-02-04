@@ -89,6 +89,7 @@ export function ListRunsComponent() {
                 updateFilterStatus={updateFilterStatus}
                 refreshing={isLoading}
                 onRefresh={isInternetReachable ? refreshRuns : null}
+                role={authenticatedUser.role}
             />
         </SafeAreaView>
     )
