@@ -29,48 +29,74 @@ export function RouterComponent() {
     };
 
     if (authContainer.authenticatedUser) {
-        return (
-            <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
-                activeTintColor: ACTIVE_TAB_COLOR,
-                inactiveTintColor: INACTIVE_TAB_COLOR,
-            }}>
-                <Tab.Screen
-                    name={RUNS_TAB}
-                    options={{
-                        tabBarIcon: tabBarIconGen('list'),
-                    }}
-                    component={RunsComponent}
-                />
-                <Tab.Screen
-                    name="Drivers"
-                    options={{
-                        tabBarIcon: tabBarIconGen('drivers-license-o'),
-                    }}
-                    component={ListUsersComponent}
-                />
-                <Tab.Screen
-                    name="Vehicles"
-                    options={{
-                        tabBarIcon: tabBarIconGen('car'),
-                    }}
-                    component={VehiclesComponent}
-                />
-                <Tab.Screen
-                    name="Notifications"
-                    options={{
-                        tabBarIcon: tabBarIconGen('bell'),
-                    }}
-                    component={NotificationsComponent}
-                />
-                <Tab.Screen
-                    name="Utils"
-                    options={{
-                        tabBarIcon: tabBarIconGen('info-circle'),
-                    }}
-                    component={ListFastDialsComponent}
-                />
-            </Tab.Navigator>
-        )
+        if (authContainer.authenticatedUser.role == "manager")
+        {
+            return (
+                <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
+                    activeTintColor: ACTIVE_TAB_COLOR,
+                    inactiveTintColor: INACTIVE_TAB_COLOR,
+                }}>
+                    <Tab.Screen
+                        name={RUNS_TAB}
+                        options={{
+                            tabBarIcon: tabBarIconGen('list'),
+                        }}
+                        component={RunsComponent}
+                    />
+                    <Tab.Screen
+                        name="Utils"
+                        options={{
+                            tabBarIcon: tabBarIconGen('info-circle'),
+                        }}
+                        component={ListFastDialsComponent}
+                    />
+                </Tab.Navigator>
+            )
+        }
+        else {
+            return (
+                <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
+                    activeTintColor: ACTIVE_TAB_COLOR,
+                    inactiveTintColor: INACTIVE_TAB_COLOR,
+                }}>
+                    <Tab.Screen
+                        name={RUNS_TAB}
+                        options={{
+                            tabBarIcon: tabBarIconGen('list'),
+                        }}
+                        component={RunsComponent}
+                    />
+                    <Tab.Screen
+                        name="Drivers"
+                        options={{
+                            tabBarIcon: tabBarIconGen('drivers-license-o'),
+                        }}
+                        component={ListUsersComponent}
+                    />
+                    <Tab.Screen
+                        name="Vehicles"
+                        options={{
+                            tabBarIcon: tabBarIconGen('car'),
+                        }}
+                        component={VehiclesComponent}
+                    />
+                    <Tab.Screen
+                        name="Notifications"
+                        options={{
+                            tabBarIcon: tabBarIconGen('bell'),
+                        }}
+                        component={NotificationsComponent}
+                    />
+                    <Tab.Screen
+                        name="Utils"
+                        options={{
+                            tabBarIcon: tabBarIconGen('info-circle'),
+                        }}
+                        component={ListFastDialsComponent}
+                    />
+                </Tab.Navigator>
+            )
+        }
     }
 
     return (
