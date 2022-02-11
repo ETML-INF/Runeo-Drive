@@ -19,8 +19,8 @@ export function DetailRunsCourseComponent({currentRun}: CourseDetailRunsComponen
             <View>
                 {currentRun.waypoints.map((waypoint, idx) => (
                     waypoint.meeting_time ?
-                    <MeetingTextComponent key={idx}>- {waypoint.nickname} - {waypoint.meeting_time}</MeetingTextComponent> :
-                    <ImportantTextComponent key={idx}>- {waypoint.nickname}</ImportantTextComponent>))}
+                    <MeetingTextComponent key={idx}>{waypoint.nickname} - {waypoint.meeting_time}</MeetingTextComponent> :
+                    <ImportantTextComponent key={idx}>{waypoint.nickname}</ImportantTextComponent>))}
             </View>
             {runDuration.isValid ? (
                 <InlineTextComponent>
