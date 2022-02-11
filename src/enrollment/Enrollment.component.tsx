@@ -1,47 +1,26 @@
 import Axios from "axios";
-import React, { useState, useEffect } from "react";
-import { View, SafeAreaView, Text, StyleSheet, Button } from "react-native";
-import { ButtonComponent } from "../common/component/ButtonComponent";
+import React from "react";
+import { View, SafeAreaView, Text, StyleSheet } from "react-native";
 import ConfirmState from "./Confirmstate.component";
 import { AuthContainer } from "../Provider.component";
+import RequestedState from "./Requestedstate.component";
 
 const RunnersEnrollment = (props: any) => {
     const {authenticatedUser} = AuthContainer.useContainer();
     let response = <View></View>;
+
     switch (authenticatedUser?.status) {
         case "inactive":
             response = <View><Text>On n'a pas besoin de toi, Merci.</Text></View>;
             break;
         case "requested":
-            response = (
-                <View>
-                    <Text style={{ fontFamily: 'Montserrat-ExtraBold', marginLeft: 10 }}>Participer en tant que conducteur pour le Runeo de cette année ?</Text>
-                    <View style={{ marginTop: 10 }}>
-                        <ButtonComponent
-                            title="Je participe"
-                            onPress={() => setNewState(3)}
-                        />
-                    </View>
-                    <View style={{ marginTop: 10 }}>
-                        <ButtonComponent
-                            title="Je ne participe pas"
-                            onPress={() => setNewState(1)}
-                        />
-                    </View>
-                    <View style={{ marginTop: 10 }}>
-                        <ButtonComponent
-                            title="Je ne veux plus jamais participer en tant que conducteur"
-                            onPress={() => setNewState(8)}
-                        />
-                    </View>
-                </View>
-            )
+            response = <RequestedState setNewState={setNewState}/>
             break;
         case "retired":
             response = <View><Text>Vous n'êtes plus sollicité pour runeo.</Text></View>
             break;
         case "confirmed":
-            response = <ConfirmState refreshAuth={props.refreshAuth}/>;
+            response = <ConfirmState setNewState={setNewState}/>;
             break;
         case "validated":
             response = <View><Text>En attente de la validation d'engagement de la part d'un administrateur.</Text></View>
@@ -50,10 +29,11 @@ const RunnersEnrollment = (props: any) => {
             break;
     }
     async function setNewState(stateId: number) {
-        console.log("Setting new state....")
         Axios.patch(`/users/${authenticatedUser?.id}/status`, { "status_id": stateId }).then((res) => {
             props.refreshAuth();
-        }).catch((err) => { console.log("Erreur lors de la new state" + err.message) })
+        }).catch((err) => { 
+            throw err.message;
+         })
     }
     return (
         <SafeAreaView style={styles.wrapper}>

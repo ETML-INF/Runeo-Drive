@@ -30,7 +30,7 @@ export function RouterComponent() {
     };
         
     function refreshAuth() {
-        authContainer.refreshAuthenticated();
+        authContainer.refreshAuthenticated().catch((error)=>{console.error(error);});
     }
     
     if (authContainer.authenticatedUser) {
