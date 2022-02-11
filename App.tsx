@@ -17,6 +17,10 @@ export default function App() {
     "Montserrat-SemiBold": require('./assets/fonts/Montserrat-SemiBold.ttf'),
   });
 
+  if (!loaded) {
+    return null;
+  }
+
   return (
     <AppComponent/>
   );
