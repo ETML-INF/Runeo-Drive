@@ -10,7 +10,7 @@ const RunnersEnrollment = (props: any) => {
     let response = <View></View>;
     switch (authenticatedUser?.status) {
         case "inactive":
-            response = <View>On n'a pas besoin de toi, Merci.</View>;
+            response = <View><Text>On n'a pas besoin de toi, Merci.</Text></View>;
             break;
         case "requested":
             response = (
@@ -38,13 +38,13 @@ const RunnersEnrollment = (props: any) => {
             )
             break;
         case "retired":
-            response = <View>Vous n'êtes plus sollicité pour runeo.</View>
+            response = <View><Text>Vous n'êtes plus sollicité pour runeo.</Text></View>
             break;
         case "confirmed":
-            response = <ConfirmState setUserState={props.setUserState}/>;
+            response = <ConfirmState refreshAuth={props.refreshAuth}/>;
             break;
         case "validated":
-            response = <View>En attente de la validation d'engagement de la part d'un administrateur.</View>
+            response = <View><Text>En attente de la validation d'engagement de la part d'un administrateur.</Text></View>
             break;
         default:
             break;
@@ -52,8 +52,7 @@ const RunnersEnrollment = (props: any) => {
     async function setNewState(stateId: number) {
         console.log("Setting new state....")
         Axios.patch(`/users/${authenticatedUser?.id}/status`, { "status_id": stateId }).then((res) => {
-            console.log("ca marche")
-            props.setUserState(stateId);
+            props.refreshAuth();
         }).catch((err) => { console.log("Erreur lors de la new state" + err.message) })
     }
     return (

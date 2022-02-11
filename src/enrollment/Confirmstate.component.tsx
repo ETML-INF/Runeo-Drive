@@ -11,7 +11,6 @@ import { LoaderComponent } from "../Loader.component";
 
 const ConfirmState = (props: any) => {
     const {authenticatedUser} = AuthContainer.useContainer();
-    const [test,setTest] = useState(0);
     async function storeImage() {
         let result: ImagePicker.ImagePickerResult;
         let imageBase64: string;
@@ -37,22 +36,26 @@ const ConfirmState = (props: any) => {
                 firstname:userInfo.firstname,
                 phone_number:userInfo.phone_number
             });
-            console.log("OK")
             if(res.status == 200){
                 res = await Axios.patch(`/users/${authenticatedUser?.id}/status`, {
-                    status_id:2,
+                    status_id:4,
                 });
-                console.log("OK2")
                 if(res.status == 200){
-                    props.setUserState(2)
+                    props.refreshAuth();
                 }
-                console.log("OK3")
             }
         } catch (e) {
             console.log(e)
         }
     };
-
+    const onCancel = async()=>{
+        let res = await Axios.patch(`/users/${authenticatedUser?.id}/status`, {
+            status_id:2,
+        });
+        if(res.status == 200){
+            props.refreshAuth();
+        }
+    }
 
     return (
        
@@ -120,7 +123,7 @@ const ConfirmState = (props: any) => {
                         disabled={formik.isSubmitting || !formik.isValid} />
                     <ButtonComponent
                         title="Annuler"
-                        onPress={() => { }}
+                        onPress={onCancel}
                         disabled={formik.isSubmitting || !formik.isValid} />
                 </View>
             )}
