@@ -6,11 +6,12 @@ import { ButtonComponent } from "../common/component/ButtonComponent";
 import { TextInputComponent } from "../common/component/TextInput.component";
 import * as ImagePicker from 'expo-image-picker';
 import { AuthContainer } from "../Provider.component";
+import { LoaderComponent } from "../Loader.component";
 
 
 const ConfirmState = (props: any) => {
     const {authenticatedUser} = AuthContainer.useContainer();
-
+    const [test,setTest] = useState(0);
     async function storeImage() {
         let result: ImagePicker.ImagePickerResult;
         let imageBase64: string;
@@ -36,10 +37,16 @@ const ConfirmState = (props: any) => {
                 firstname:userInfo.firstname,
                 phone_number:userInfo.phone_number
             });
+            console.log("OK")
             if(res.status == 200){
-                Axios.patch(`/users/${authenticatedUser?.id}/status`, {
+                res = await Axios.patch(`/users/${authenticatedUser?.id}/status`, {
                     status_id:2,
                 });
+                console.log("OK2")
+                if(res.status == 200){
+                    props.setUserState(2)
+                }
+                console.log("OK3")
             }
         } catch (e) {
             console.log(e)

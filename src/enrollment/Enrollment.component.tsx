@@ -8,7 +8,7 @@ import { AuthContainer } from "../Provider.component";
 const RunnersEnrollment = (props: any) => {
     const {authenticatedUser} = AuthContainer.useContainer();
     let response = <View></View>;
-    switch (props.userState) {
+    switch (authenticatedUser?.status) {
         case "inactive":
             response = <View>On n'a pas besoin de toi, Merci.</View>;
             break;
@@ -19,19 +19,19 @@ const RunnersEnrollment = (props: any) => {
                     <View style={{ marginTop: 10 }}>
                         <ButtonComponent
                             title="Je participe"
-                            onPress={() => setNewState("confirmed", 3)}
+                            onPress={() => setNewState(3)}
                         />
                     </View>
                     <View style={{ marginTop: 10 }}>
                         <ButtonComponent
                             title="Je ne participe pas"
-                            onPress={() => setNewState("inactive", 1)}
+                            onPress={() => setNewState(1)}
                         />
                     </View>
                     <View style={{ marginTop: 10 }}>
                         <ButtonComponent
                             title="Je ne veux plus jamais participer en tant que conducteur"
-                            onPress={() => setNewState("retired", 8)}
+                            onPress={() => setNewState(8)}
                         />
                     </View>
                 </View>
@@ -41,7 +41,7 @@ const RunnersEnrollment = (props: any) => {
             response = <View>Vous n'êtes plus sollicité pour runeo.</View>
             break;
         case "confirmed":
-            response = <ConfirmState></ConfirmState>;
+            response = <ConfirmState setUserState={props.setUserState}/>;
             break;
         case "validated":
             response = <View>En attente de la validation d'engagement de la part d'un administrateur.</View>
@@ -49,10 +49,12 @@ const RunnersEnrollment = (props: any) => {
         default:
             break;
     }
-    async function setNewState(stateName: string, stateId: number) {
+    async function setNewState(stateId: number) {
+        console.log("Setting new state....")
         Axios.patch(`/users/${authenticatedUser?.id}/status`, { "status_id": stateId }).then((res) => {
-            props.setUserState(stateName);
-        }).catch((err) => { console.log(err) })
+            console.log("ca marche")
+            props.setUserState(stateId);
+        }).catch((err) => { console.log("Erreur lors de la new state" + err.message) })
     }
     return (
         <SafeAreaView style={styles.wrapper}>
