@@ -10,5 +10,7 @@ const styles = StyleSheet.create({
     importantText: {
         fontWeight: "bold",
         backgroundColor: Colors.LIGHT_BLUE,
+        borderRadius: 25,
+        padding: 5,
     },
 });
