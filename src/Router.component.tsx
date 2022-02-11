@@ -9,7 +9,7 @@ import { VehiclesComponent } from "./vehicles/Vehicles.components";
 import { ListFastDialsComponent } from "./fastDials/FastDials.component";
 import { NotificationsComponent } from "./notifications/Notifications.component";
 import { Colors } from "./common/utils/Color.utils";
-import RunnersEnrollment from "./Enrollment.component";
+import RunnersEnrollment from "./enrollment/Enrollment.component";
 import Axios from "axios";
 
 const Tab = createBottomTabNavigator();
@@ -22,7 +22,6 @@ const INACTIVE_TAB_COLOR = Colors.BLACK;
 export function RouterComponent() {
     const [userState, setUserState] = useState("");
     const authContainer = AuthContainer.useContainer();
-
     const tabBarIconGen = (name: string) => {
         return ({ focused }: { focused: boolean }) => (<Icon
             type='font-awesome'
@@ -31,20 +30,13 @@ export function RouterComponent() {
         />)
     };
 
-    const getUserState = () => {
-        return Axios.get("/me").then((res) => {
-            return res.data.status
-        })
-    }
+   
     if (authContainer.authenticatedUser) {
-        getUserState().then((status) => {
-            setUserState(status);
-        })
-        switch (userState) {
+        switch (authContainer.authenticatedUser?.status) {
             case "hired":
             case "taken":
             case "free":
-            case "not-present":
+            case "not_present":
                 return (
                     <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
                         activeTintColor: ACTIVE_TAB_COLOR,
@@ -88,7 +80,7 @@ export function RouterComponent() {
                     </Tab.Navigator>
                 )
             default:
-                return (<RunnersEnrollment userState={userState} setUserState={setUserState}/>)
+                return (<RunnersEnrollment userState={authContainer.authenticatedUser?.status} setUserState={setUserState}/>)
         }
         
     }

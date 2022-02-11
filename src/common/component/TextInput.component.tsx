@@ -10,7 +10,6 @@ export interface TextInputProps {
 
 export const TextInputComponent = (props: TextInputProps) => {
     const error = props.formik.touched[props.name] && props.formik.errors[props.name] ? props.formik.errors[props.name] : null;
-
     return <Input
         {...props.inputProps}
         onChangeText={props.formik.handleChange(props.name)}
