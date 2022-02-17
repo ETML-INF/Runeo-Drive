@@ -1,6 +1,6 @@
 {
   "expo": {
-    "apiUrl": "http://10.0.2.2:8000/api",
+    "apiUrl": "https://runeo.mycpnv.ch/api",
     "name": "Runeo-Drive-Expo",
     "slug": "Runeo-Drive-Expo",
     "version": "1.0.0",
@@ -24,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "runeo.mycpnv.runeodrive2022"
     },
     "web": {
       "favicon": "./assets/favicon.png"
