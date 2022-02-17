@@ -21,7 +21,7 @@ const RequestedState = (props: any) => {
             </View>
             <View style={{ marginTop: 10 }}>
                 <ButtonComponent
-                    title="Je ne veux plus jamais participer en tant que conducteur"
+                    title="Je ne veux plus jamais participer"
                     onPress={() => props.setNewState(8)}
                 />
             </View>
