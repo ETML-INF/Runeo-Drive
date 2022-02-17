@@ -4,6 +4,7 @@ import { View, SafeAreaView, Text, StyleSheet } from "react-native";
 import ConfirmState from "./Confirmstate.component";
 import { AuthContainer } from "../Provider.component";
 import RequestedState from "./Requestedstate.component";
+import {ScrollView} from "react-native";
 
 const RunnersEnrollment = (props: any) => {
     const {authenticatedUser} = AuthContainer.useContainer();
@@ -37,12 +38,14 @@ const RunnersEnrollment = (props: any) => {
     }
     return (
         <SafeAreaView style={styles.wrapper}>
-            <View style={styles.textCenter}>
-                <Text style={{ fontFamily: 'Montserrat-SemiBold', fontSize: 30, marginBottom: 50 }}>Processus d'inscription</Text>
-            </View>
-            <View style={{ marginTop: 10 }}>
-                {response}
-            </View>
+            <ScrollView>
+                <View style={styles.textCenter}>
+                    <Text style={{ fontFamily: 'Montserrat-SemiBold', fontSize: 30, marginBottom: 50 }}>Processus d'inscription</Text>
+                </View>
+                <View style={{ marginTop: 10 }}>
+                    {response}
+                </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }
