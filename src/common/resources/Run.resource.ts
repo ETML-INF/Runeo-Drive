@@ -21,6 +21,7 @@ export interface RunResource extends CommonResource {
     begin_at: DateTime,
     start_at: DateTime,
     updated_at: DateTime,
+    acknowledged_at: DateTime,
     pax_tbc: boolean,
     time_tbc: boolean,
     end_at: DateTime,
