@@ -4,6 +4,7 @@ import {DURATION_FORMAT} from "../../common/utils/Date.utils";
 import React, {Fragment} from "react";
 import {CardComponentWithIcon} from "../../common/component/Card.component";
 import {ImportantTextComponent} from "../../common/component/text/ImportantText.component";
+import {MeetingTextComponent} from "../../common/component/text/MeetingText.component";
 import {InlineTextComponent} from "../../common/component/text/InlineText.component";
 
 export interface CourseDetailRunsComponentProps {
@@ -17,7 +18,9 @@ export function DetailRunsCourseComponent({currentRun}: CourseDetailRunsComponen
         <CardComponentWithIcon title={"Parcours"} icon={"map-marked-alt"}>
             <View>
                 {currentRun.waypoints.map((waypoint, idx) => (
-                    <ImportantTextComponent key={idx}>- {waypoint.nickname}</ImportantTextComponent>))}
+                    waypoint.meeting_time ?
+                    <MeetingTextComponent key={idx}>{waypoint.nickname} - {waypoint.meeting_time}</MeetingTextComponent> :
+                    <ImportantTextComponent key={idx}>{waypoint.nickname}</ImportantTextComponent>))}
             </View>
             {runDuration.isValid ? (
                 <InlineTextComponent>

@@ -46,7 +46,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                         <Text style={styles.runnerTitle}>{runner.user?.name}</Text>
                                     ) : null}
 
-                                    {!runner.user && !isFinished ? (
+                                    {!runner.user && !isFinished && authenticatedUser.role != "manager" ? (
                                         <ButtonComponent
                                             title={currentRun.good_for_me ? "Je prends" : "Autre Run"}
                                             disabled={
@@ -77,7 +77,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                             </Fragment>
                                         ) : null}
 
-                                        {!runner.vehicle && !isFinished ? (
+                                        {!runner.vehicle && !isFinished && authenticatedUser.role != "manager" ? (
                                             <ButtonComponent
                                                 disabled={
                                                     authenticatedUser?.id != runner.user?.id ||
@@ -91,7 +91,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                         ) : null}
                                     </View>
 
-                                    {runner.vehicle && !isFinished ? (
+                                    {runner.vehicle && !isFinished && authenticatedUser.role != "manager" ? (
                                         <View>
                                             <ButtonComponent
                                                 disabled={

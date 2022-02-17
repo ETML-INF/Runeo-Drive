@@ -10,7 +10,6 @@ import { ListFastDialsComponent } from "./fastDials/FastDials.component";
 import { NotificationsComponent } from "./notifications/Notifications.component";
 import { Colors } from "./common/utils/Color.utils";
 import RunnersEnrollment from "./enrollment/Enrollment.component";
-import { useEffect } from "react";
 
 const Tab = createBottomTabNavigator();
 
@@ -28,65 +27,87 @@ export function RouterComponent() {
             color={focused ? ACTIVE_TAB_COLOR : INACTIVE_TAB_COLOR}
         />)
     };
-        
+
     function refreshAuth() {
-        authContainer.refreshAuthenticated().catch((error)=>{console.error(error);});
-    }
-    
-    if (authContainer.authenticatedUser) {
-        switch (authContainer.authenticatedUser?.status) {
-            case "hired":
-            case "taken":
-            case "free":
-            case "not_present":
-                return (
-                    <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
-                        activeTintColor: ACTIVE_TAB_COLOR,
-                        inactiveTintColor: INACTIVE_TAB_COLOR,
-                    }}>
-                        <Tab.Screen
-                            name={RUNS_TAB}
-                            options={{
-                                tabBarIcon: tabBarIconGen('list'),
-                            }}
-                            component={RunsComponent}
-                        />
-                        <Tab.Screen
-                            name="Drivers"
-                            options={{
-                                tabBarIcon: tabBarIconGen('drivers-license-o'),
-                            }}
-                            component={ListUsersComponent}
-                        />
-                        <Tab.Screen
-                            name="Vehicles"
-                            options={{
-                                tabBarIcon: tabBarIconGen('car'),
-                            }}
-                            component={VehiclesComponent}
-                        />
-                        <Tab.Screen
-                            name="Notifications"
-                            options={{
-                                tabBarIcon: tabBarIconGen('bell'),
-                            }}
-                            component={NotificationsComponent}
-                        />
-                        <Tab.Screen
-                            name="Utils"
-                            options={{
-                                tabBarIcon: tabBarIconGen('info-circle'),
-                            }}
-                            component={ListFastDialsComponent}
-                        />
-                    </Tab.Navigator>
-                )
-            default:
-                return (<RunnersEnrollment refreshAuth={refreshAuth}/>)
-        }
-        
+        authContainer.refreshAuthenticated().catch((error) => { console.error(error); });
     }
 
+    if (authContainer.authenticatedUser) {
+        if (authContainer.authenticatedUser.role == "manager") {
+            return (
+                <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
+                    activeTintColor: ACTIVE_TAB_COLOR,
+                    inactiveTintColor: INACTIVE_TAB_COLOR,
+                }}>
+                    <Tab.Screen
+                        name={RUNS_TAB}
+                        options={{
+                            tabBarIcon: tabBarIconGen('list'),
+                        }}
+                        component={RunsComponent}
+                    />
+                    <Tab.Screen
+                        name="Utils"
+                        options={{
+                            tabBarIcon: tabBarIconGen('info-circle'),
+                        }}
+                        component={ListFastDialsComponent}
+                    />
+                </Tab.Navigator>
+            )
+        } else {
+            switch (authContainer.authenticatedUser?.status) {
+                case "hired":
+                case "taken":
+                case "free":
+                case "not_present":
+                    return (
+                        <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
+                            activeTintColor: ACTIVE_TAB_COLOR,
+                            inactiveTintColor: INACTIVE_TAB_COLOR,
+                        }}>
+                            <Tab.Screen
+                                name={RUNS_TAB}
+                                options={{
+                                    tabBarIcon: tabBarIconGen('list'),
+                                }}
+                                component={RunsComponent}
+                            />
+                            <Tab.Screen
+                                name="Drivers"
+                                options={{
+                                    tabBarIcon: tabBarIconGen('drivers-license-o'),
+                                }}
+                                component={ListUsersComponent}
+                            />
+                            <Tab.Screen
+                                name="Vehicles"
+                                options={{
+                                    tabBarIcon: tabBarIconGen('car'),
+                                }}
+                                component={VehiclesComponent}
+                            />
+                            <Tab.Screen
+                                name="Notifications"
+                                options={{
+                                    tabBarIcon: tabBarIconGen('bell'),
+                                }}
+                                component={NotificationsComponent}
+                            />
+                            <Tab.Screen
+                                name="Utils"
+                                options={{
+                                    tabBarIcon: tabBarIconGen('info-circle'),
+                                }}
+                                component={ListFastDialsComponent}
+                            />
+                        </Tab.Navigator>
+                    )
+                default:
+                    return (<RunnersEnrollment refreshAuth={refreshAuth} />)
+            }
+        }
+    }
     return (
         <AuthComponent />
     )
