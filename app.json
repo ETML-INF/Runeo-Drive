@@ -1,6 +1,5 @@
 {
   "expo": {
-    "apiUrl": "https://runeo.mycpnv.ch/api",
     "name": "Runeo-Drive-Expo",
     "slug": "Runeo-Drive-Expo",
     "version": "1.0.0",
