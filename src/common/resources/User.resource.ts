@@ -7,7 +7,7 @@ export enum UserStatus {
     VALIDATED = "validated",
     HIRED = "hired",
     FREE = "free",
-    NOT_PRESENT = "not_present",
+    NOT_PRESENT = "not-present",
     RETIRED = "retired",
     TAKEN = "taken"
 }

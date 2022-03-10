@@ -6,14 +6,17 @@ import { TextInputComponent } from "../common/component/TextInput.component";
 import * as ImagePicker from "expo-image-picker";
 import { AuthContainer } from "../Provider.component";
 import * as Yup from "yup";
-import { Formik, FormikHelpers } from "formik";
+import { Formik, FormikHelpers, ErrorMessage } from "formik";
 import { CheckBox } from "react-native-elements/dist/checkbox/CheckBox";
+import { UsersContainer } from "../Provider.component";
+import { LogBox } from 'react-native';
 
 const ConfirmState = (props: any) => {
+  const usersContainer  = UsersContainer.useContainer();
   const { authenticatedUser } = AuthContainer.useContainer();
   const [chartSelected, setChartSelected] = useState(false);
+  const [error,setError]=useState("");
   let imageBase64: string;
-  const chartLink: string = "https://runeo.mycpnv.ch/infos";
   async function storeImage() {
     let result: ImagePicker.ImagePickerResult;
     try {
@@ -24,33 +27,40 @@ const ConfirmState = (props: any) => {
         quality: 1,
       });
       if (!result.cancelled)
-        imageBase64 = "data:image/png;base64," + result.base64;
+        imageBase64 = result.base64!;
     } catch (error) {
       throw error.message;
     }
   }
-  Formik;
-  const onSubmit = async (
-    userInfo: object,
-    { setSubmitting, setFieldError }: FormikHelpers<any>
-  ) => {
-    setSubmitting(true);
-    if (!chartSelected) {
-      setFieldError(
-        "name",
-        "Erreur, veuillez accepter la charte."
-      );
-      setSubmitting(false);
-    } else {
+  const onSubmit = async (userInfo:Object, {setSubmitting, setFieldError}: FormikHelpers<any>) => {
+    let isValid = true;
+    usersContainer.items.forEach((user)=>{  
+      if(user.name == userInfo.name)
+      {
+        isValid = false;
+        setFieldError("name","Le pseudo est déjà utilisé.");
+      }
+    })
+    if(!chartSelected)
+    {
+      isValid = false;
+      setError("Vous n'avez pas acceptez la charte.");
+    }
+      
+    if(!imageBase64){
+      isValid = false;
+      debugger;
+      setError("Vous n'avez pas ajouter d'image.")
+    }
+    if(isValid) {
       try {
         let res = await Axios.patch(`/users/${authenticatedUser?.id}`, {
           name: userInfo.name,
           lastname: userInfo.lastname,
           firstname: userInfo.firstname,
-          phone_number: userInfo.phone_number,
         });
         let imgRes = await Axios.patch(`/users/${authenticatedUser?.id}`, {
-          image_license: imageBase64,
+          image_license: "data:image/png;base64,"+imageBase64,
         });
         if (res.status == 200 && imgRes.status == 200) {
           props.setNewState(4);
@@ -79,6 +89,10 @@ const ConfirmState = (props: any) => {
     >
       {(formik) => (
         <View>
+        <Text style={{ fontFamily: "Montserrat-ExtraBold", marginLeft: 10, color:"red" }}>
+          {error}
+        </Text>
+         
           <Text style={{ fontFamily: "Montserrat-ExtraBold", marginLeft: 10 }}>
             Permis de conduire
           </Text>
@@ -157,7 +171,7 @@ const ConfirmState = (props: any) => {
             <ButtonComponent
               title="Valider"
               onPress={formik.handleSubmit}
-              disabled={formik.isSubmitting}
+              disabled={formik.isSubmitting || !formik.isValid}
             />
           </View>
           <View style={{ marginTop: 10 }}>

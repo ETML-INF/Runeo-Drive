@@ -12,7 +12,7 @@ const RunnersEnrollment = (props: any) => {
 
     switch (authenticatedUser?.status) {
         case "inactive":
-            response = <View><Text>On n'a pas besoin de toi, Merci.</Text></View>;
+            response = <View><Text>Vous n'êtes pas sollicité pour le moment.</Text></View>;
             break;
         case "requested":
             response = <RequestedState setNewState={setNewState}/>
@@ -27,6 +27,7 @@ const RunnersEnrollment = (props: any) => {
             response = <View><Text>En attente de la validation d'engagement de la part d'un administrateur.</Text></View>
             break;
         default:
+            console.log(authenticatedUser?.status);
             break;
     }
     async function setNewState(stateId: number) {

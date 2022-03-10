@@ -60,7 +60,7 @@ export function RouterComponent() {
                 case "hired":
                 case "taken":
                 case "free":
-                case "not_present":
+                case "not-present":
                     return (
                         <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
                             activeTintColor: ACTIVE_TAB_COLOR,
