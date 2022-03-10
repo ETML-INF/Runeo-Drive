@@ -2,13 +2,14 @@ import {RunResource, RunStatus} from "../../common/resources/Run.resource";
 import React, {Fragment} from "react";
 import {CardComponentWithIcon, CardContainerComponent} from "../../common/component/Card.component";
 import {Alert, StyleSheet, Text, View} from "react-native";
-import {Icon} from "react-native-elements";
+import {Icon, Button} from "react-native-elements";
 import {AuthContainer, NetworkContainer, RunsContainer} from "../../Provider.component";
 import {getGasLevelText} from "../../common/utils/Vehicle.utils";
 import {useNavigation} from "@react-navigation/native";
 import {RunsSelectVehicleParams} from "../RunsSelectVehicle.component";
 import {ButtonComponent} from "../../common/component/ButtonComponent";
 import {Colors} from "../../common/utils/Color.utils";
+import {callPhoneNumber} from "../../common/utils/Phone.utils";
 
 export interface RunnersDetailRunsComponentProps {
     currentRun: RunResource
@@ -43,7 +44,19 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                             <View>
                                 <View style={styles.runnerContent}>
                                     {runner.user ? (
-                                        <Text style={styles.runnerTitle}>{runner.user?.name}</Text>
+                                        <View>
+                                            <Text style={styles.runnerTitle}>{runner.user?.name}</Text>
+                                            <Button
+                                                icon={
+                                                    <Icon
+                                                        type='font-awesome'
+                                                        name={'phone'}
+                                                        color={'white'}
+                                                    />
+                                                }
+                                                onPress={() => callPhoneNumber(runner.user?.phone_number)}
+                                            />
+                                        </View>
                                     ) : null}
 
                                     {!runner.user && !isFinished && authenticatedUser.role != "manager" ? (
