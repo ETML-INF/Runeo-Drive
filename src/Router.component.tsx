@@ -7,7 +7,6 @@ import { Icon } from "react-native-elements";
 import { RunsComponent } from "./runs/Runs.component";
 import { VehiclesComponent } from "./vehicles/Vehicles.components";
 import { ListFastDialsComponent } from "./fastDials/FastDials.component";
-import { NotificationsComponent } from "./notifications/Notifications.component";
 import { Colors } from "./common/utils/Color.utils";
 import RunnersEnrollment from "./enrollment/Enrollment.component";
 
@@ -86,13 +85,6 @@ export function RouterComponent() {
                                     tabBarIcon: tabBarIconGen('car'),
                                 }}
                                 component={VehiclesComponent}
-                            />
-                            <Tab.Screen
-                                name="Notifications"
-                                options={{
-                                    tabBarIcon: tabBarIconGen('bell'),
-                                }}
-                                component={NotificationsComponent}
                             />
                             <Tab.Screen
                                 name="Utils"
