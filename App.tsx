@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { AppComponent } from './src/App.component';
 import Axios from "axios";
 import { useFonts } from 'expo-font';
@@ -20,6 +20,15 @@ export default function App() {
   }
 
   return (
-    <AppComponent/>
+    <SafeAreaView style={styles.container}>
+      <AppComponent/>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: (Platform.OS === 'ios') ? 0 : Expo.Constants.statusBarHeight,
+  },
+});
