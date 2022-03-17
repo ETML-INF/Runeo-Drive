@@ -1,6 +1,5 @@
 {
   "expo": {
-    "apiUrl": "http://10.0.2.2:8000/api",
     "name": "Runeo-Drive-Expo",
     "slug": "Runeo-Drive-Expo",
     "version": "1.0.0",
@@ -14,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
