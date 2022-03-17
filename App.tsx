@@ -7,7 +7,7 @@ import config from "./app.json";
 import { useFonts } from 'expo-font';
 
 
-Axios.defaults.baseURL = config.expo.apiUrl;
+Axios.defaults.baseURL = "http://runeo.mycpnv.ch/api";
 
 export default function App() {
   const [loaded] = useFonts({
