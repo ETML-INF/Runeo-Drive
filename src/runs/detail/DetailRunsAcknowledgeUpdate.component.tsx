@@ -12,7 +12,7 @@ export interface RunDetailsComponentProps {
 
 export function DetailRunsAcknowledgeUpdateComponent({currentRun}: RunDetailsComponentProps) {
     return (
-        <UpdatedInfoCardComponent icon={"exclamation"} style={{ color: Colors.GREEN + '!important'}} title="Le run a été modifié" runId={currentRun.id}>
+        <UpdatedInfoCardComponent icon={"exclamation"} style={{ color: Colors.GREEN + '!important'}} title="Le run a été modifié" run={currentRun}>
         </UpdatedInfoCardComponent>
     )
 }
