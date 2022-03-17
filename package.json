@@ -22,6 +22,7 @@
     "expo": "~43.0.2",
     "expo-image-manipulator": "~10.1.2",
     "expo-image-picker": "~11.0.3",
+    "expo-font": "~10.0.3",
     "expo-status-bar": "~1.1.0",
     "formik": "^2.1.5",
     "immutable": "^4.0.0-rc.12",
@@ -42,11 +43,11 @@
     "react-native-vector-icons": "^7.0.0",
     "react-native-web": "0.17.1",
     "unstated-next": "^1.1.0",
-    "yup": "^0.29.3",
-    "expo-font": "~10.0.3"
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@types/luxon": "^2.0.9",
     "@types/react": "~17.0.21",
     "@types/react-native": "~0.64.12",
     "typescript": "~4.3.5"
