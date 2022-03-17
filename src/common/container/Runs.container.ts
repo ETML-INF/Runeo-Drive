@@ -11,7 +11,7 @@ export interface RunsContainer extends DataContainerInterface<RunResource> {
     startRun: (run: RunResource) => Promise<void>,
     stopRun: (run: RunResource, gasLevel: number) => Promise<void>,
     takeRun: (run: RunResource, runner: RunnerResource) => Promise<void>,
-    acknowledgeRun: (run:RunResource) => Promise<void>
+    acknowledgeRun: (run: RunResource) => Promise<void>,
 }
 
 export function useRunsContainer(): RunsContainer {
@@ -23,23 +23,23 @@ export function useRunsContainer(): RunsContainer {
             .last<RunResource | undefined>();
 
         return getRunsFromApi(mostRecentlyChangedRun?.updated_at)
-            .then(fetchedRuns => cacheHelper.insertItems(List(fetchedRuns)))
+            .then(fetchedRuns => cacheHelper.insertItems(List(fetchedRuns))).catch(error => error.text);
     }
 
     const updateVehicle = (runnerId: number, carId: number): Promise<void> =>
-        updateRunnerCarApi(runnerId, carId).then(cacheHelper.insertItem)
+        updateRunnerCarApi(runnerId, carId).then(cacheHelper.insertItem).catch(error => error.text);
 
     const startRun = (run: RunResource): Promise<void> =>
-        startRunApi(run).then(cacheHelper.insertItem)
+        startRunApi(run).then(cacheHelper.insertItem).catch(error => error.text);
 
     const stopRun = (run: RunResource, gasLevel: number): Promise<void> =>
-        stopRunApi(run, gasLevel).then(cacheHelper.insertItem)
+        stopRunApi(run, gasLevel).then(cacheHelper.insertItem).catch(error => error.text);
 
     const takeRun = (run: RunResource, runner: RunnerResource) =>
-        takeRunApi(run, runner).then(cacheHelper.insertItem)
+        takeRunApi(run, runner).then(cacheHelper.insertItem).catch(error => error.text);
 
     const acknowledgeRun = (run: RunResource): Promise<void> =>
-        acknowledgeRunApi(run).then(cacheHelper.insertItem)
+        acknowledgeRunApi(run).then(cacheHelper.insertItem).catch(error => error.text);
 
     return {
         items: cacheHelper.items,
@@ -57,24 +57,24 @@ export function useRunsContainer(): RunsContainer {
 function takeRunApi(run: RunResource, runner: RunnerResource): Promise<RunResource> {
     return Axios.patch(`/runners/${runner.id}/driver`, {
         updated_at: run.updated_at.toString()
-    }).then(res => parseRunResource(res.data))
+    }).then(res => parseRunResource(res.data)).catch(error => error.text);
 }
 
 function startRunApi(run: RunResource): Promise<RunResource> {
     return Axios.patch(`/runs/${run.id}/start`)
-        .then(res => parseRunResource(res.data))
+        .then(res => parseRunResource(res.data)).catch(error => error.text);
 }
 
 function stopRunApi(run: RunResource, gasLevel: number): Promise<RunResource> {
     return Axios.patch(`/runs/${run.id}/stop`, {
         gas_level: gasLevel
-    }).then(res => parseRunResource(res.data))
+    }).then(res => parseRunResource(res.data)).catch(error => error.text);
 }
 
 function updateRunnerCarApi(runnerId: number, carId: number): Promise<RunResource> {
     return Axios.patch(`/runners/${runnerId}/car`, {
         car_id: carId
-    }).then(res => parseRunResource(res.data))
+    }).then(res => parseRunResource(res.data)).catch(error => error.text);
 }
 
 function getRunsFromApi(onlyFromTime?: DateTime): Promise<RunResource[]> {
@@ -84,12 +84,11 @@ function getRunsFromApi(onlyFromTime?: DateTime): Promise<RunResource[]> {
         params.onlyFromTime = onlyFromTime.toString()
     }
 
-    return Axios.get("/runs", {params}).then(res => res.data.map(parseRunResource))
+    return Axios.get("/runs", {params}).then(res => res.data.map(parseRunResource)).catch(error => error.text);
 }
 
 function acknowledgeRunApi(run: RunResource): Promise<RunResource> {
-    return Axios.patch(`/runs/${run.id}/acknowledge`)
-        .then(res => parseRunResource(res.data))
+    return Axios.patch(`/runs/${run}/acknowledge`).then(res => parseRunResource(res.data)).catch(error => error.text);
 }
 
 function parseRunResource(runFromApi: any): RunResource {
@@ -100,6 +99,7 @@ function parseRunResource(runFromApi: any): RunResource {
         finished_at: DateTime.fromISO(runFromApi.finished_at),
         start_at: DateTime.fromISO(runFromApi.start_at),
         updated_at: DateTime.fromISO(runFromApi.updated_at),
+        acknowledged_at: DateTime.fromISO(runFromApi.acknowledged_at),
         waypoints: List(runFromApi.waypoints),
         runners: List(runFromApi.runners)
     }
