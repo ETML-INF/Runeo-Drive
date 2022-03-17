@@ -10,6 +10,7 @@ import { Formik, FormikHelpers, ErrorMessage } from "formik";
 import { CheckBox } from "react-native-elements/dist/checkbox/CheckBox";
 import { UsersContainer } from "../Provider.component";
 import { LogBox } from 'react-native';
+import {UserResource} from "../common/resources/User.resource";
 
 const ConfirmState = (props: any) => {
   const usersContainer  = UsersContainer.useContainer();
@@ -32,7 +33,7 @@ const ConfirmState = (props: any) => {
       throw error.message;
     }
   }
-  const onSubmit = async (userInfo:Object, {setSubmitting, setFieldError}: FormikHelpers<any>) => {
+  const onSubmit = async (userInfo:UserResource, {setSubmitting, setFieldError}: FormikHelpers<any>) => {
     let isValid = true;
     usersContainer.items.forEach((user)=>{  
       if(user.name == userInfo.name)
@@ -49,7 +50,6 @@ const ConfirmState = (props: any) => {
       
     if(!imageBase64){
       isValid = false;
-      debugger;
       setError("Vous n'avez pas ajouter d'image.")
     }
     if(isValid) {
@@ -78,10 +78,10 @@ const ConfirmState = (props: any) => {
     <Formik
       onSubmit={onSubmit}
       initialValues={{
-        name: authenticatedUser?.name,
-        lastname: authenticatedUser?.lastname,
-        firstname: authenticatedUser?.firstname,
-        phone_number: authenticatedUser?.phone_number,
+        name: authenticatedUser!.name,
+        lastname: authenticatedUser!.lastname,
+        firstname: authenticatedUser!.firstname,
+        phone_number: authenticatedUser!.phone_number,
       }}
       validationSchema={Yup.object().shape({
         name: Yup.string().min(2).required(),
