@@ -63,15 +63,6 @@ export function ListFastDialsComponent() {
                 <View style={styles.buttonWrapper}>
                     <ButtonComponent titleStyle={styles.buttonTitle} title="Déconnexion" onPress={onLogoutPress}/>
                 </View>
-                <View style={styles.buttonWrapper}>
-                    <ButtonComponent titleStyle={styles.buttonTitle} title="Vider le cache"
-                                     onPress={() => clearCaches()
-                                         .then(() => {
-                                             setHasCacheBeenRead(false);
-                                             dataContainers.forEach(container => container.empty());
-                                         })
-                                     }/>
-                </View>
             </View>
         </SafeAreaView>
     )
