@@ -1,13 +1,13 @@
-import {Alert, Dimensions, SafeAreaView, StyleSheet, View} from "react-native";
+import {Alert, SafeAreaView, StyleSheet, View} from "react-native";
 import React from "react";
 import {AuthContainer, CacheStatusContainer, DataContainers, FastDialsContainer} from "../Provider.component"
 import {FastDialResource} from "../common/resources/FastDial.resource";
 import {Button, Icon, ListItem} from "react-native-elements";
 import {callPhoneNumber} from "../common/utils/Phone.utils";
-import {clearCaches} from "../common/utils/Cache.utils";
 import {ListCommonResourceComponent} from "../common/component/ListCommonResource.component";
 import {ButtonComponent} from "../common/component/ButtonComponent";
 import {Colors} from "../common/utils/Color.utils";
+import { InfoComponent } from "../common/component/InfoComponent";
 
 export function ListFastDialsComponent() {
     const dataContainers = DataContainers.map(container => container.useContainer());
@@ -59,6 +59,7 @@ export function ListFastDialsComponent() {
                 }}
                 dataContainer={FastDialsContainer}
                 renderItem={renderItem}/>
+            <InfoComponent style={styles.container}/>
             <View style={styles.buttonContainer}>
                 <View style={styles.buttonWrapper}>
                     <ButtonComponent titleStyle={styles.buttonTitle} title="Déconnexion" onPress={onLogoutPress}/>
@@ -75,16 +76,19 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         height: "100%",
     },
+    container: {
+        flex: 1,
+        padding: 10,
+    },
     buttonContainer: {
         display: "flex",
         flexDirection: "row",
     },
     buttonWrapper: {
-        width: Dimensions.get('window').width / 2,
+        flex: 1,
         padding: 5
     },
     buttonTitle: {
         marginVertical: 5,
     }
 })
-
