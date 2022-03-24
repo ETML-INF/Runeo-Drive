@@ -20,13 +20,19 @@ export function ListRunsComponent() {
     const {isInternetReachable} = NetworkContainer.useContainer();
 
     const refreshRuns = async () => {
+        let timeout = new Promise(function(resolve, reject){
+            setTimeout(function() { 
+                reject('Time out!'); 
+            }, 15000);
+        });
         try {
             setIsLoading(true)
-            await refreshAllDataContainers()
+            await Promise.race([refreshAllDataContainers(),timeout]);
+            
+            showToast("✓",toastType.succes);
         } catch (e) {
-        } finally {
+            showToast(e, toastType.failed);
             setIsLoading(false)
-            showToast("L'application a bien été rachraîchie.",toastType.succes);
         }
     }
     const updateFilterStatus = (filterName: string) => {

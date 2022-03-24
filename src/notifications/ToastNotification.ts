@@ -8,7 +8,7 @@ export enum toastType{
 export function showToast(text:string,toastType:toastType) {
     Toast.show(text, {
         duration: Toast.durations.SHORT,
-        position: Toast.positions.TOP,
+        position: Toast.positions.CENTER,
         shadow: true,
         animation: true,
         hideOnPress: true,
