@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { AppComponent } from './src/App.component';
 import Axios from "axios";
 import { useFonts } from 'expo-font';
+import { RootSiblingParent } from 'react-native-root-siblings';
 
 Axios.defaults.baseURL = "https://runeo.mycpnv.ch/api";
 
@@ -20,6 +21,8 @@ export default function App() {
   }
 
   return (
-    <AppComponent/>
+    <RootSiblingParent>
+      <AppComponent/>
+    </RootSiblingParent>
   );
 }

@@ -7,6 +7,8 @@ import {Map} from "immutable"
 import {ListRunsViewComponent} from "./ListRunsView.component";
 import {ListRunsFilterEnum} from "./ListRunsFilter.enum";
 import {useRefreshAllDataContainers} from "../../common/hook/Loader.hook";
+import Toast from 'react-native-root-toast';
+import { toastType, showToast } from "../../notifications/ToastNotification";
 
 export function ListRunsComponent() {
     const navigation = useNavigation();
@@ -24,6 +26,7 @@ export function ListRunsComponent() {
         } catch (e) {
         } finally {
             setIsLoading(false)
+            showToast("L'application a bien été rachraîchie.",toastType.succes);
         }
     }
     const updateFilterStatus = (filterName: string) => {
@@ -82,6 +85,7 @@ export function ListRunsComponent() {
 
     return (
         <SafeAreaView>
+            
             <ListRunsViewComponent
                 data={data}
                 onSelectRun={(run) => navigation.navigate("detail", {runId: run.id})}

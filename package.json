@@ -20,6 +20,7 @@
     "@react-navigation/stack": "^5.9.0",
     "axios": "^0.20.0",
     "expo": "~43.0.2",
+    "expo-font": "~10.0.3",
     "expo-image-manipulator": "~10.1.2",
     "expo-image-picker": "~11.0.3",
     "expo-status-bar": "~1.1.0",
@@ -37,13 +38,14 @@
     "react-native-permissions": "^3.0.0",
     "react-native-qrcode-scanner": "^1.4.1",
     "react-native-reanimated": "^1.13.0",
+    "react-native-root-toast": "^3.3.0",
     "react-native-safe-area-context": "^3.1.7",
     "react-native-screens": "^2.10.1",
+    "react-native-toast-message": "^2.1.2",
     "react-native-vector-icons": "^7.0.0",
     "react-native-web": "0.17.1",
     "unstated-next": "^1.1.0",
-    "yup": "^0.29.3",
-    "expo-font": "~10.0.3"
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
