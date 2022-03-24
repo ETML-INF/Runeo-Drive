@@ -30,6 +30,7 @@ export function ListRunsComponent() {
             await Promise.race([refreshAllDataContainers(),timeout]);
             
             showToast("✓",toastType.succes);
+            setIsLoading(false)
         } catch (e) {
             showToast(e, toastType.failed);
             setIsLoading(false)
