@@ -7,6 +7,8 @@ import {Map} from "immutable"
 import {ListRunsViewComponent} from "./ListRunsView.component";
 import {ListRunsFilterEnum} from "./ListRunsFilter.enum";
 import {useRefreshAllDataContainers} from "../../common/hook/Loader.hook";
+import Toast from 'react-native-root-toast';
+import { toastType, showToast } from "../../notifications/ToastNotification";
 
 export function ListRunsComponent() {
     const navigation = useNavigation();
@@ -18,11 +20,19 @@ export function ListRunsComponent() {
     const {isInternetReachable} = NetworkContainer.useContainer();
 
     const refreshRuns = async () => {
+        let timeout = new Promise(function(resolve, reject){
+            setTimeout(function() { 
+                reject('Time out!'); 
+            }, 15000);
+        });
         try {
             setIsLoading(true)
-            await refreshAllDataContainers()
+            await Promise.race([refreshAllDataContainers(),timeout]);
+            
+            showToast("✓",toastType.succes);
+            setIsLoading(false)
         } catch (e) {
-        } finally {
+            showToast(e, toastType.failed);
             setIsLoading(false)
         }
     }
@@ -82,6 +92,7 @@ export function ListRunsComponent() {
 
     return (
         <SafeAreaView>
+            
             <ListRunsViewComponent
                 data={data}
                 onSelectRun={(run) => navigation.navigate("detail", {runId: run.id})}
