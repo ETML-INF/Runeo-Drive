@@ -1,10 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Platform } from 'react-native';
 import { AppComponent } from './src/App.component';
 import Axios from "axios";
 import { useFonts } from 'expo-font';
 import { RootSiblingParent } from 'react-native-root-siblings';
+import Constants from 'expo-constants';
+
 
 Axios.defaults.baseURL = "https://runeo.mycpnv.ch/api";
 
@@ -22,7 +23,16 @@ export default function App() {
 
   return (
     <RootSiblingParent>
-      <AppComponent/>
+      <SafeAreaView style={styles.container}>
+        <AppComponent/>
+      </SafeAreaView>
     </RootSiblingParent>
-  );
+  )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: (Platform.OS === 'ios') ? 0 : Constants.statusBarHeight,
+  },
+});

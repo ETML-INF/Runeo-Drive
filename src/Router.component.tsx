@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import { AuthContainer, UsersContainer } from "./Provider.component";
+import React from "react";
+import { AuthContainer } from "./Provider.component";
 import { AuthComponent } from "./auth/Auth.component";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ListUsersComponent } from "./users/listUsers.component";
 import { Icon } from "react-native-elements";
 import { RunsComponent } from "./runs/Runs.component";
 import { VehiclesComponent } from "./vehicles/Vehicles.components";
-import { ListFastDialsComponent } from "./fastDials/FastDials.component";
-import { NotificationsComponent } from "./notifications/Notifications.component";
+import { ParamsComponent } from "./params/Params.component";
 import { Colors } from "./common/utils/Color.utils";
 import RunnersEnrollment from "./enrollment/Enrollment.component";
 
@@ -47,11 +46,11 @@ export function RouterComponent() {
                         component={RunsComponent}
                     />
                     <Tab.Screen
-                        name="Utils"
+                        name="Params"
                         options={{
-                            tabBarIcon: tabBarIconGen('info-circle'),
+                            tabBarIcon: tabBarIconGen('cog'),
                         }}
-                        component={ListFastDialsComponent}
+                        component={ParamsComponent}
                     />
                 </Tab.Navigator>
             )
@@ -88,18 +87,11 @@ export function RouterComponent() {
                                 component={VehiclesComponent}
                             />
                             <Tab.Screen
-                                name="Notifications"
+                                name="Params"
                                 options={{
-                                    tabBarIcon: tabBarIconGen('bell'),
+                                    tabBarIcon: tabBarIconGen('cog'),
                                 }}
-                                component={NotificationsComponent}
-                            />
-                            <Tab.Screen
-                                name="Utils"
-                                options={{
-                                    tabBarIcon: tabBarIconGen('info-circle'),
-                                }}
-                                component={ListFastDialsComponent}
+                                component={ParamsComponent}
                             />
                         </Tab.Navigator>
                     )
