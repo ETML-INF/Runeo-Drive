@@ -27,8 +27,7 @@ export function ListRunsComponent() {
         });
         try {
             setIsLoading(true)
-            await Promise.race([refreshAllDataContainers(),timeout]);
-            
+            await Promise.race([refreshAllDataContainers,timeout]);
             showToast("✓",toastType.succes);
             setIsLoading(false)
         } catch (e) {
