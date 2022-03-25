@@ -6,7 +6,7 @@ import { ListUsersComponent } from "./users/listUsers.component";
 import { Icon } from "react-native-elements";
 import { RunsComponent } from "./runs/Runs.component";
 import { VehiclesComponent } from "./vehicles/Vehicles.components";
-import { ListFastDialsComponent } from "./fastDials/FastDials.component";
+import { ParamsComponent } from "./params/params.component";
 import { Colors } from "./common/utils/Color.utils";
 import RunnersEnrollment from "./enrollment/Enrollment.component";
 
@@ -50,7 +50,7 @@ export function RouterComponent() {
                         options={{
                             tabBarIcon: tabBarIconGen('info-circle'),
                         }}
-                        component={ListFastDialsComponent}
+                        component={ParamsComponent}
                     />
                 </Tab.Navigator>
             )
@@ -87,11 +87,11 @@ export function RouterComponent() {
                                 component={VehiclesComponent}
                             />
                             <Tab.Screen
-                                name="Utils"
+                                name="Params"
                                 options={{
-                                    tabBarIcon: tabBarIconGen('info-circle'),
+                                    tabBarIcon: tabBarIconGen('cog'),
                                 }}
-                                component={ListFastDialsComponent}
+                                component={ParamsComponent}
                             />
                         </Tab.Navigator>
                     )
