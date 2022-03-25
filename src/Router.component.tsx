@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { AuthContainer, UsersContainer } from "./Provider.component";
+import React from "react";
+import { AuthContainer } from "./Provider.component";
 import { AuthComponent } from "./auth/Auth.component";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ListUsersComponent } from "./users/listUsers.component";
 import { Icon } from "react-native-elements";
 import { RunsComponent } from "./runs/Runs.component";
 import { VehiclesComponent } from "./vehicles/Vehicles.components";
-import { ParamsComponent } from "./params/params.component";
+import { ParamsComponent } from "./params/Params.component";
 import { Colors } from "./common/utils/Color.utils";
 import RunnersEnrollment from "./enrollment/Enrollment.component";
 
@@ -46,9 +46,9 @@ export function RouterComponent() {
                         component={RunsComponent}
                     />
                     <Tab.Screen
-                        name="Utils"
+                        name="Params"
                         options={{
-                            tabBarIcon: tabBarIconGen('info-circle'),
+                            tabBarIcon: tabBarIconGen('cog'),
                         }}
                         component={ParamsComponent}
                     />
