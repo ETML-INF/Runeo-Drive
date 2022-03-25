@@ -9,6 +9,7 @@ import { VehiclesComponent } from "./vehicles/Vehicles.components";
 import { ParamsComponent } from "./params/Params.component";
 import { Colors } from "./common/utils/Color.utils";
 import RunnersEnrollment from "./enrollment/Enrollment.component";
+import { ListFastDialsComponent } from "./fastDials/FastDials.component";
 
 const Tab = createBottomTabNavigator();
 
@@ -44,6 +45,13 @@ export function RouterComponent() {
                             tabBarIcon: tabBarIconGen('list'),
                         }}
                         component={RunsComponent}
+                    />
+                    <Tab.Screen
+                        name="Rapide"
+                        options={{
+                            tabBarIcon: tabBarIconGen('phone'),
+                        }}
+                        component={ListFastDialsComponent}
                     />
                     <Tab.Screen
                         name="Params"
@@ -85,6 +93,13 @@ export function RouterComponent() {
                                     tabBarIcon: tabBarIconGen('car'),
                                 }}
                                 component={VehiclesComponent}
+                            />
+                            <Tab.Screen
+                                name="Rapide"
+                                options={{
+                                    tabBarIcon: tabBarIconGen('phone'),
+                                }}
+                                component={ListFastDialsComponent}
                             />
                             <Tab.Screen
                                 name="Params"
