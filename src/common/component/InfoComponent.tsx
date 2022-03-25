@@ -20,8 +20,27 @@ export function InfoComponent(props: InfoComponentProps) {
             <View  style={styles.credits}>
                 <Text style={styles.creditsTitle}>Crédits</Text>
                 <InlineTextComponent>
-                    <Text>Application réalisée par le </Text>
-                    <ImportantTextComponent>CPNV</ImportantTextComponent> 
+                    <Text>Application réalisée par les développeur du </Text>
+                    <ImportantTextComponent>CPNV.</ImportantTextComponent> 
+                </InlineTextComponent>
+                <InlineTextComponent>
+                    <ImportantTextComponent>Ansermoz </ImportantTextComponent> 
+                    <Text>Gwenael, </Text>
+                    <ImportantTextComponent>Berdoz </ImportantTextComponent> 
+                    <Text>Noe, </Text>
+                </InlineTextComponent>
+                <InlineTextComponent>
+                    <ImportantTextComponent>Butticaz </ImportantTextComponent> 
+                    <Text>Yvann, </Text>
+                    <ImportantTextComponent>Pereira </ImportantTextComponent> 
+                    <Text>Gabriel, </Text>
+                </InlineTextComponent>
+                <InlineTextComponent>
+
+                    <ImportantTextComponent>Santos Oliveira </ImportantTextComponent> 
+                    <Text>Andi, </Text>
+                    <ImportantTextComponent>Schouwey </ImportantTextComponent> 
+                    <Text>Zaïd</Text>
                 </InlineTextComponent>
             </View>
             <Text style={styles.version}>Version actuel : 1.1</Text>
