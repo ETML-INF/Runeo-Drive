@@ -14,7 +14,7 @@ export function InfoComponent(props: InfoComponentProps) {
             <View style={styles.centerContent}>
                 <Image
                     style={styles.image}
-                    source={require('../../../assets/logo.png')}
+                    source={require('../../../assets/icon.png')}
                 />
             </View>
             <View  style={styles.credits}>
