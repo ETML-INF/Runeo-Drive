@@ -9,7 +9,7 @@ to coordinate their run from a phone.
 - Follow [the installation guide](https://reactnative.dev/docs/environment-setup) of Expo Cli start.
 - Install [Runeo desk](https://github.com/CPNV-ES/Runeo-Desk-2020) to have a local development backend in case the online is down. Ask [XCL](https://github.com/XCarrel) for the access.
 
-### Config
+### Requirements
 
 - [Node 12 or higher](https://nodejs.org/en/download/)
 - Android emulator or a device with a physical screen
