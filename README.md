@@ -19,3 +19,7 @@ to coordinate their run from a phone.
 1. If Runeo Desk is not running on localhost:8000 you may want to change the apiUrl in [app.json](app.json)
 1. Finally, execute the app by running `npm run web`
 
+## Useful links
+- [IceScrum](https://icescrum.cpnv.ch/p/MAW213/#/project)
+- [Runeo Desk Swagger specification](https://github.com/CPNV-ES/Runeo-Desk-2020/blob/master/docs/api/swagger.yml)
+- [Swagger editor](https://editor.swagger.io/)
