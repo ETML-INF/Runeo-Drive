@@ -33,3 +33,8 @@ We resume it at the following steps:
 1. Create an Expo account if you haven't one
 1. Configure the app.json (already done, but still check it)
 1. Finally to build the app for Android or iOS, execute the command `expo build:android -t apk` or `expo build:ios`.
+
+## Useful links
+- [IceScrum](https://icescrum.cpnv.ch/p/MAW213/#/project)
+- [Runeo Desk Swagger specification](https://github.com/CPNV-ES/Runeo-Desk-2020/blob/master/docs/api/swagger.yml)
+- [Swagger editor](https://editor.swagger.io/)
