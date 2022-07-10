@@ -6,6 +6,7 @@ import {CardComponentWithIcon} from "../../common/component/Card.component";
 import {ImportantTextComponent} from "../../common/component/text/ImportantText.component";
 import {MeetingTextComponent} from "../../common/component/text/MeetingText.component";
 import {InlineTextComponent} from "../../common/component/text/InlineText.component";
+import moment from "moment"
 
 export interface CourseDetailRunsComponentProps {
     currentRun: RunResource
@@ -19,7 +20,7 @@ export function DetailRunsCourseComponent({currentRun}: CourseDetailRunsComponen
             <View>
                 {currentRun.waypoints.map((waypoint, idx) => (
                     waypoint.meeting_time ?
-                    <MeetingTextComponent key={idx}>{waypoint.nickname} - {waypoint.meeting_time}</MeetingTextComponent> :
+                    <MeetingTextComponent key={idx} place={waypoint.nickname} time={moment(moment().format("YYYY-MM-DD ")+waypoint.meeting_time).format("H:mm")} /> :
                     <ImportantTextComponent key={idx}>{waypoint.nickname}</ImportantTextComponent>))}
             </View>
             {runDuration.isValid ? (

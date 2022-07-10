@@ -46,16 +46,6 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                     {runner.user ? (
                                         <View>
                                             <Text style={styles.runnerTitle}>{runner.user?.name}</Text>
-                                            <Button
-                                                icon={
-                                                    <Icon
-                                                        type='font-awesome'
-                                                        name={'phone'}
-                                                        color={'white'}
-                                                    />
-                                                }
-                                                onPress={() => callPhoneNumber(runner.user?.phone_number)}
-                                            />
                                         </View>
                                     ) : null}
 
@@ -104,13 +94,9 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                         ) : null}
                                     </View>
 
-                                    {runner.vehicle && !isFinished && authenticatedUser.role != "manager" ? (
+                                    {runner.vehicle && !isFinished && authenticatedUser?.id == runner.user?.id ? (
                                         <View>
                                             <ButtonComponent
-                                                disabled={
-                                                    authenticatedUser?.id != runner.user?.id ||
-                                                    !isInternetReachable
-                                                }
                                                 title="Changer de véhicule"
                                                 color="#f194ff"
                                                 onPress={() => selectVehicle(runner.id, runner.vehicle_category?.type as string)}/>
