@@ -1,13 +1,14 @@
 import React, {useMemo, useState} from "react";
 import {RunResource, RunStatus} from "../../common/resources/Run.resource";
 import {useNavigation} from "@react-navigation/native";
-import {SafeAreaView} from "react-native";
+import {SafeAreaView, StyleSheet} from "react-native";
 import {AuthContainer, NetworkContainer, RunsContainer} from "../../Provider.component";
 import {Map} from "immutable"
-import {ListRunsViewComponent} from "./ListRunsView.component";
 import {useRefreshAllDataContainers} from "../../common/hook/Loader.hook";
 import Toast from 'react-native-root-toast';
 import { toastType, showToast } from "../../notifications/ToastNotification";
+import { ListRunsItemComponent } from "./ListRunsItem.component";
+import { ListCommonResourceComponent } from "../../common/component/ListCommonResource.component";
 
 export function ListRunsComponent() {
     const navigation = useNavigation();
@@ -40,16 +41,24 @@ export function ListRunsComponent() {
             .toArray();
     }, [runContainer.items, activatedFilter])
 
+    const gotoRun = (run: RunResource) => navigation.navigate("detail", {runId: run.id})
+
+    const renderItem = (item:any) => (
+        <ListRunsItemComponent onSelectRun={gotoRun} run={item}/>
+    )
+
     return (
-        <SafeAreaView>
-            
-            <ListRunsViewComponent
-                data={data}
-                onSelectRun={(run) => navigation.navigate("detail", {runId: run.id})}
-                refreshing={isLoading}
-                onRefresh={isInternetReachable ? refreshRuns : null}
-                role={authenticatedUser.role}
-            />
+        <SafeAreaView style={styles.fill}>
+            <ListCommonResourceComponent
+                    dataContainer={RunsContainer}
+                    renderItem={renderItem}
+                    />
         </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    fill: {
+        height: "100%"
+    }
+});
