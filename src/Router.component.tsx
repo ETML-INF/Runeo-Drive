@@ -8,8 +8,8 @@ import { RunsComponent } from "./runs/Runs.component";
 import { VehiclesComponent } from "./vehicles/Vehicles.components";
 import { ParamsComponent } from "./params/Params.component";
 import { Colors } from "./common/utils/Color.utils";
-import RunnersEnrollment from "./enrollment/Enrollment.component";
 import { ListFastDialsComponent } from "./fastDials/FastDials.component";
+import { Text, View, StyleSheet } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -31,8 +31,9 @@ export function RouterComponent() {
     function refreshAuth() {
         authContainer.refreshAuthenticated().catch((error) => { console.error(error); });
     }
-    console.log(authContainer)
+
     if (authContainer.authenticatedUser) {
+        console.log('User is '+authContainer.authenticatedUser?.status)
         switch (authContainer.authenticatedUser?.status) {
             case "hired":
             case "taken":
@@ -81,10 +82,23 @@ export function RouterComponent() {
                     </Tab.Navigator>
                 )
             default:
-                return (<RunnersEnrollment refreshAuth={refreshAuth} />)
+                return (<View style={styles.error}><Text style={styles.error_message}>Erreur: votre compte est dans un état inconnu ({authContainer.authenticatedUser?.status})</Text></View>)
         }
     }
     return (
         <AuthComponent />
     )
 }
+
+const styles = StyleSheet.create({
+    error: {
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center"
+    },
+    error_message: {
+        fontSize: 35,
+        textAlign: "center"
+    }
+});

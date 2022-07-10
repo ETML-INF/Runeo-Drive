@@ -32,7 +32,6 @@ export function useAuthContainer(
     };
 
     const refreshAuthenticated = async (): Promise<void> => {
-      console.log("refresh...");
       const token = await AsyncStorage.getItem(TOKEN_STORAGE_KEY);
 
       if (token) {
