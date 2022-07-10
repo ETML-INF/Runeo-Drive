@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Animated, StyleSheet, View} from 'react-native';
+import {Animated, FlatList, StyleSheet, View} from 'react-native';
 import {CommonResource} from "../../common/resources/Common.resource";
 import {Button} from "react-native-elements";
 import {Map} from "immutable";
@@ -138,36 +138,10 @@ export class ListRunsViewComponent<T extends CommonResource> extends Component<L
 
         return (
             <View style={styles.fill}>
-                <Animated.View style={[styles.navbar, {
-                    opacity: navbarOpacity,
-                    transform: [{
-                        translateY: navbarTranslate
-                    }],
-                }]}>
-                    {this.props.role == "manager" ? null : this.filterBtn(ListRunsFilterEnum.MY_RUNS, "MES RUNS")}
-                    {this.filterBtn(ListRunsFilterEnum.OPEN, "OUVERT")}
-                    {this.filterBtn(ListRunsFilterEnum.RUNNING, "EN COURS")}
-                    {this.filterBtn(ListRunsFilterEnum.DONE, "TERMINE")}
-                </Animated.View>
-
-                <Animated.FlatList
-                    style={{
-                        transform: [{
-                            translateY: listTranslate
-                        }],
-                    }}
-                    // @ts-ignore
+                <FlatList
                     data={this.props.data}
                     renderItem={this.renderItem}
                     keyExtractor={((item: CommonResource) => String(item.id))}
-                    scrollEventThrottle={1}
-                    onMomentumScrollBegin={this._onMomentumScrollBegin}
-                    onMomentumScrollEnd={this._onMomentumScrollEnd}
-                    onScrollEndDrag={this._onScrollEndDrag}
-                    onScroll={Animated.event(
-                        [{nativeEvent: {contentOffset: {y: this.state.scrollAnim}}}],
-                        {useNativeDriver: true},
-                    )}
                     refreshing={this.props.refreshing}
                     onRefresh={this.props.onRefresh}
                 />
