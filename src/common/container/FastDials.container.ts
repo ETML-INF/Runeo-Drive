@@ -11,9 +11,9 @@ export function useFastDialsContainer(): DataContainerInterface<FastDialResource
   );
 
   const refresh = (): Promise<void> =>
-    getFastDialsFromApi().then((fetchedFastDials) =>
-      cacheHelper.setItems(List(fetchedFastDials))
-    );
+    getFastDialsFromApi()
+      .then((fetchedFastDials) => cacheHelper.setItems(List(fetchedFastDials)))
+      .catch(() => {});
 
   return {
     items: cacheHelper.items,
@@ -24,6 +24,8 @@ export function useFastDialsContainer(): DataContainerInterface<FastDialResource
 }
 
 function getFastDialsFromApi(): Promise<FastDialResource[]> {
-  console.log('Get FastDials from API');
-  return Axios.get("/fastDial").then((res) => res.data);
+  console.log("Get FastDials from API");
+  return Axios.get("/fastDial")
+    .then((res) => res.data)
+    .catch(() => {});
 }
