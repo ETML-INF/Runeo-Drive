@@ -21,7 +21,7 @@ export function ListRunsItemComponent ({onSelectRun, run} : ListRunsItemComponen
         <ListItem bottomDivider onPress={() => onSelectRun(run)} containerStyle={ lastUpdatedRun(run, authenticatedUser?.id) ? {backgroundColor: Colors.GREEN} : false}>
             {getRunStatusIcon(run.status)}
             <ListItem.Content>
-                <ListItem.Title style={{fontFamily: 'Montserrat-Medium'}}>{`${run.title.toUpperCase()} ${run.waypoints.get(0)?.nickname}`}</ListItem.Title>
+                <ListItem.Title style={{fontFamily: 'Montserrat-Medium'}}>{`${run.title.toUpperCase()}`}</ListItem.Title>
                 <ListItem.Subtitle style={{color: Colors.GREY, fontFamily: 'Montserrat-Regular'}}>{
                     run
                         .begin_at
