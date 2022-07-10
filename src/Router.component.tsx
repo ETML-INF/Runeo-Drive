@@ -31,88 +31,57 @@ export function RouterComponent() {
     function refreshAuth() {
         authContainer.refreshAuthenticated().catch((error) => { console.error(error); });
     }
-
+    console.log(authContainer)
     if (authContainer.authenticatedUser) {
-        if (authContainer.authenticatedUser.role == "manager") {
-            return (
-                <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
-                    activeTintColor: ACTIVE_TAB_COLOR,
-                    inactiveTintColor: INACTIVE_TAB_COLOR,
-                }}>
-                    <Tab.Screen
-                        name={RUNS_TAB}
-                        options={{
-                            tabBarIcon: tabBarIconGen('list'),
-                        }}
-                        component={RunsComponent}
-                    />
-                    <Tab.Screen
-                        name="Rapide"
-                        options={{
-                            tabBarIcon: tabBarIconGen('phone'),
-                        }}
-                        component={ListFastDialsComponent}
-                    />
-                    <Tab.Screen
-                        name="Params"
-                        options={{
-                            tabBarIcon: tabBarIconGen('cog'),
-                        }}
-                        component={ParamsComponent}
-                    />
-                </Tab.Navigator>
-            )
-        } else {
-            switch (authContainer.authenticatedUser?.status) {
-                case "hired":
-                case "taken":
-                case "free":
-                case "not-present":
-                    return (
-                        <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
-                            activeTintColor: ACTIVE_TAB_COLOR,
-                            inactiveTintColor: INACTIVE_TAB_COLOR,
-                        }}>
-                            <Tab.Screen
-                                name={RUNS_TAB}
-                                options={{
-                                    tabBarIcon: tabBarIconGen('list'),
-                                }}
-                                component={RunsComponent}
-                            />
-                            <Tab.Screen
-                                name="Drivers"
-                                options={{
-                                    tabBarIcon: tabBarIconGen('drivers-license-o'),
-                                }}
-                                component={ListUsersComponent}
-                            />
-                            <Tab.Screen
-                                name="Vehicles"
-                                options={{
-                                    tabBarIcon: tabBarIconGen('car'),
-                                }}
-                                component={VehiclesComponent}
-                            />
-                            <Tab.Screen
-                                name="Rapide"
-                                options={{
-                                    tabBarIcon: tabBarIconGen('phone'),
-                                }}
-                                component={ListFastDialsComponent}
-                            />
-                            <Tab.Screen
-                                name="Params"
-                                options={{
-                                    tabBarIcon: tabBarIconGen('cog'),
-                                }}
-                                component={ParamsComponent}
-                            />
-                        </Tab.Navigator>
-                    )
-                default:
-                    return (<RunnersEnrollment refreshAuth={refreshAuth} />)
-            }
+        switch (authContainer.authenticatedUser?.status) {
+            case "hired":
+            case "taken":
+            case "free":
+            case "not-present":
+                return (
+                    <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
+                        activeTintColor: ACTIVE_TAB_COLOR,
+                        inactiveTintColor: INACTIVE_TAB_COLOR,
+                    }}>
+                        <Tab.Screen
+                            name={RUNS_TAB}
+                            options={{
+                                tabBarIcon: tabBarIconGen('list'),
+                            }}
+                            component={RunsComponent}
+                        />
+                        <Tab.Screen
+                            name="Drivers"
+                            options={{
+                                tabBarIcon: tabBarIconGen('drivers-license-o'),
+                            }}
+                            component={ListUsersComponent}
+                        />
+                        <Tab.Screen
+                            name="Vehicles"
+                            options={{
+                                tabBarIcon: tabBarIconGen('car'),
+                            }}
+                            component={VehiclesComponent}
+                        />
+                        <Tab.Screen
+                            name="Rapide"
+                            options={{
+                                tabBarIcon: tabBarIconGen('phone'),
+                            }}
+                            component={ListFastDialsComponent}
+                        />
+                        <Tab.Screen
+                            name="Params"
+                            options={{
+                                tabBarIcon: tabBarIconGen('cog'),
+                            }}
+                            component={ParamsComponent}
+                        />
+                    </Tab.Navigator>
+                )
+            default:
+                return (<RunnersEnrollment refreshAuth={refreshAuth} />)
         }
     }
     return (
