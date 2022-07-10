@@ -5,7 +5,6 @@ import {Button} from "react-native-elements";
 import {Map} from "immutable";
 import {RunResource} from "../../common/resources/Run.resource";
 import {ListRunsItemComponent} from "./ListRunsItem.component";
-import {ListRunsFilterEnum} from "./ListRunsFilter.enum";
 import {Colors} from "../../common/utils/Color.utils";
 
 // need to be fixed to be use in Animated.interpolate function
@@ -22,12 +21,10 @@ export interface ListRunsViewComponentProps<T extends CommonResource> {
 
 export interface ListRunsViewComponentState {
     scrollAnim: Animated.Value,
-    offsetAnim: Animated.Value,
-    clampedScroll: Animated.AnimatedDiffClamp
+    offsetAnim: Animated.Value
 }
 
 export class ListRunsViewComponent<T extends CommonResource> extends Component<ListRunsViewComponentProps<T>, ListRunsViewComponentState> {
-    _clampedScrollValue = 0;
     _offsetValue = 0;
     _scrollValue = 0;
     _scrollEndTimer: NodeJS.Timeout | null = null;
@@ -40,19 +37,7 @@ export class ListRunsViewComponent<T extends CommonResource> extends Component<L
 
         this.state = {
             scrollAnim,
-            offsetAnim,
-            clampedScroll: Animated.diffClamp(
-                Animated.add(
-                    scrollAnim.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [0, 1],
-                        extrapolateLeft: 'clamp',
-                    }),
-                    offsetAnim,
-                ),
-                0,
-                NAVBAR_HEIGHT,
-            ),
+            offsetAnim
         };
     }
 
@@ -60,10 +45,6 @@ export class ListRunsViewComponent<T extends CommonResource> extends Component<L
         this.state.scrollAnim.addListener(({value}) => {
             const diff = value - this._scrollValue;
             this._scrollValue = value;
-            this._clampedScrollValue = Math.min(
-                Math.max(this._clampedScrollValue + diff, 0),
-                NAVBAR_HEIGHT,
-            );
         });
         this.state.offsetAnim.addListener(({value}) => {
             this._offsetValue = value;
@@ -75,67 +56,16 @@ export class ListRunsViewComponent<T extends CommonResource> extends Component<L
         this.state.offsetAnim.removeAllListeners();
     }
 
-    _onScrollEndDrag = () => {
-        //used because after scrollEnd their may be a momentum scroll and depending on
-        //the hardware it may take some time to be detected
-        this._scrollEndTimer = setTimeout(this._onMomentumScrollEnd, 100);
-    };
-
     _onMomentumScrollBegin = () => {
         if (this._scrollEndTimer)
             clearTimeout(this._scrollEndTimer);
     };
-
-    _onMomentumScrollEnd = () => {
-        const toValue = this._scrollValue > NAVBAR_HEIGHT &&
-        this._clampedScrollValue > (NAVBAR_HEIGHT) / 2
-            ? this._offsetValue + NAVBAR_HEIGHT
-            : this._offsetValue - NAVBAR_HEIGHT;
-
-        Animated.timing(this.state.offsetAnim, {
-            toValue,
-            duration: 350,
-            useNativeDriver: true,
-        }).start();
-    };
-
-
-    filterBtn = (name: string, label: string) => {
-        const isBtnEnable = this.props.activatedFilter.get(name, false);
-
-        return (
-            <View style={styles.filterBtn}>
-                <Button
-                    buttonStyle={isBtnEnable ? {backgroundColor: Colors.BLUE} : {}}
-                    onPress={() => this.props.updateFilterStatus(name)}
-                    type={isBtnEnable ? 'solid' : 'outline'}
-                    title={label}/>
-            </View>
-        )
-    }
 
     renderItem = ({item}: { item: RunResource }) => {
         return <ListRunsItemComponent onSelectRun={this.props.onSelectRun} run={item}/>
     }
 
     render() {
-        const navbarTranslate = this.state.clampedScroll.interpolate({
-            inputRange: [0, NAVBAR_HEIGHT],
-            outputRange: [0, -(NAVBAR_HEIGHT)],
-            extrapolate: 'clamp',
-        });
-
-        const navbarOpacity = this.state.clampedScroll.interpolate({
-            inputRange: [0, NAVBAR_HEIGHT],
-            outputRange: [1, 0],
-            extrapolate: 'clamp',
-        });
-
-        const listTranslate = Animated.add(
-            navbarTranslate,
-            NAVBAR_HEIGHT,
-        )
-
         return (
             <View style={styles.fill}>
                 <FlatList
