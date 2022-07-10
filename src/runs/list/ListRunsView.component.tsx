@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import {Animated, FlatList, StyleSheet, View} from 'react-native';
 import {CommonResource} from "../../common/resources/Common.resource";
-import {Button} from "react-native-elements";
+import {Button, Text} from "react-native-elements";
 import {Map} from "immutable";
 import {RunResource} from "../../common/resources/Run.resource";
 import {ListRunsItemComponent} from "./ListRunsItem.component";
 import {Colors} from "../../common/utils/Color.utils";
+import { RunsContainer } from '../../Provider.component';
+import { ListCommonResourceComponent } from '../../common/component/ListCommonResource.component';
 
 // need to be fixed to be use in Animated.interpolate function
 const NAVBAR_HEIGHT = 105;
@@ -65,16 +67,24 @@ export class ListRunsViewComponent<T extends CommonResource> extends Component<L
         return <ListRunsItemComponent onSelectRun={this.props.onSelectRun} run={item}/>
     }
 
+    selectRun () {
+        console.log('select run')
+    }
+
+    renderItem2 (item:any) {
+        return (
+            <ListRunsItemComponent onSelectRun={this.selectRun} run={item}/>
+        )
+    }
+
     render() {
         return (
             <View style={styles.fill}>
-                <FlatList
-                    data={this.props.data}
-                    renderItem={this.renderItem}
-                    keyExtractor={((item: CommonResource) => String(item.id))}
-                    refreshing={this.props.refreshing}
-                    onRefresh={this.props.onRefresh}
-                />
+                <ListCommonResourceComponent
+                    dataContainer={RunsContainer}
+                    renderItem={this.renderItem2}
+                    />
+
             </View>
         );
     }

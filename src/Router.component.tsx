@@ -33,7 +33,6 @@ export function RouterComponent() {
     }
 
     if (authContainer.authenticatedUser) {
-        console.log('User is '+authContainer.authenticatedUser?.status)
         switch (authContainer.authenticatedUser?.status) {
             case "hired":
             case "taken":

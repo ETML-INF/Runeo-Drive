@@ -6,7 +6,6 @@ import { RunResource } from "../resources/Run.resource";
 import { DateTime } from "luxon";
 
 export function lastUpdatedRun(run: RunResource, userId: any): Boolean {
-  console.log("lastUpdatedRun, " + JSON.stringify(run) + "for " + userId);
   const ONE_HOUR = 60 * 60 * 1000;
   let now = DateTime.local();
 
