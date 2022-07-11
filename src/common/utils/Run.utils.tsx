@@ -36,3 +36,10 @@ export function canTake (user: UserResource, runner: RunnerResource, run: RunRes
     return (runner.user == null) && 
             (run.status != RunStatus.FINISHED)
 }
+
+export function canChangeVehicle (user: UserResource, runner: RunnerResource, run: RunResource) {
+    return (runner.vehicle != null) && 
+            (run.status != RunStatus.FINISHED) && 
+            (runner.user != null) && 
+            (runner.user.id == user.id)
+}

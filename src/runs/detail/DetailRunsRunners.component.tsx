@@ -5,7 +5,7 @@ import {Alert, StyleSheet, Text, View} from "react-native";
 import {Icon, Button} from "react-native-elements";
 import {AuthContainer, NetworkContainer, RunsContainer} from "../../Provider.component";
 import {getGasLevelText} from "../../common/utils/Vehicle.utils";
-import { canSelectVehicle, canTake } from "../../common/utils/Run.utils";
+import { canSelectVehicle, canTake, canChangeVehicle } from "../../common/utils/Run.utils";
 import {useNavigation} from "@react-navigation/native";
 import {RunsSelectVehicleParams} from "../RunsSelectVehicle.component";
 import {ButtonComponent} from "../../common/component/ButtonComponent";
@@ -70,12 +70,8 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
 
                                         { canSelectVehicle (authenticatedUser,runner, currentRun) ? (
                                             <ButtonComponent
-                                                disabled={
-                                                    authenticatedUser?.id != runner.user?.id ||
-                                                    !runner.vehicle_category ||
-                                                    !isInternetReachable
-                                                }
                                                 title="Choisir un véhicule"
+                                                disabled={ !isInternetReachable }
                                                 color="#f194ff"
                                                 onPress={() => selectVehicle(runner.id, runner.vehicle_category?.type as string)}
                                             />
@@ -92,7 +88,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                             }/>
                                     ) : null}
 
-                                    {runner.vehicle && !isFinished && authenticatedUser?.id == runner.user?.id ? (
+                                    { canChangeVehicle(authenticatedUser,runner, currentRun) ? (
                                         <View>
                                             <ButtonComponent
                                                 title="Changer de véhicule"
