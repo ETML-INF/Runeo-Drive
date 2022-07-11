@@ -27,5 +27,12 @@ export function canSelectVehicle (user: UserResource, runner: RunnerResource, ru
     return (runner.vehicle != null) && 
             (run.status != RunStatus.FINISHED) && 
             (runner.user != null) && 
+            (runner.user.id == user.id) &&
             (runner.vehicle_category != null)
+}
+
+// Tells if the given user can participate to the run
+export function canTake (user: UserResource, runner: RunnerResource, run: RunResource) : boolean {
+    return (runner.user == null) && 
+            (run.status != RunStatus.FINISHED)
 }

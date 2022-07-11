@@ -5,7 +5,7 @@ import {Alert, StyleSheet, Text, View} from "react-native";
 import {Icon, Button} from "react-native-elements";
 import {AuthContainer, NetworkContainer, RunsContainer} from "../../Provider.component";
 import {getGasLevelText} from "../../common/utils/Vehicle.utils";
-import { canSelectVehicle } from "../../common/utils/Run.utils";
+import { canSelectVehicle, canTake } from "../../common/utils/Run.utils";
 import {useNavigation} from "@react-navigation/native";
 import {RunsSelectVehicleParams} from "../RunsSelectVehicle.component";
 import {ButtonComponent} from "../../common/component/ButtonComponent";
@@ -82,7 +82,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                         ) : null}
                                     </View>
 
-                                    {!runner.user && !isFinished ? (
+                                    { canTake (authenticatedUser,runner, currentRun) ? (
                                         <ButtonComponent
                                             title={"Je prends"}
                                             disabled={ !isInternetReachable }
