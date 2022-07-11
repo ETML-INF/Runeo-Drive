@@ -4,13 +4,14 @@ import {RunResource, RunStatus} from "../resources/Run.resource";
 import {Colors} from "./Color.utils";
 import { UserResource } from "../resources/User.resource";
 import { RunnerResource } from "../resources/Runner.resource";
+import { DateTime } from "luxon";
 
 const runStatusIconMapping: Record<string, string> = {
     [RunStatus.GONE]: 'shipping-fast',
     [RunStatus.FINISHED]: 'check-circle',
+    [RunStatus.ERROR]: 'exclamation-circle',
     [RunStatus.READY]: 'thumbs-up',
-    [RunStatus.CANCELLED]: 'times-circle',
-    [RunStatus.ALMOSTREADY]: 'hourglass-half',
+    [RunStatus.ALMOSTREADY]: 'ambulance',
     [RunStatus.NEEDS_FILLING]: 'user-plus'
 }
 
@@ -34,12 +35,16 @@ export function canSelectVehicle (user: UserResource, runner: RunnerResource, ru
 // Tells if the given user can participate to the run
 export function canTake (user: UserResource, runner: RunnerResource, run: RunResource) : boolean {
     return (runner.user == null) && 
-            (run.status != RunStatus.FINISHED)
+            (run.status != RunStatus.FINISHED) &&
+            (!participates(user,run))
 }
 
-export function canChangeVehicle (user: UserResource, runner: RunnerResource, run: RunResource) {
-    return (runner.vehicle != null) && 
-            (run.status != RunStatus.FINISHED) && 
-            (runner.user != null) && 
-            (runner.user.id == user.id)
+// Tells if the run is still far in the future (thus can be quit by the driver)
+export function isStillFarOut(run: RunResource) {
+    return run.begin_at.diff(DateTime.local()).as("hour") > 4
+}
+
+// Tels if the user is one of the drivers involved in the run
+export function participates (user: UserResource, run: RunResource) {
+    return !!run.runners.find(runner => runner.user?.id === user.id);
 }
