@@ -22,7 +22,7 @@ export function useRunsContainer(): RunsContainer {
       .sortBy((run) => run.updated_at)
       .last<RunResource | undefined>();
 
-    return getRunsFromApi(mostRecentlyChangedRun?.updated_at)
+    return getRunsFromApi()
       .then((fetchedRuns) => cacheHelper.insertItems(List(fetchedRuns)))
       .catch((error) => error.text);
   };
