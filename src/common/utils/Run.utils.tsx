@@ -1,7 +1,9 @@
 import {Icon} from "react-native-elements";
 import React from "react";
-import {RunStatus} from "../resources/Run.resource";
+import {RunResource, RunStatus} from "../resources/Run.resource";
 import {Colors} from "./Color.utils";
+import { UserResource } from "../resources/User.resource";
+import { RunnerResource } from "../resources/Runner.resource";
 
 const runStatusIconMapping: Record<string, string> = {
     [RunStatus.GONE]: 'shipping-fast',
@@ -16,4 +18,14 @@ export function getRunStatusIcon(status: string) {
     let iconName = runStatusIconMapping[status] || 'question-circle';
 
     return <Icon type='font-awesome-5' name={iconName} color={Colors.BLUE}/>
+}
+
+// Helpers for the run detailed view
+
+// Tells if the given user is allowed to select the vehicle for a certain runner (transport) within a run
+export function canSelectVehicle (user: UserResource, runner: RunnerResource, run: RunResource) : boolean {
+    return (runner.vehicle != null) && 
+            (run.status != RunStatus.FINISHED) && 
+            (runner.user != null) && 
+            (runner.vehicle_category != null)
 }
