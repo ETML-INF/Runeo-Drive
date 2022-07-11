@@ -12,7 +12,9 @@ export function useFastDialsContainer(): DataContainerInterface<FastDialResource
 
   const refresh = (): Promise<void> =>
     getFastDialsFromApi()
-      .then((fetchedFastDials) => cacheHelper.setItems(List(fetchedFastDials)))
+      .then((fetchedFastDials) =>
+        cacheHelper.insertItems(List(fetchedFastDials))
+      )
       .catch(() => {});
 
   return {

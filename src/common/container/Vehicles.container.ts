@@ -17,10 +17,11 @@ export function useVehiclesContainer(): DataContainerInterface<VehicleResource> 
     parseVehicleResource
   );
 
-  const refresh = (): Promise<void> =>
-    getVehiclesFromAPi()
-      .then((fetchedVehicles) => cacheHelper.setItems(List(fetchedVehicles)))
-      .catch(() => {});
+  const refresh = (): Promise<void> => {
+    return getVehiclesFromAPi()
+      .then((fetchedVehicles) => cacheHelper.insertItems(List(fetchedVehicles)))
+      .catch((error) => error.text);
+  };
 
   const postComment = (vehicle: VehicleResource, comment: string) =>
     postCommentOnVehiculeFromAPI(vehicle, comment).then((comment) => {

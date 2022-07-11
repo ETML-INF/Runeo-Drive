@@ -12,7 +12,7 @@ export function useUsersContainer(): DataContainerInterface<UserResource> {
 
   const refresh = (): Promise<void> =>
     getUsersFromAPi()
-      .then((fetchedUsers) => cacheHelper.setItems(List(fetchedUsers)))
+      .then((fetchedUsers) => cacheHelper.insertItems(List(fetchedUsers)))
       .catch(() => {});
 
   return {
@@ -28,5 +28,7 @@ function getUsersFromAPi(): Promise<UserResource[]> {
 
   return Axios.get<UserResource[]>("/users")
     .then((res) => res.data)
-    .catch(() => {});
+    .catch((error) => {
+      console.log(error);
+    });
 }
