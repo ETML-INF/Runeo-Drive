@@ -1,12 +1,13 @@
 import {RunResource, RunStatus} from "../../common/resources/Run.resource";
 import {Button} from "react-native-elements";
 import React from "react";
-import {StyleSheet, View} from "react-native";
+import {StyleSheet, View, Text} from "react-native";
 import {DateTime} from "luxon";
 import {AuthContainer, RunsContainer} from "../../Provider.component";
 import {useNavigation} from "@react-navigation/native";
 import {RunDetailParams} from "../Runs.component";
 import {Colors} from "../../common/utils/Color.utils";
+import { isStillFarOut, participates } from "../../common/utils/Run.utils"
 
 export interface StatusRunControllerBtnDetailRunComponentProps {
     currentRun: RunResource
@@ -17,24 +18,28 @@ export function DetailRunsStatusControlBtn({currentRun}: StatusRunControllerBtnD
     const {authenticatedUser} = AuthContainer.useContainer()
     const {startRun} = RunsContainer.useContainer();
 
-    // Define if run starts in more than 4 hours
-    const runBeginLater = currentRun.begin_at.diff(DateTime.local()).as("hour") > 4
-    const isAuthenticatedUserMemberOfRun = !!currentRun.runners.find(runner => runner.user?.id === authenticatedUser?.id);
+    if (currentRun.status === RunStatus.ERROR) {
+        return (
+            <View style={styles.problem}>
+                <Text>Le status de ce run pose problème!</Text>
+                <Text>Merci d'aller voir au bureau ce qu'il en est</Text>
+            </View>
+        )
+    }
 
-    if (isAuthenticatedUserMemberOfRun && currentRun.status === RunStatus.READY) {
+    if (participates(authenticatedUser,currentRun) && !isStillFarOut(currentRun) && currentRun.status === RunStatus.READY) {
         return (
             <View>
                 <Button
-                    disabled={runBeginLater}
                     buttonStyle={styles.startButton}
-                    title="COMMENCER LE RUN"
+                    title={ "COMMENCER LE RUN"}
                     onPress={() => startRun(currentRun)}
                 />
             </View>
         );
     }
 
-    if (isAuthenticatedUserMemberOfRun && currentRun.status == RunStatus.GONE) {
+    if (participates(authenticatedUser,currentRun) && currentRun.status == RunStatus.GONE) {
         return (
             <View>
                 <Button
@@ -73,5 +78,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         margin: 10,
         borderRadius: 25,
+    },
+    problem: {
+        alignItems: "center",
+        backgroundColor: "#ffaa00"
     }
 })
