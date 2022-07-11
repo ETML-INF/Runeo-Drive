@@ -49,19 +49,6 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                         </View>
                                     ) : null}
 
-                                    {!runner.user && !isFinished && authenticatedUser.role != "manager" ? (
-                                        <ButtonComponent
-                                            title={currentRun.good_for_me ? "Je prends" : "Autre Run"}
-                                            disabled={
-                                                !currentRun.good_for_me ||
-                                                !isInternetReachable
-                                            }
-                                            onPress={() => takeRun(currentRun, runner)
-                                                .then(() => Alert.alert("Confirmation", "Vous faites maintenant partie du Run."))
-                                                .catch(() => Alert.alert("Erreur", "Erreur lors de la prise du Run."))
-                                            }/>
-                                    ) : null}
-
                                     <View style={styles.vehicleView}>
                                         {runner.vehicle_category ? (
                                             <View style={styles.vehicleType}>
@@ -80,7 +67,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                             </Fragment>
                                         ) : null}
 
-                                        {!runner.vehicle && !isFinished && authenticatedUser.role != "manager" ? (
+                                        {!runner.vehicle && !isFinished && runner.user && runner.vehicle_category && !runner.vehicle ? (
                                             <ButtonComponent
                                                 disabled={
                                                     authenticatedUser?.id != runner.user?.id ||
@@ -93,6 +80,16 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                             />
                                         ) : null}
                                     </View>
+
+                                    {!runner.user && !isFinished ? (
+                                        <ButtonComponent
+                                            title={"Je prends"}
+                                            disabled={ !isInternetReachable }
+                                            onPress={() => takeRun(currentRun, runner)
+                                                .then(() => Alert.alert("Confirmation", "Vous faites maintenant partie du Run."))
+                                                .catch(() => Alert.alert("Erreur", "Erreur lors de la prise du Run."))
+                                            }/>
+                                    ) : null}
 
                                     {runner.vehicle && !isFinished && authenticatedUser?.id == runner.user?.id ? (
                                         <View>
