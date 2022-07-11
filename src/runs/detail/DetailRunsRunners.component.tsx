@@ -83,7 +83,6 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                             title={"Je prends"}
                                             disabled={ !isInternetReachable }
                                             onPress={() => takeRun(currentRun, runner)
-                                                .then(() => Alert.alert("Confirmation", "Vous faites maintenant partie du Run."))
                                                 .catch(() => Alert.alert("Erreur", "Erreur lors de la prise du Run."))
                                             }/>
                                     ) : null}
@@ -92,7 +91,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                         <View>
                                             <ButtonComponent
                                                 disabled={ !isInternetReachable }
-                                                title="Changer de véhicule"
+                                                title="Changer"
                                                 color="#f194ff"
                                                 onPress={() => selectVehicle(runner.id, runner.vehicle_category?.type as string)}/>
                                         </View>

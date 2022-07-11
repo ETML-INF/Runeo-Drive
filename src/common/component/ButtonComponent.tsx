@@ -34,7 +34,7 @@ export function ButtonComponent(props: ButtonComponentProps) {
 
 const styles = StyleSheet.create({
     button: {
-        height: 50,
+        height: 35,
         backgroundColor: Colors.BLUE,
         borderRadius: 25,
 
@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-
-        elevation: 5,
+        paddingVertical:2
     },
 })

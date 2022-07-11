@@ -22,7 +22,6 @@ export function RunsSelectVehicleComponent() {
         onItemPress={(vehicle: VehicleResource) =>
             updateVehicle(runnerId, vehicle.id)
                 .then(() => {
-                    Alert.alert("Succes", "Le run a été mis a jour")
                     navigation.goBack()
                 })
                 .catch(() => {
