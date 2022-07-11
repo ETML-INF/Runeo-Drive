@@ -46,7 +46,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                 <View style={styles.runnerContent}>
                                     {runner.user ? (
                                         <View>
-                                            <Text style={styles.runnerTitle}>{runner.user?.name}</Text>
+                                            {runner.user.id == authenticatedUser.id ? (<Text style={styles.runnerIsMe}>Moi</Text>) : (<Text style={styles.runnerTitle}>{runner.user.name}</Text>)}
                                         </View>
                                     ) : null}
 
@@ -120,6 +120,18 @@ const styles = StyleSheet.create({
     runnerTitle: {
         fontFamily: 'Montserrat-Regular',
         marginBottom: 5,
+        padding: 2,
+        textAlign: "center"
+    },
+
+    runnerIsMe: {
+        fontFamily: 'Montserrat-Regular',
+        fontWeight: "bold",
+        backgroundColor: "#98d898",
+        marginBottom: 5,
+        padding: 2,
+        textAlign: "center",
+        borderRadius: 8
     },
 
     vehicleView: {
