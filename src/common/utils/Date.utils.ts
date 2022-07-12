@@ -19,3 +19,9 @@ export function dateWithLocalDay(date) {
   return daysOfWeek[res.format("d")] + " " + res.format("D");
   // TODO: find the proper way to do this....
 }
+
+export function logTimeStamp(date) {
+  let res = moment(date.toString());
+  const daysOfWeek = ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"];
+  return daysOfWeek[res.format("d")] + " " + res.format("D, HH:mm");
+}

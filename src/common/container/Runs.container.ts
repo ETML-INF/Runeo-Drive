@@ -5,6 +5,7 @@ import { DateTime } from "luxon";
 import { useCacheHelper } from "../utils/CacheHelper.utils";
 import { DataContainerInterface } from "./DataContainer.interface";
 import { RunnerResource } from "../resources/Runner.resource";
+import { LogResource } from "../resources/Log.resource";
 
 export interface RunsContainer extends DataContainerInterface<RunResource> {
   updateVehicle: (runnerId: number, carId: number) => Promise<void>;
@@ -12,6 +13,8 @@ export interface RunsContainer extends DataContainerInterface<RunResource> {
   stopRun: (run: RunResource, gasLevel: number) => Promise<void>;
   takeRun: (run: RunResource, runner: RunnerResource) => Promise<void>;
   acknowledgeRun: (run: RunResource) => Promise<void>;
+  getLogs: (runId: number) => Promise<LogResource[]>;
+  postLog: (run: number, message: string) => Promise<LogResource>;
 }
 
 export function useRunsContainer(): RunsContainer {
@@ -52,6 +55,10 @@ export function useRunsContainer(): RunsContainer {
       .then(cacheHelper.insertItem)
       .catch((error) => error.text);
 
+  const getLogs = (runId: number) => getLogsFromApi(runId);
+
+  const postLog = (run: number, message: string) => postLogToApi(run, message);
+
   return {
     items: cacheHelper.items,
     readFromCache: cacheHelper.readFromCache,
@@ -61,6 +68,8 @@ export function useRunsContainer(): RunsContainer {
     stopRun,
     takeRun,
     acknowledgeRun,
+    getLogs,
+    postLog,
     empty: cacheHelper.empty,
   };
 }
@@ -132,5 +141,30 @@ function parseRunResource(runFromApi: any): RunResource {
     acknowledged_at: DateTime.fromISO(runFromApi.acknowledged_at),
     waypoints: List(runFromApi.waypoints),
     runners: List(runFromApi.runners),
+  };
+}
+
+function getLogsFromApi(run: number): Promise<LogResource[]> {
+  return Axios.get(`/runs/${run}/logs`).then((res) => res.data);
+}
+
+function postLogToApi(run: number, description: string): Promise<LogResource> {
+  return Axios.post(`/runs/${run}/logs`, {
+    description,
+  }).then((res) => res.data);
+}
+
+/**
+ * Parses a log from the API
+ * @param logFromApi
+ * @returns {LogResource}
+ */
+function parseLogResource(logFromApi: any): LogResource {
+  return {
+    ...logFromApi,
+    updated_at: DateTime.fromISO(logFromApi.updated_at),
+    description: logFromApi.description,
+    id: logFromApi.id,
+    action: logFromApi.action,
   };
 }

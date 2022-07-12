@@ -7,6 +7,7 @@ import {DetailRunsRunnersComponent} from "./DetailRunsRunners.component";
 import {DetailRunsContactBtn} from "./DetailRunsContactBtn.component";
 import {DetailRunsStatusControlBtn} from "./DetailRunsStatusControlBtn";
 import {DetailRunsAcknowledgeUpdateComponent} from "./DetailRunsAcknowledgeUpdate.component";
+import {DetailRunsCommentComponent} from "./DetailRunsComment.component"
 import {useRunFromRouteParam} from "../../common/hook/Run.hook";
 import {lastUpdatedRun} from "../../common/utils/LastUpdatedRun.utils";
 import {AuthContainer} from "../../Provider.component";
@@ -35,6 +36,9 @@ export function DetailRunsComponent() {
             <DetailRunsInfoComponent currentRun={currentRun}/>
 
             <DetailRunsRunnersComponent currentRun={currentRun}/>
+
+            <DetailRunsCommentComponent currentRun={currentRun}/>
+
         </ScrollView>
     )
 }
