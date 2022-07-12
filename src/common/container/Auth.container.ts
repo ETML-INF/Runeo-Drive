@@ -49,8 +49,6 @@ export function useAuthContainer(
           await logout();
           throw new Error();
         }
-      } else {
-        console.log("Refresh without a token");
       }
     };
 

@@ -26,7 +26,6 @@ export function useFastDialsContainer(): DataContainerInterface<FastDialResource
 }
 
 function getFastDialsFromApi(): Promise<FastDialResource[]> {
-  console.log("Get FastDials from API");
   return Axios.get("/fastDial")
     .then((res) => res.data)
     .catch(() => {});

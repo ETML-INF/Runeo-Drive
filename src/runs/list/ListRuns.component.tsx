@@ -37,7 +37,6 @@ export function ListRunsComponent() {
 
     const data = useMemo(() => {
         return runContainer.items
-            .sortBy(run => run.begin_at)
             .toArray();
     }, [runContainer.items, activatedFilter])
 

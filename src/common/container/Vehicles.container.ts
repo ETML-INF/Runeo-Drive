@@ -43,7 +43,6 @@ export function useVehiclesContainer(): DataContainerInterface<VehicleResource> 
 }
 
 function getVehiclesFromAPi(): Promise<VehicleResource[]> {
-  console.log("Get Vehicles from API");
   return Axios.get("/cars")
     .then((res) => res.data)
     .catch(() => {});

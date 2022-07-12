@@ -24,8 +24,6 @@ export function useUsersContainer(): DataContainerInterface<UserResource> {
 }
 
 function getUsersFromAPi(): Promise<UserResource[]> {
-  console.log("Get Users from API");
-
   return Axios.get<UserResource[]>("/users")
     .then((res) => res.data)
     .catch((error) => {

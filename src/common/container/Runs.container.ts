@@ -111,8 +111,6 @@ function updateRunnerCarApi(
 }
 
 function getRunsFromApi(onlyFromTime?: DateTime): Promise<RunResource[]> {
-  console.log("Get Runs from API");
-
   const params: any = {};
 
   if (onlyFromTime) {
