@@ -5,7 +5,7 @@ export const DURATION_FORMAT = "hh'h'mm";
 export const DATE_ONLY_FORMAT = "cccc dd";
 
 export function dateWithLocalDay(date) {
-  let res = moment(date);
+  let res = moment(date.toString());
   const daysOfWeek = [
     "Dimanche",
     "Lundi",
