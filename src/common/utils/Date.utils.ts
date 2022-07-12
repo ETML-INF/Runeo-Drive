@@ -3,6 +3,7 @@ import moment from "moment";
 export const DATE_FORMAT = "cccc dd à HH'h'mm";
 export const DURATION_FORMAT = "hh'h'mm";
 export const DATE_ONLY_FORMAT = "cccc dd";
+export const TIME_FORMAT = "HH'h'mm";
 
 export function dateWithLocalDay(date) {
   let res = moment(date.toString());

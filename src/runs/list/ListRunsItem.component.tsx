@@ -1,6 +1,6 @@
 import {getRunStatusIcon} from "../../common/utils/Run.utils";
 import {ListItem} from "react-native-elements";
-import {dateWithLocalDay, DURATION_FORMAT} from "../../common/utils/Date.utils";
+import {dateWithLocalDay, TIME_FORMAT} from "../../common/utils/Date.utils";
 import React from "react";
 import {RunResource} from "../../common/resources/Run.resource";
 import {Colors} from "../../common/utils/Color.utils";
@@ -25,7 +25,7 @@ export function ListRunsItemComponent ({onSelectRun, run} : ListRunsItemComponen
             <ListItem.Content>
                 <ListItem.Title style={{fontFamily: 'Montserrat-Medium'}}>{`${run.title.toUpperCase()}`}</ListItem.Title>
                 <ListItem.Subtitle style={{color: Colors.GREY, fontFamily: 'Montserrat-Regular'}}>
-                    { dateWithLocalDay(run.begin_at)} à {run.begin_at.toFormat(DURATION_FORMAT)}
+                    { dateWithLocalDay(run.begin_at)} à {run.begin_at.toFormat(TIME_FORMAT)}
                 </ListItem.Subtitle>
             </ListItem.Content>
 
