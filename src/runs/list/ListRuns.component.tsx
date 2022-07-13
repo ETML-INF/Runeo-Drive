@@ -46,7 +46,7 @@ export function ListRunsComponent() {
             <ListCommonResourceComponent
                     dataContainer={RunsContainer}
                     renderItem={renderItem}
-                    sort={(runA,runB) => runA.begin_at < runB.begin_at}
+                    sort={(runA,runB) => runA.begin_at > runB.begin_at}
                     />
         </SafeAreaView>
     )
