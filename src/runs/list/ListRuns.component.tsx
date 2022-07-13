@@ -35,11 +35,6 @@ export function ListRunsComponent() {
         }
     }
 
-    const data = useMemo(() => {
-        return runContainer.items
-            .toArray();
-    }, [runContainer.items, activatedFilter])
-
     const gotoRun = (run: RunResource) => navigation.navigate("detail", {runId: run.id})
 
     const renderItem = (item:any) => (
@@ -51,6 +46,7 @@ export function ListRunsComponent() {
             <ListCommonResourceComponent
                     dataContainer={RunsContainer}
                     renderItem={renderItem}
+                    sort={(runA,runB) => runA.begin_at < runB.begin_at}
                     />
         </SafeAreaView>
     )

@@ -6,6 +6,7 @@ import { useCacheHelper } from "../utils/CacheHelper.utils";
 import { DataContainerInterface } from "./DataContainer.interface";
 import { RunnerResource } from "../resources/Runner.resource";
 import { LogResource } from "../resources/Log.resource";
+import { clearCaches } from "../utils/Cache.utils";
 
 export interface RunsContainer extends DataContainerInterface<RunResource> {
   updateVehicle: (runnerId: number, carId: number) => Promise<void>;
@@ -21,10 +22,6 @@ export function useRunsContainer(): RunsContainer {
   const cacheHelper = useCacheHelper<RunResource>("RUN", parseRunResource);
 
   const refresh = (): Promise<void> => {
-    const mostRecentlyChangedRun = cacheHelper.items
-      .sortBy((run) => run.updated_at)
-      .last<RunResource | undefined>();
-
     return getRunsFromApi()
       .then((fetchedRuns) => cacheHelper.insertItems(List(fetchedRuns)))
       .catch((error) => error.text);
@@ -112,6 +109,7 @@ function updateRunnerCarApi(
 
 function getRunsFromApi(onlyFromTime?: DateTime): Promise<RunResource[]> {
   const params: any = {};
+  clearCaches();
 
   if (onlyFromTime) {
     params.onlyFromTime = onlyFromTime.toString();
