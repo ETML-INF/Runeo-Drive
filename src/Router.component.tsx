@@ -81,7 +81,13 @@ export function RouterComponent() {
                     </Tab.Navigator>
                 )
             default:
-                return (<View style={styles.error}><Text style={styles.error_message}>Erreur: votre compte est dans un état inconnu ({authContainer.authenticatedUser?.status})</Text></View>)
+                return (
+                    <View style={styles.error}>
+                        <Text style={styles.error_message}>Problème!</Text>
+                        <Text style={styles.error_message}>Ton compte n'est pas encore activé</Text>
+                        <Text style={styles.discreet}>({authContainer.authenticatedUser?.status})</Text>
+                    </View>
+                )
         }
     }
     return (
@@ -98,6 +104,11 @@ const styles = StyleSheet.create({
     },
     error_message: {
         fontSize: 35,
+        textAlign: "center"
+    },
+    discreet: {
+        fontSize: 12,
+        color: "#dddddd",
         textAlign: "center"
     }
 });
