@@ -10,6 +10,7 @@ import { ParamsComponent } from "./params/Params.component";
 import { Colors } from "./common/utils/Color.utils";
 import { ListFastDialsComponent } from "./fastDials/FastDials.component";
 import { Text, View, StyleSheet } from "react-native";
+import { ButtonComponent } from "./common/component/ButtonComponent";
 
 const Tab = createBottomTabNavigator();
 
@@ -30,6 +31,10 @@ export function RouterComponent() {
 
     function refreshAuth() {
         authContainer.refreshAuthenticated().catch((error) => { console.error(error); });
+    }
+
+    const onLogoutPress = () => {
+        authContainer.logout().catch((error) => console.log(error))
     }
 
     if (authContainer.authenticatedUser) {
@@ -86,6 +91,7 @@ export function RouterComponent() {
                         <Text style={styles.error_message}>Problème!</Text>
                         <Text style={styles.error_message}>Ton compte n'est pas encore activé</Text>
                         <Text style={styles.discreet}>({authContainer.authenticatedUser?.status})</Text>
+                        <ButtonComponent titleStyle={styles.buttonTitle} title="Retour" onPress={onLogoutPress}/>
                     </View>
                 )
         }
@@ -100,7 +106,8 @@ const styles = StyleSheet.create({
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center"
+        justifyContent: "center",
+        padding:30
     },
     error_message: {
         fontSize: 35,
@@ -110,5 +117,8 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: "#dddddd",
         textAlign: "center"
+    },
+    buttonTitle: {
+        marginVertical: 5,
     }
 });

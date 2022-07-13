@@ -53,9 +53,10 @@ export function useAuthContainer(
     };
 
     const logout = async () => {
-      await clearCaches();
-      await AsyncStorage.removeItem(TOKEN_STORAGE_KEY);
-      await AsyncStorage.removeItem(USER_STORAGE_KEY);
+      clearCaches().finally(() => {
+        AsyncStorage.removeItem(TOKEN_STORAGE_KEY);
+        AsyncStorage.removeItem(USER_STORAGE_KEY);
+      });
       setAuthenticatedUser(null);
     };
 

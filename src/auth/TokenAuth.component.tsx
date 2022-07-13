@@ -18,7 +18,7 @@ export const TokenAuthComponent = () => {
         try {
             await authContainer.authenticate(values.token)
         } catch (e) {
-            setFieldError("token", "Erreur de connexion, veuillez verifier votre token")
+            setFieldError("token", "Erreur de connexion, vérifie ton réseau et ton token")
             setSubmitting(false);
         }
     };
@@ -38,7 +38,7 @@ export const TokenAuthComponent = () => {
                         name={"token"}
                         formik={formik}
                         inputProps={{
-                            placeholder: "Votre token"
+                            placeholder: "Ton token"
                         }}/>
 
                     <ButtonComponent
