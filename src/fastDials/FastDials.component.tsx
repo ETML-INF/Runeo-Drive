@@ -1,19 +1,13 @@
-import {Alert, Dimensions, SafeAreaView, StyleSheet, View} from "react-native";
+import {Dimensions, SafeAreaView, StyleSheet} from "react-native";
 import React from "react";
-import {AuthContainer, CacheStatusContainer, DataContainers, FastDialsContainer} from "../Provider.component"
+import {FastDialsContainer} from "../Provider.component"
 import {FastDialResource} from "../common/resources/FastDial.resource";
 import {Button, Icon, ListItem} from "react-native-elements";
 import {callPhoneNumber} from "../common/utils/Phone.utils";
-import {clearCaches} from "../common/utils/Cache.utils";
 import {ListCommonResourceComponent} from "../common/component/ListCommonResource.component";
-import {ButtonComponent} from "../common/component/ButtonComponent";
 import {Colors} from "../common/utils/Color.utils";
 
 export function ListFastDialsComponent() {
-    const dataContainers = DataContainers.map(container => container.useContainer());
-    const authContainer = AuthContainer.useContainer();
-    const {setHasCacheBeenRead} = CacheStatusContainer.useContainer();
-
     const renderItem = (item: FastDialResource) => (
         <ListItem bottomDivider onPress={() => callPhoneNumber(item.phone_number)}>
             <ListItem.Content>
@@ -35,22 +29,6 @@ export function ListFastDialsComponent() {
         </ListItem>
     )
 
-    const onLogoutPress = () => {
-        Alert.alert(
-            'Déconnexion',
-            'Voulez-vous vraiment vous déconnecter ?',
-            [
-                {
-                    text: 'Annuler'
-                },
-                {
-                    text: 'Oui',
-                    onPress: () => authContainer.logout()
-                }
-            ]
-        )
-    }
-
     return (
         <SafeAreaView style={styles.wrapper}>
             <ListCommonResourceComponent
@@ -59,20 +37,6 @@ export function ListFastDialsComponent() {
                 }}
                 dataContainer={FastDialsContainer}
                 renderItem={renderItem}/>
-            <View style={styles.buttonContainer}>
-                <View style={styles.buttonWrapper}>
-                    <ButtonComponent titleStyle={styles.buttonTitle} title="Déconnexion" onPress={onLogoutPress}/>
-                </View>
-                <View style={styles.buttonWrapper}>
-                    <ButtonComponent titleStyle={styles.buttonTitle} title="Vider le cache"
-                                     onPress={() => clearCaches()
-                                         .then(() => {
-                                             setHasCacheBeenRead(false);
-                                             dataContainers.forEach(container => container.empty());
-                                         })
-                                     }/>
-                </View>
-            </View>
         </SafeAreaView>
     )
 }
@@ -96,4 +60,3 @@ const styles = StyleSheet.create({
         marginVertical: 5,
     }
 })
-

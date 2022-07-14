@@ -6,18 +6,25 @@ import {DetailRunsInfoComponent} from "./DetailRunsInfo.component";
 import {DetailRunsRunnersComponent} from "./DetailRunsRunners.component";
 import {DetailRunsContactBtn} from "./DetailRunsContactBtn.component";
 import {DetailRunsStatusControlBtn} from "./DetailRunsStatusControlBtn";
+import {DetailRunsAcknowledgeUpdateComponent} from "./DetailRunsAcknowledgeUpdate.component";
+import {DetailRunsCommentComponent} from "./DetailRunsComment.component"
 import {useRunFromRouteParam} from "../../common/hook/Run.hook";
+import {lastUpdatedRun} from "../../common/utils/LastUpdatedRun.utils";
+import {AuthContainer} from "../../Provider.component";
 
 export function DetailRunsComponent() {
     const currentRun = useRunFromRouteParam();
+    const {authenticatedUser} = AuthContainer.useContainer();
 
     if (!currentRun) {
         console.error("No run matching provided found for provided run id ")
         return <Fragment/>;
     }
-
+    
     return (
-        <ScrollView style={{backgroundColor: 'white'}}>
+        <ScrollView style={{backgroundColor: 'white'}}>                         
+            {lastUpdatedRun(currentRun, authenticatedUser?.id) ? <DetailRunsAcknowledgeUpdateComponent currentRun={currentRun}/> : false }
+
             <DetailRunsStatusControlBtn currentRun={currentRun}/>
 
             <DetailRunsContactBtn currentRun={currentRun}/>
@@ -29,6 +36,9 @@ export function DetailRunsComponent() {
             <DetailRunsInfoComponent currentRun={currentRun}/>
 
             <DetailRunsRunnersComponent currentRun={currentRun}/>
+
+            <DetailRunsCommentComponent currentRun={currentRun}/>
+
         </ScrollView>
     )
 }

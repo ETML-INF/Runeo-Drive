@@ -29,6 +29,6 @@ const styles = StyleSheet.create({
     },
 
     boldContent: {
-        fontFamily: 'Montserrat-Bold',
+        fontFamily: 'Montserrat-SemiBold',
     }
 });

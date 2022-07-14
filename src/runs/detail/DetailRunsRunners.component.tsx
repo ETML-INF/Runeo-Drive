@@ -2,13 +2,15 @@ import {RunResource, RunStatus} from "../../common/resources/Run.resource";
 import React, {Fragment} from "react";
 import {CardComponentWithIcon, CardContainerComponent} from "../../common/component/Card.component";
 import {Alert, StyleSheet, Text, View} from "react-native";
-import {Icon} from "react-native-elements";
+import {Icon, Button} from "react-native-elements";
 import {AuthContainer, NetworkContainer, RunsContainer} from "../../Provider.component";
 import {getGasLevelText} from "../../common/utils/Vehicle.utils";
+import { canSelectVehicle, canTake, canChangeVehicle } from "../../common/utils/Run.utils";
 import {useNavigation} from "@react-navigation/native";
 import {RunsSelectVehicleParams} from "../RunsSelectVehicle.component";
 import {ButtonComponent} from "../../common/component/ButtonComponent";
 import {Colors} from "../../common/utils/Color.utils";
+import {callPhoneNumber} from "../../common/utils/Phone.utils";
 
 export interface RunnersDetailRunsComponentProps {
     currentRun: RunResource
@@ -43,20 +45,9 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                             <View>
                                 <View style={styles.runnerContent}>
                                     {runner.user ? (
-                                        <Text style={styles.runnerTitle}>{runner.user?.name}</Text>
-                                    ) : null}
-
-                                    {!runner.user && !isFinished ? (
-                                        <ButtonComponent
-                                            title={currentRun.good_for_me ? "Je prends" : "Autre Run"}
-                                            disabled={
-                                                !currentRun.good_for_me ||
-                                                !isInternetReachable
-                                            }
-                                            onPress={() => takeRun(currentRun, runner)
-                                                .then(() => Alert.alert("Confirmation", "Vous faites maintenant partie du Run."))
-                                                .catch(() => Alert.alert("Erreur", "Erreur lors de la prise du Run."))
-                                            }/>
+                                        <View>
+                                            {runner.user.id == authenticatedUser.id ? (<Text style={styles.runnerIsMe}>Moi</Text>) : (<Text style={styles.runnerTitle}>{runner.user.name}</Text>)}
+                                        </View>
                                     ) : null}
 
                                     <View style={styles.vehicleView}>
@@ -77,28 +68,30 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                             </Fragment>
                                         ) : null}
 
-                                        {!runner.vehicle && !isFinished ? (
+                                        { canSelectVehicle (authenticatedUser,runner, currentRun) ? (
                                             <ButtonComponent
-                                                disabled={
-                                                    authenticatedUser?.id != runner.user?.id ||
-                                                    !runner.vehicle_category ||
-                                                    !isInternetReachable
-                                                }
-                                                title="Choisir un véhicule"
+                                                title="Choisir"
+                                                disabled={ !isInternetReachable }
                                                 color="#f194ff"
                                                 onPress={() => selectVehicle(runner.id, runner.vehicle_category?.type as string)}
                                             />
                                         ) : null}
                                     </View>
 
-                                    {runner.vehicle && !isFinished ? (
+                                    { canTake (authenticatedUser,runner, currentRun) ? (
+                                        <ButtonComponent
+                                            title={"Je prends"}
+                                            disabled={ !isInternetReachable }
+                                            onPress={() => takeRun(currentRun, runner)
+                                                .catch(() => Alert.alert("Erreur", "Erreur lors de la prise du Run."))
+                                            }/>
+                                    ) : null}
+
+                                    { canChangeVehicle(authenticatedUser,runner, currentRun) ? (
                                         <View>
                                             <ButtonComponent
-                                                disabled={
-                                                    authenticatedUser?.id != runner.user?.id ||
-                                                    !isInternetReachable
-                                                }
-                                                title="Changer de véhicule"
+                                                disabled={ !isInternetReachable }
+                                                title="Changer"
                                                 color="#f194ff"
                                                 onPress={() => selectVehicle(runner.id, runner.vehicle_category?.type as string)}/>
                                         </View>
@@ -127,6 +120,18 @@ const styles = StyleSheet.create({
     runnerTitle: {
         fontFamily: 'Montserrat-Regular',
         marginBottom: 5,
+        padding: 2,
+        textAlign: "center"
+    },
+
+    runnerIsMe: {
+        fontFamily: 'Montserrat-Regular',
+        fontWeight: "bold",
+        backgroundColor: "#98d898",
+        marginBottom: 5,
+        padding: 2,
+        textAlign: "center",
+        borderRadius: 8
     },
 
     vehicleView: {

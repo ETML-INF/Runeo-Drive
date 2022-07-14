@@ -1,8 +1,7 @@
 {
   "expo": {
-    "apiUrl": "http://127.0.0.1:8000/api",
-    "name": "Runeo-Drive-Expo",
-    "slug": "Runeo-Drive-Expo",
+    "name": "Runeo-Drive",
+    "slug": "Runeo-Drive",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,17 +13,16 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "runeo.mycpnv.runeodrive2022"
     },
     "web": {
       "favicon": "./assets/favicon.png"

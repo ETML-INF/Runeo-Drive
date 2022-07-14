@@ -10,8 +10,6 @@ import {useVehiclesContainer} from "./common/container/Vehicles.container";
 import {useCacheStatusContainer} from "./common/container/CacheStatus.container";
 import {List, Stack} from "immutable";
 import {DataContainerInterface} from "./common/container/DataContainer.interface";
-import {NotificationHandlerComponent} from "./NotificationHandler.component";
-import {useNotificationsContainer} from "./common/container/Notification.container";
 import {isRootNavigationReady, rootNavigationRef} from "./RootNavigator";
 
 export const NetworkContainer = createContainer(useNetworkContainer)
@@ -22,14 +20,12 @@ export const RunsContainer = createContainer(useRunsContainer);
 export const FastDialsContainer = createContainer(useFastDialsContainer);
 export const UsersContainer = createContainer(useUsersContainer);
 export const VehiclesContainer = createContainer(useVehiclesContainer);
-export const NotificationsContainer = createContainer(useNotificationsContainer);
 
 export const DataContainers = List([
     RunsContainer,
     FastDialsContainer,
     UsersContainer,
     VehiclesContainer,
-    NotificationsContainer
 ])
 
 function DataContainersProviderComponent(props: PropsWithChildren<any> & { dataContainers: Stack<Container<DataContainerInterface<any>>> }) {
@@ -54,18 +50,12 @@ export function ProviderComponent(props: PropsWithChildren<any>) {
             <CacheStatusContainer.Provider>
                 <AuthContainer.Provider>
                     <DataContainersProviderComponent dataContainers={DataContainers.toStack()}>
-                        <NotificationHandlerComponent
-                            authContainer={AuthContainer}
-                            networkContainer={NetworkContainer}
-                            notificationsContainer={NotificationsContainer}
-                        >
-                            <NavigationContainer ref={rootNavigationRef} onReady={() => {
-                                // @ts-ignore
-                                isRootNavigationReady.current = true
-                            }}>
-                                {props.children}
-                            </NavigationContainer>
-                        </NotificationHandlerComponent>
+                        <NavigationContainer ref={rootNavigationRef} onReady={() => {
+                            // @ts-ignore
+                            isRootNavigationReady.current = true
+                        }}>
+                            {props.children}
+                        </NavigationContainer>
                     </DataContainersProviderComponent>
                 </AuthContainer.Provider>
             </CacheStatusContainer.Provider>

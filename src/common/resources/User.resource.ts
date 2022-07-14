@@ -7,7 +7,7 @@ export enum UserStatus {
     VALIDATED = "validated",
     HIRED = "hired",
     FREE = "free",
-    NOT_PRESENT = "not_present",
+    NOT_PRESENT = "not-present",
     RETIRED = "retired",
     TAKEN = "taken"
 }
@@ -19,6 +19,7 @@ export interface UserResource extends CommonResource {
     email: string,
     phone_number: string,
     status: UserStatus,
+    role: string,
     image_profile: string,
     has_notification_token: string
 }

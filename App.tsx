@@ -1,15 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Platform } from 'react-native';
 import { AppComponent } from './src/App.component';
 import Axios from "axios";
-import config from "./app.json";
+import { useFonts } from 'expo-font';
+import { RootSiblingParent } from 'react-native-root-siblings';
+import Constants from 'expo-constants';
 
 
-Axios.defaults.baseURL = config.expo.apiUrl;
+Axios.defaults.baseURL = "http://runeo.paleo.ch/api";
 
 export default function App() {
+  const [loaded] = useFonts({
+    "Montserrat-ExtraBold": require('./assets/fonts/Montserrat-ExtraBold.ttf'),
+    "Montserrat-Medium": require('./assets/fonts/Montserrat-Medium.ttf'),
+    "Montserrat-Regular": require('./assets/fonts/Montserrat-Regular.ttf'),
+    "Montserrat-SemiBold": require('./assets/fonts/Montserrat-SemiBold.ttf'),
+  });
+
+  if (!loaded) {
+    return null;
+  }
+
   return (
-    <AppComponent/>
-  );
+    <RootSiblingParent>
+      <SafeAreaView style={styles.container}>
+        <AppComponent/>
+      </SafeAreaView>
+    </RootSiblingParent>
+  )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: (Platform.OS === 'ios') ? 0 : Constants.statusBarHeight,
+  },
+});
