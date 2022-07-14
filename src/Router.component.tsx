@@ -8,8 +8,9 @@ import { RunsComponent } from "./runs/Runs.component";
 import { VehiclesComponent } from "./vehicles/Vehicles.components";
 import { ParamsComponent } from "./params/Params.component";
 import { Colors } from "./common/utils/Color.utils";
-import RunnersEnrollment from "./enrollment/Enrollment.component";
 import { ListFastDialsComponent } from "./fastDials/FastDials.component";
+import { Text, View, StyleSheet } from "react-native";
+import { ButtonComponent } from "./common/component/ButtonComponent";
 
 const Tab = createBottomTabNavigator();
 
@@ -32,90 +33,92 @@ export function RouterComponent() {
         authContainer.refreshAuthenticated().catch((error) => { console.error(error); });
     }
 
+    const onLogoutPress = () => {
+        authContainer.logout().catch((error) => console.log(error))
+    }
+
     if (authContainer.authenticatedUser) {
-        if (authContainer.authenticatedUser.role == "manager") {
-            return (
-                <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
-                    activeTintColor: ACTIVE_TAB_COLOR,
-                    inactiveTintColor: INACTIVE_TAB_COLOR,
-                }}>
-                    <Tab.Screen
-                        name={RUNS_TAB}
-                        options={{
-                            tabBarIcon: tabBarIconGen('list'),
-                        }}
-                        component={RunsComponent}
-                    />
-                    <Tab.Screen
-                        name="Rapide"
-                        options={{
-                            tabBarIcon: tabBarIconGen('phone'),
-                        }}
-                        component={ListFastDialsComponent}
-                    />
-                    <Tab.Screen
-                        name="Params"
-                        options={{
-                            tabBarIcon: tabBarIconGen('cog'),
-                        }}
-                        component={ParamsComponent}
-                    />
-                </Tab.Navigator>
-            )
-        } else {
-            switch (authContainer.authenticatedUser?.status) {
-                case "hired":
-                case "taken":
-                case "free":
-                case "not-present":
-                    return (
-                        <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
-                            activeTintColor: ACTIVE_TAB_COLOR,
-                            inactiveTintColor: INACTIVE_TAB_COLOR,
-                        }}>
-                            <Tab.Screen
-                                name={RUNS_TAB}
-                                options={{
-                                    tabBarIcon: tabBarIconGen('list'),
-                                }}
-                                component={RunsComponent}
-                            />
-                            <Tab.Screen
-                                name="Drivers"
-                                options={{
-                                    tabBarIcon: tabBarIconGen('drivers-license-o'),
-                                }}
-                                component={ListUsersComponent}
-                            />
-                            <Tab.Screen
-                                name="Vehicles"
-                                options={{
-                                    tabBarIcon: tabBarIconGen('car'),
-                                }}
-                                component={VehiclesComponent}
-                            />
-                            <Tab.Screen
-                                name="Rapide"
-                                options={{
-                                    tabBarIcon: tabBarIconGen('phone'),
-                                }}
-                                component={ListFastDialsComponent}
-                            />
-                            <Tab.Screen
-                                name="Params"
-                                options={{
-                                    tabBarIcon: tabBarIconGen('cog'),
-                                }}
-                                component={ParamsComponent}
-                            />
-                        </Tab.Navigator>
-                    )
-                default:
-                    return (<RunnersEnrollment refreshAuth={refreshAuth} />)
-            }
+        switch (authContainer.authenticatedUser?.status) {
+            case "hired":
+            case "taken":
+            case "free":
+            case "not-present":
+                return (
+                    <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
+                        activeTintColor: ACTIVE_TAB_COLOR,
+                        inactiveTintColor: INACTIVE_TAB_COLOR,
+                    }}>
+                        <Tab.Screen
+                            name={RUNS_TAB}
+                            options={{
+                                tabBarIcon: tabBarIconGen('list'),
+                            }}
+                            component={RunsComponent}
+                        />
+                        <Tab.Screen
+                            name="Drivers"
+                            options={{
+                                tabBarIcon: tabBarIconGen('drivers-license-o'),
+                            }}
+                            component={ListUsersComponent}
+                        />
+                        <Tab.Screen
+                            name="Vehicles"
+                            options={{
+                                tabBarIcon: tabBarIconGen('car'),
+                            }}
+                            component={VehiclesComponent}
+                        />
+                        <Tab.Screen
+                            name="Rapide"
+                            options={{
+                                tabBarIcon: tabBarIconGen('phone'),
+                            }}
+                            component={ListFastDialsComponent}
+                        />
+                        <Tab.Screen
+                            name="Params"
+                            options={{
+                                tabBarIcon: tabBarIconGen('cog'),
+                            }}
+                            component={ParamsComponent}
+                        />
+                    </Tab.Navigator>
+                )
+            default:
+                return (
+                    <View style={styles.error}>
+                        <Text style={styles.error_message}>Problème!</Text>
+                        <Text style={styles.error_message}>Ton compte n'est pas encore activé</Text>
+                        <Text style={styles.discreet}>({authContainer.authenticatedUser?.status})</Text>
+                        <ButtonComponent titleStyle={styles.buttonTitle} title="Retour" onPress={onLogoutPress}/>
+                    </View>
+                )
         }
     }
     return (
         <AuthComponent />
     )
 }
+
+const styles = StyleSheet.create({
+    error: {
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        padding:30
+    },
+    error_message: {
+        fontSize: 35,
+        textAlign: "center"
+    },
+    discreet: {
+        fontSize: 12,
+        color: "#dddddd",
+        textAlign: "center"
+    },
+    buttonTitle: {
+        marginVertical: 5,
+    }
+});

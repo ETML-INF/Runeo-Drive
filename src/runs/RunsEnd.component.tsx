@@ -67,7 +67,6 @@ export function RunsEndComponent() {
                     onPress={() =>
                         stopRun(currentRun, getRealGasLevelValue())
                             .then(() => {
-                                Alert.alert("Succes", "Le run a été terminé avec succès.")
                                 navigation.goBack()
                             })
                             .catch(() => {

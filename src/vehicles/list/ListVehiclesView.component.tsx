@@ -10,8 +10,7 @@ import {Colors} from "../../common/utils/Color.utils";
 
 export interface ListVehiclesViewComponentProps {
     onItemPress: (vehicle: VehicleResource) => void,
-    hideStatusColor?: boolean,
-    filter?: (vehicle: VehicleResource) => boolean
+    hideStatusColor?: boolean
 }
 
 export function ListVehiclesViewComponent(props: ListVehiclesViewComponentProps) {
@@ -49,7 +48,6 @@ export function ListVehiclesViewComponent(props: ListVehiclesViewComponentProps)
                 sort={(vehicleA: VehicleResource, vehicleB: VehicleResource) => {
                     return vehicleA.name > vehicleB.name ? 1 : -1
                 }}
-                filter={props.filter}
                 dataContainer={VehiclesContainer}
                 renderItem={renderItem}/>
         </SafeAreaView>

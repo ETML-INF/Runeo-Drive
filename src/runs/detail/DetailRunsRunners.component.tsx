@@ -5,6 +5,7 @@ import {Alert, StyleSheet, Text, View} from "react-native";
 import {Icon, Button} from "react-native-elements";
 import {AuthContainer, NetworkContainer, RunsContainer} from "../../Provider.component";
 import {getGasLevelText} from "../../common/utils/Vehicle.utils";
+import { canSelectVehicle, canTake, canChangeVehicle } from "../../common/utils/Run.utils";
 import {useNavigation} from "@react-navigation/native";
 import {RunsSelectVehicleParams} from "../RunsSelectVehicle.component";
 import {ButtonComponent} from "../../common/component/ButtonComponent";
@@ -45,31 +46,8 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                 <View style={styles.runnerContent}>
                                     {runner.user ? (
                                         <View>
-                                            <Text style={styles.runnerTitle}>{runner.user?.name}</Text>
-                                            <Button
-                                                icon={
-                                                    <Icon
-                                                        type='font-awesome'
-                                                        name={'phone'}
-                                                        color={'white'}
-                                                    />
-                                                }
-                                                onPress={() => callPhoneNumber(runner.user?.phone_number)}
-                                            />
+                                            {runner.user.id == authenticatedUser.id ? (<Text style={styles.runnerIsMe}>Moi</Text>) : (<Text style={styles.runnerTitle}>{runner.user.name}</Text>)}
                                         </View>
-                                    ) : null}
-
-                                    {!runner.user && !isFinished && authenticatedUser.role != "manager" ? (
-                                        <ButtonComponent
-                                            title={currentRun.good_for_me ? "Je prends" : "Autre Run"}
-                                            disabled={
-                                                !currentRun.good_for_me ||
-                                                !isInternetReachable
-                                            }
-                                            onPress={() => takeRun(currentRun, runner)
-                                                .then(() => Alert.alert("Confirmation", "Vous faites maintenant partie du Run."))
-                                                .catch(() => Alert.alert("Erreur", "Erreur lors de la prise du Run."))
-                                            }/>
                                     ) : null}
 
                                     <View style={styles.vehicleView}>
@@ -90,28 +68,30 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                             </Fragment>
                                         ) : null}
 
-                                        {!runner.vehicle && !isFinished && authenticatedUser.role != "manager" ? (
+                                        { canSelectVehicle (authenticatedUser,runner, currentRun) ? (
                                             <ButtonComponent
-                                                disabled={
-                                                    authenticatedUser?.id != runner.user?.id ||
-                                                    !runner.vehicle_category ||
-                                                    !isInternetReachable
-                                                }
-                                                title="Choisir un véhicule"
+                                                title="Choisir"
+                                                disabled={ !isInternetReachable }
                                                 color="#f194ff"
                                                 onPress={() => selectVehicle(runner.id, runner.vehicle_category?.type as string)}
                                             />
                                         ) : null}
                                     </View>
 
-                                    {runner.vehicle && !isFinished && authenticatedUser.role != "manager" ? (
+                                    { canTake (authenticatedUser,runner, currentRun) ? (
+                                        <ButtonComponent
+                                            title={"Je prends"}
+                                            disabled={ !isInternetReachable }
+                                            onPress={() => takeRun(currentRun, runner)
+                                                .catch(() => Alert.alert("Erreur", "Erreur lors de la prise du Run."))
+                                            }/>
+                                    ) : null}
+
+                                    { canChangeVehicle(authenticatedUser,runner, currentRun) ? (
                                         <View>
                                             <ButtonComponent
-                                                disabled={
-                                                    authenticatedUser?.id != runner.user?.id ||
-                                                    !isInternetReachable
-                                                }
-                                                title="Changer de véhicule"
+                                                disabled={ !isInternetReachable }
+                                                title="Changer"
                                                 color="#f194ff"
                                                 onPress={() => selectVehicle(runner.id, runner.vehicle_category?.type as string)}/>
                                         </View>
@@ -140,6 +120,18 @@ const styles = StyleSheet.create({
     runnerTitle: {
         fontFamily: 'Montserrat-Regular',
         marginBottom: 5,
+        padding: 2,
+        textAlign: "center"
+    },
+
+    runnerIsMe: {
+        fontFamily: 'Montserrat-Regular',
+        fontWeight: "bold",
+        backgroundColor: "#98d898",
+        marginBottom: 5,
+        padding: 2,
+        textAlign: "center",
+        borderRadius: 8
     },
 
     vehicleView: {
