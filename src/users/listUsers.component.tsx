@@ -27,26 +27,6 @@ export function ListUsersComponent() {
                     <ListItem.Title style={styles.columnName}>
                         {`${buildUserDisplayName(item)}`}
                     </ListItem.Title>
-                    <ListItem.Subtitle style={styles.columnState} onPress={() => {
-                        if (userCurrentRun) {
-                            navigation.navigate("Runs", {
-                                screen: 'detail',
-                                params: {runId: userCurrentRun.id},
-                            })
-                        }
-                    }}>
-
-
-                            {getUserStatus(item.status)}
-                        <Text style={styles.runState}>
-                            {userCurrentRun ? (getUserStatus(item.status) == "En run" ? " pour : " + userCurrentRun?.title : "") : null}
-                        </Text>
-
-                    </ListItem.Subtitle>
-                </ListItem.Content>
-
-                <ListItem.Content style={{flexDirection: "row"}}>
-                    <StatusCircleComponent color={userStatusColor(item.status)}/>
                 </ListItem.Content>
 
                 <Button
@@ -78,7 +58,8 @@ export function ListUsersComponent() {
 const styles = StyleSheet.create({
     columnName: {
         marginTop: 3,
-        fontFamily: 'Montserrat-Medium'
+        fontFamily: 'Montserrat-Medium',
+        fontSize: 20
     },
     columnState: {
         fontFamily: 'Montserrat-Regular',
