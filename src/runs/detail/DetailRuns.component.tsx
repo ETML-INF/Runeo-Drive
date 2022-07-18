@@ -27,8 +27,6 @@ export function DetailRunsComponent() {
 
             <DetailRunsStatusControlBtn currentRun={currentRun}/>
 
-            <DetailRunsContactBtn currentRun={currentRun}/>
-
             <DetailRunsScheduleComponent currentRun={currentRun}/>
 
             <DetailRunsCourseComponent currentRun={currentRun}/>

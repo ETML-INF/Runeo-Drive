@@ -45,7 +45,7 @@ export function canChangeVehicle (user: UserResource, runner: RunnerResource, ru
 export function canTake (user: UserResource, runner: RunnerResource, run: RunResource) : boolean {
     return (runner.user == null) && 
             (run.status != RunStatus.FINISHED) &&
-            (!participates(user,run))
+            (!participates(run, user))
 }
 
 // Tells if the run is still far in the future (thus can be quit by the driver)
@@ -54,6 +54,7 @@ export function isStillFarOut(run: RunResource) {
 }
 
 // Tels if the user is one of the drivers involved in the run
-export function participates (user: UserResource, run: RunResource) {
-    return !!run.runners.find(runner => runner.user?.id === user.id);
+export function participates (run: RunResource, user?: UserResource, ) {
+    if (!user) return false
+    return !!run.runners.find(runner => runner.user?.id === user?.id);
 }

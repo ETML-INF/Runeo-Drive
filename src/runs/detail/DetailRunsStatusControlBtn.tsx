@@ -27,7 +27,7 @@ export function DetailRunsStatusControlBtn({currentRun}: StatusRunControllerBtnD
         )
     }
 
-    if (participates(authenticatedUser,currentRun) && !isStillFarOut(currentRun) && currentRun.status === RunStatus.READY) {
+    if (participates(currentRun, authenticatedUser) && !isStillFarOut(currentRun) && currentRun.status === RunStatus.READY) {
         return (
             <View>
                 <Button
@@ -39,7 +39,7 @@ export function DetailRunsStatusControlBtn({currentRun}: StatusRunControllerBtnD
         );
     }
 
-    if (participates(authenticatedUser,currentRun) && currentRun.status == RunStatus.GONE) {
+    if (participates(currentRun, authenticatedUser) && currentRun.status == RunStatus.GONE) {
         return (
             <View>
                 <Button

@@ -1,9 +1,9 @@
 import {RunResource} from "../../common/resources/Run.resource";
-import {Button, Icon} from "react-native-elements";
 import {callPhoneNumber} from "../../common/utils/Phone.utils";
 import React, {Fragment} from "react";
 import {StyleSheet} from "react-native";
 import {Colors} from "../../common/utils/Color.utils";
+import { ButtonComponent } from "../../common/component/ButtonComponent";
 
 export interface DetailRunsContactBtnComponent {
     currentRun: RunResource
@@ -11,23 +11,10 @@ export interface DetailRunsContactBtnComponent {
 
 export function DetailRunsContactBtn({currentRun}: DetailRunsContactBtnComponent) {
     const numContact = currentRun.num_contact;
-
+    console.log(numContact)
     if (numContact && numContact != "0") {
         return (
-            <Button
-                buttonStyle={styles.button}
-                icon={
-                    <Icon
-                        style={{marginRight: 15}}
-                        type='font-awesome'
-                        name={'phone'}
-                        color={'white'}
-                    />
-                }
-                onPress={() => callPhoneNumber(numContact)}
-                title={`Personne de contact${currentRun.name_contact ? ": " + currentRun.name_contact : ""}`}
-            />
-
+            <ButtonComponent titleStyle={styles.buttonTitle} title="Appeler" onPress={() => callPhoneNumber(numContact)}/>
         )
     }
 
@@ -38,9 +25,8 @@ const styles = StyleSheet.create({
     button: {
         marginRight: 10,
         marginLeft: 10,
-        marginTop: 10,
 
-        height: 50,
+        height: 30,
         backgroundColor: Colors.BLUE,
         borderRadius: 25,
 
@@ -54,4 +40,7 @@ const styles = StyleSheet.create({
 
         elevation: 5,
     },
+    buttonTitle: {
+        marginVertical: 5,
+    }
 })

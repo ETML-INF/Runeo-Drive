@@ -5,12 +5,19 @@ import {CardComponentWithIcon} from "../../common/component/Card.component";
 import {InlineTextComponent} from "../../common/component/text/InlineText.component";
 import {ImportantTextComponent} from "../../common/component/text/ImportantText.component";
 import {Colors} from "../../common/utils/Color.utils";
+import { participates } from "../../common/utils/Run.utils";
+import { AuthContainer } from "../../Provider.component";
+import { DetailRunsContactBtn } from "./DetailRunsContactBtn.component";
+
 
 export interface InfoDetailRunsComponentProps {
     currentRun: RunResource
 }
 
 export function DetailRunsInfoComponent({currentRun}: InfoDetailRunsComponentProps) {
+
+    const {authenticatedUser} = AuthContainer.useContainer()
+
     return (
         <CardComponentWithIcon title={"Informations"} icon={"info-circle"}>
             <InlineTextComponent>
@@ -26,6 +33,11 @@ export function DetailRunsInfoComponent({currentRun}: InfoDetailRunsComponentPro
                     <Text style={styles.textContact}>{currentRun.name_contact} {currentRun.num_contact}</Text>
                 </InlineTextComponent>
             ) : <Fragment/>}
+            {currentRun.name_contact && participates(currentRun, authenticatedUser)? (
+                <DetailRunsContactBtn currentRun={currentRun}/>
+            ) : <Fragment/>}
+
+
         </CardComponentWithIcon>
     )
 }
