@@ -9,6 +9,7 @@ import Toast from 'react-native-root-toast';
 import { toastType, showToast } from "../../notifications/ToastNotification";
 import { ListRunsItemComponent } from "./ListRunsItem.component";
 import { ListCommonResourceComponent } from "../../common/component/ListCommonResource.component";
+import {participates} from "../../common/utils/Run.utils"
 
 export function ListRunsComponent() {
     const navigation = useNavigation();
@@ -46,7 +47,22 @@ export function ListRunsComponent() {
             <ListCommonResourceComponent
                     dataContainer={RunsContainer}
                     renderItem={renderItem}
-                    sort={(runA,runB) => runA.begin_at > runB.begin_at}
+                    sort={(runA,runB) => {
+                        // TODO fix this: the sorting on time is wrong
+                        if (participates(runA,authenticatedUser)) {
+                            if (participates(runB,authenticatedUser)) {
+                                return runA.begin_at.diff(runB.begin_at).toMillis
+                            } else {
+                                return false // runA comes first
+                            }
+                        } else {
+                            if (participates(runB,authenticatedUser)) {
+                                return true // runB comes first
+                            } else {
+                                return runA.begin_at.diff(runB.begin_at).toMillis
+                            }
+                        }
+                    }}
                     />
         </SafeAreaView>
     )
