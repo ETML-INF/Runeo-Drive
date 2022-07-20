@@ -48,18 +48,17 @@ export function ListRunsComponent() {
                     dataContainer={RunsContainer}
                     renderItem={renderItem}
                     sort={(runA,runB) => {
-                        // TODO fix this: the sorting on time is wrong
                         if (participates(runA,authenticatedUser)) {
                             if (participates(runB,authenticatedUser)) {
-                                return runA.begin_at.diff(runB.begin_at).toMillis
+                                return (runA.begin_at.diff(runB.begin_at).toMillis() > 0)
                             } else {
-                                return false // runA comes first
+                                return -1 // runA comes first
                             }
                         } else {
                             if (participates(runB,authenticatedUser)) {
-                                return true // runB comes first
+                                return 1 // runB comes first
                             } else {
-                                return runA.begin_at.diff(runB.begin_at).toMillis
+                                return (runA.begin_at.diff(runB.begin_at).toMillis() > 0)
                             }
                         }
                     }}
