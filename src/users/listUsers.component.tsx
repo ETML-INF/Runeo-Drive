@@ -20,7 +20,6 @@ export function ListUsersComponent() {
 
     const renderItem = (item: UserResource) => {
         const userCurrentRun = startedRuns.find(run => !!run.runners.find(runner => runner.user?.id == item.id));
-        console.log(item.lastname+'http://runeo.paleo.ch/storage/profiles/'+item.picture)
 
         return (
             <ListItem bottomDivider={true}>
