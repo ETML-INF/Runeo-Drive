@@ -11,8 +11,6 @@ const runStatusIconMapping: Record<string, string> = {
     [RunStatus.FINISHED]: 'check-circle',
     [RunStatus.ERROR]: 'exclamation-circle',
     [RunStatus.READY]: 'thumbs-up',
-    [RunStatus.ALMOSTREADY]: 'ambulance',
-    [RunStatus.NEEDS_FILLING]: 'user-plus'
 }
 
 export function getRunStatusIcon(status: string) {
@@ -57,4 +55,24 @@ export function isStillFarOut(run: RunResource) {
 export function participates (run: RunResource, user?: UserResource, ) {
     if (!user) return false
     return !!run.runners.find(runner => runner.user?.id === user?.id);
+}
+
+export function statusColor(run: RunResource) {
+    switch (run.status) {
+        case 'gone':
+            return Colors.STATUS_GONE
+        break
+        case 'needs_filling':
+        case 'almostready':
+            return Colors.STATUS_NEED
+            break
+        case 'error':
+            return Colors.STATUS_PROBLEM
+        break
+        case 'ready':
+            return Colors.STATUS_READY
+        break
+        default:
+            return Colors.WHITE
+        }
 }

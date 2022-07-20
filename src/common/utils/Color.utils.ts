@@ -7,5 +7,10 @@ export const Colors = {
   DARK_BLUE: "#1D1C40",
   ORANGE: "#f24f13",
   GREEN: "#8ee8a5",
-  ME: "#60b0c0",
+  ME: "#dddddd",
+  STATUS_GONE: "#60b0c0",
+  STATUS_PROBLEM: "#ff0000",
+  STATUS_NEED: "#ffc000",
+  STATUS_READY: "#00b050",
+  HAS_CHANGED: "#ffaa00",
 };

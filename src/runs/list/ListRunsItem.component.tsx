@@ -1,4 +1,4 @@
-import {getRunStatusIcon} from "../../common/utils/Run.utils";
+import {getRunStatusIcon, statusColor} from "../../common/utils/Run.utils";
 import {ListItem} from "react-native-elements";
 import {dateWithLocalDay, TIME_FORMAT} from "../../common/utils/Date.utils";
 import React from "react";
@@ -20,8 +20,8 @@ export function ListRunsItemComponent ({onSelectRun, run} : ListRunsItemComponen
     const {authenticatedUser} = AuthContainer.useContainer();
     
     return (
-        <ListItem bottomDivider onPress={() => onSelectRun(run)} containerStyle={ lastUpdatedRun(run, authenticatedUser?.id) ? {backgroundColor: Colors.GREEN} : false}>
-            <View style={participates(run, authenticatedUser) ? styles.myrun : styles.notmyrun }>{getRunStatusIcon(run.status)}</View>
+        <ListItem bottomDivider onPress={() => onSelectRun(run)} containerStyle={ participates(run, authenticatedUser) ? (lastUpdatedRun(run, authenticatedUser?.id) ? styles.isnew : styles.ismine ) : false}>
+            <View style={{ backgroundColor: statusColor(run), padding: 15, borderRadius: 10}}>{getRunStatusIcon(run.status)}</View>
             <ListItem.Content>
                 <ListItem.Title style={{fontFamily: 'Montserrat-Medium'}}>{`${run.title.toUpperCase()}`}</ListItem.Title>
                 <ListItem.Subtitle style={{color: Colors.GREY, fontFamily: 'Montserrat-Regular'}}>
@@ -36,13 +36,25 @@ export function ListRunsItemComponent ({onSelectRun, run} : ListRunsItemComponen
 }
 
 const styles = StyleSheet.create({
-    myrun: {
+    ismine: {
         backgroundColor: Colors.ME,
-        padding: 10,
-        borderRadius: 8
     },
-    notmyrun: {
-        padding: 10,
-        borderRadius: 8
+    isnew: {
+        backgroundColor: Colors.HAS_CHANGED
+    },
+    statusgone: {
+        backgroundColor: Colors.STATUS_GONE
+    },
+    statusready: {
+        backgroundColor: Colors.STATUS_READY
+    },
+    statusneeds_filling: {
+        backgroundColor: Colors.STATUS_NEED
+    },
+    statusalmostready: {
+        backgroundColor: Colors.STATUS_NEED
+    },
+    statuserror: {
+        backgroundColor: Colors.STATUS_PROBLEM
     },
 })
