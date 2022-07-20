@@ -11,7 +11,6 @@ export interface DetailRunsContactBtnComponent {
 
 export function DetailRunsContactBtn({currentRun}: DetailRunsContactBtnComponent) {
     const numContact = currentRun.num_contact;
-    console.log(numContact)
     if (numContact && numContact != "0") {
         return (
             <ButtonComponent titleStyle={styles.buttonTitle} title="Appeler" onPress={() => callPhoneNumber(numContact)}/>

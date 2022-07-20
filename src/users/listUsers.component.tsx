@@ -1,7 +1,7 @@
 import React from "react";
 import {RunsContainer, UsersContainer} from "../Provider.component";
 import {UserResource} from "../common/resources/User.resource";
-import {Button, Icon, ListItem} from "react-native-elements";
+import {Button, Icon, ListItem, Avatar} from "react-native-elements";
 import {getUserStatus, userStatusColor} from "../common/utils/User.utils";
 import {RunStatus} from "../common/resources/Run.resource";
 import {useNavigation} from "@react-navigation/native";
@@ -20,12 +20,14 @@ export function ListUsersComponent() {
 
     const renderItem = (item: UserResource) => {
         const userCurrentRun = startedRuns.find(run => !!run.runners.find(runner => runner.user?.id == item.id));
+        console.log(item.lastname+'http://runeo.paleo.ch/storage/profiles/'+item.picture)
 
         return (
             <ListItem bottomDivider={true}>
+                <Avatar rounded size="medium" source={{ uri: 'http://runeo.paleo.ch/storage/profiles/'+item.picture}} />
                 <ListItem.Content>
                     <ListItem.Title style={styles.columnName}>
-                        {`${buildUserDisplayName(item)}`}
+                        {item.firstname} {item.lastname}
                     </ListItem.Title>
                 </ListItem.Content>
 
@@ -47,7 +49,7 @@ export function ListUsersComponent() {
         <SafeAreaView>
             <ListCommonResourceComponent
                 sort={(userA: UserResource, userB: UserResource) => {
-                    return buildUserDisplayName(userA) > buildUserDisplayName(userB) ? 1 : -1
+                    return userA.firstname > userB.firstname ? 1 : -1
                 }}
                 dataContainer={UsersContainer}
                 renderItem={renderItem}/>
