@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AuthContainer } from "./Provider.component";
 import { AuthComponent } from "./auth/Auth.component";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -28,6 +28,13 @@ export function RouterComponent() {
             color={focused ? ACTIVE_TAB_COLOR : INACTIVE_TAB_COLOR}
         />)
     };
+
+    // ugly hotfix to solve race condition on some devices
+    useEffect( () => {
+        if(!authContainer.authenticatedUser) {
+            setTimeout(refreshAuth, 1000) 
+        }
+    } )
 
     function refreshAuth() {
         authContainer.refreshAuthenticated().catch((error) => { console.error(error); });
