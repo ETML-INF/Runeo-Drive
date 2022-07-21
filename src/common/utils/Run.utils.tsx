@@ -5,18 +5,41 @@ import {Colors} from "./Color.utils";
 import { UserResource } from "../resources/User.resource";
 import { RunnerResource } from "../resources/Runner.resource";
 import { DateTime } from "luxon";
+import { View } from "react-native";
 
 const runStatusIconMapping: Record<string, string> = {
     [RunStatus.GONE]: 'shipping-fast',
     [RunStatus.FINISHED]: 'check-circle',
     [RunStatus.ERROR]: 'exclamation-circle',
     [RunStatus.READY]: 'thumbs-up',
+    [RunStatus.NEEDS_FILLING]: 'question-circle',
+    [RunStatus.ALMOSTREADY]: 'question-circle',
 }
 
 export function getRunStatusIcon(status: string) {
     let iconName = runStatusIconMapping[status] || 'question-circle';
 
-    return <Icon type='font-awesome-5' name={iconName} color={Colors.BLUE}/>
+    if (status == RunStatus.ALMOSTREADY) {
+        return (
+            <View>
+                <Icon type='font-awesome-5' size={15} name={iconName} color={Colors.BLUE}/>
+                <Icon type='font-awesome-5' size={15} name='car' color={Colors.BLUE}/>
+            </View>
+        )
+    } else if (status == RunStatus.NEEDS_FILLING) {
+        return (
+            <View>
+                <Icon type='font-awesome-5' size={15} name={iconName} color={Colors.BLUE}/>
+                <Icon type='font-awesome-5' size={15} name='user' color={Colors.BLUE}/>
+            </View>
+        )
+    } else {
+        return (
+            <View>
+                <Icon type='font-awesome-5' name={iconName} color={Colors.BLUE}/>
+            </View>
+        )
+    }
 }
 
 // Helpers for the run detailed view
