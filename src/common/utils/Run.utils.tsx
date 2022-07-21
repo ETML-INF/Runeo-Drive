@@ -5,7 +5,7 @@ import {Colors} from "./Color.utils";
 import { UserResource } from "../resources/User.resource";
 import { RunnerResource } from "../resources/Runner.resource";
 import { DateTime } from "luxon";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 const runStatusIconMapping: Record<string, string> = {
     [RunStatus.GONE]: 'shipping-fast',
@@ -21,21 +21,21 @@ export function getRunStatusIcon(status: string) {
 
     if (status == RunStatus.ALMOSTREADY) {
         return (
-            <View>
+            <View style={styles.runicon}>
                 <Icon type='font-awesome-5' size={15} name={iconName} color={Colors.BLUE}/>
                 <Icon type='font-awesome-5' size={15} name='car' color={Colors.BLUE}/>
             </View>
         )
     } else if (status == RunStatus.NEEDS_FILLING) {
         return (
-            <View>
+            <View style={styles.runicon}>
                 <Icon type='font-awesome-5' size={15} name={iconName} color={Colors.BLUE}/>
                 <Icon type='font-awesome-5' size={15} name='user' color={Colors.BLUE}/>
             </View>
         )
     } else {
         return (
-            <View>
+            <View style={styles.runicon}>
                 <Icon type='font-awesome-5' name={iconName} color={Colors.BLUE}/>
             </View>
         )
@@ -99,3 +99,9 @@ export function statusColor(run: RunResource) {
             return Colors.WHITE
         }
 }
+
+const styles = StyleSheet.create({
+    runicon: {
+        width: 30
+    },
+});
