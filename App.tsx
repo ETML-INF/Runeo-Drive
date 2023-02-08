@@ -7,7 +7,8 @@ import { RootSiblingParent } from 'react-native-root-siblings';
 import Constants from 'expo-constants';
 
 
-Axios.defaults.baseURL = "http://runeo.paleo.ch/api";
+Axios.defaults.baseURL = "http://192.168.200.200:8000/api";
+
 
 export default function App() {
   const [loaded] = useFonts({

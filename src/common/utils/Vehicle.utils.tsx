@@ -31,12 +31,9 @@ const gasLevelToColorRecord: Record<number, string> = {
     4: Colors.GREEN
 }
 
-export function gasLevelToIcon(gasLevel: number, iconSize?: number) {
+export function gasLevelToIcon(gasLevel: number, iconSize?: number, color?: string) {
     const iconName = gasLevelToIconRecord[gasLevel] || "question";
-
-    const iconColor = gasLevelToColorRecord[gasLevel] || Colors.BLUE;
-
-    return (<Icon type='font-awesome-5' name={iconName} size={iconSize} color={iconColor}/>)
+    return (<Icon type='font-awesome-5' name={iconName} size={iconSize} color={(color!=undefined)?color:Colors.BLUE}/>)
 }
 
 const statusColorRecord: Record<string, string> = {
