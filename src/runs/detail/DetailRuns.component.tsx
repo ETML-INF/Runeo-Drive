@@ -7,7 +7,8 @@ import {DetailRunsRunnersComponent} from "./DetailRunsRunners.component";
 import {DetailRunsContactBtn} from "./DetailRunsContactBtn.component";
 import {DetailRunsStatusControlBtn} from "./DetailRunsStatusControlBtn";
 import {DetailRunsAcknowledgeUpdateComponent} from "./DetailRunsAcknowledgeUpdate.component";
-import {DetailRunsCommentComponent} from "./DetailRunsComment.component"
+import {DetailRunsCommentComponent} from "./DetailRunsComment.component";
+import {DetailRunsGasWarningComponent} from "./DetailRunsGasWarning.component"
 import {useRunFromRouteParam} from "../../common/hook/Run.hook";
 import {lastUpdatedRun} from "../../common/utils/LastUpdatedRun.utils";
 import {AuthContainer} from "../../Provider.component";
@@ -24,6 +25,8 @@ export function DetailRunsComponent() {
     return (
         <ScrollView style={{backgroundColor: 'white'}}>                         
             {lastUpdatedRun(currentRun, authenticatedUser?.id) ? <DetailRunsAcknowledgeUpdateComponent currentRun={currentRun}/> : false }
+
+            <DetailRunsGasWarningComponent currentRun={currentRun}/>
 
             <DetailRunsStatusControlBtn currentRun={currentRun}/>
 

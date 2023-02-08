@@ -5,10 +5,10 @@ import {Colors} from "./Color.utils";
 const gasLevelToTextMapping: Record<string, string> = {
     "-1": "Inconnu",
     "0": "Vide",
-    "1": "25%",
-    "2": "50%",
-    "3": "75%",
-    "4": "100%",
+    "1": "Moyen",
+    "2": "Plein",
+    "3": "Plein",
+    "4": "Plein",
 }
 
 export function getGasLevelText(gasLevel: number): string {
@@ -16,17 +16,27 @@ export function getGasLevelText(gasLevel: number): string {
 }
 
 const gasLevelToIconRecord: Record<number, string> = {
-    0: "battery-empty",
-    1: "battery-quarter",
-    2: "battery-half",
-    3: "battery-three-quarters",
-    4: "battery-full"
+    0: "gas-pump",
+    1: "meh",
+    2: "smile",
+    3: "smile",
+    4: "smile"
+}
+
+const gasLevelToColorRecord: Record<number, string> = {
+    0: Colors.STATUS_PROBLEM,
+    1: Colors.STATUS_NEED,
+    2: Colors.GREEN,
+    3: Colors.GREEN,
+    4: Colors.GREEN
 }
 
 export function gasLevelToIcon(gasLevel: number, iconSize?: number) {
     const iconName = gasLevelToIconRecord[gasLevel] || "question";
 
-    return (<Icon type='font-awesome-5' name={iconName} size={iconSize} color={Colors.BLUE}/>)
+    const iconColor = gasLevelToColorRecord[gasLevel] || Colors.BLUE;
+
+    return (<Icon type='font-awesome-5' name={iconName} size={iconSize} color={iconColor}/>)
 }
 
 const statusColorRecord: Record<string, string> = {
