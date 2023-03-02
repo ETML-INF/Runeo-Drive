@@ -2,18 +2,19 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-02-02
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-02-08 08:40:28
+ *   Modified time: 2023-02-08 15:04:10
  *   Description: Ajoute un avertissement en cas de manque d'essence d'un ou de plusieurs des véhicules
  */
 
 import {RunResource} from "../../common/resources/Run.resource";
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, View, Image} from "react-native";
 import React, {Fragment} from "react";
 import {CardComponentWithIcon} from "../../common/component/Card.component";
 import {InlineTextComponent} from "../../common/component/text/InlineText.component";
 import {ImportantTextComponent} from "../../common/component/text/ImportantText.component";
 import {Colors} from "../../common/utils/Color.utils";
 import { participates } from "../../common/utils/Run.utils";
+import {JerikanIcon} from "../../common/utils/Jerikan.utils";
 import { AuthContainer } from "../../Provider.component";
 import { DetailRunsContactBtn } from "./DetailRunsContactBtn.component";
 import { List } from "immutable";
@@ -49,12 +50,9 @@ export function DetailRunsGasWarningComponent({currentRun}: GasWarningDetailRuns
         return (
             <View style={styles.card}>
                 <View style={styles.icon}>
-                    <Icon
+                    <Image
                         style={styles.icon}
-                        type='font-awesome-5'
-                        name={"exclamation-triangle"}
-                        size={60}
-                        color={Colors.STATUS_PROBLEM}
+                        source={JerikanIcon.Death_Red}
                     />
                 </View>
                 <View style={styles.left}>
@@ -83,7 +81,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderStyle: "solid",
         borderColor: "red",
-        borderWidth: 7,
+        borderWidth: 3,
         backgroundColor: Colors.WHITE,
 
         shadowColor: "#000",
@@ -103,15 +101,16 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
         fontFamily: 'Montserrat-Medium',
         fontWeight: "bold",
-        fontSize: 20,
+        fontSize: 15,
     },
     textWithIcon: {
         flexDirection: "row",
     },
     icon: {
-        marginRight: 5,
-        marginBottom: 5,
-
+        marginRight:10,
+        width:60,
+        height:60,
+        resizeMode:"contain",
     },
     left: {
         flexDirection: "column",

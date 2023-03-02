@@ -3,7 +3,7 @@ import React from "react";
 import {VehiclesContainer} from "../../Provider.component"
 import {VehicleResource} from "../../common/resources/Vehicle.resource";
 import {ListItem} from "react-native-elements";
-import {gasLevelToIcon, getGasLevelText, statusColor} from "../../common/utils/Vehicle.utils"
+import {gasLevelToColorRecord, gasLevelToIcon, getGasLevelText, statusColor} from "../../common/utils/Vehicle.utils"
 import {ListCommonResourceComponent} from "../../common/component/ListCommonResource.component";
 import {StatusCircleComponent} from "../../common/component/StatusCircle.component";
 import {Colors} from "../../common/utils/Color.utils";
@@ -17,28 +17,31 @@ export function ListVehiclesViewComponent(props: ListVehiclesViewComponentProps)
     const renderItem = (item: VehicleResource) => (
         <ListItem
             bottomDivider
+            style={styles.listElement}
             onPress={() => props.onItemPress(item)}
         >
-            <ListItem.Content>
-                <ListItem.Title>
-                    <Text style={styles.nameText}>{item.name}</Text>
-                </ListItem.Title>
-            </ListItem.Content>
-
-            <ListItem.Content style={{flexDirection: "row"}}>
-                <View>
-                    {gasLevelToIcon(item.gas_level)}
-                    <Text style={{color: Colors.BLUE}}>{getGasLevelText(item.gas_level)}</Text>
-                </View>
-            </ListItem.Content>
-
-            {!props.hideStatusColor ? (
-                <ListItem.Content style={{flexDirection: "row"}}>
-                    <StatusCircleComponent color={statusColor(item.status)}/>
+            <View style={styles.bigContainer}>
+                <ListItem.Content>
+                    <ListItem.Title>
+                        <Text style={styles.nameText}>{item.name}</Text>
+                    </ListItem.Title>
                 </ListItem.Content>
-            ) : null}
 
-            <ListItem.Chevron/>
+                {!props.hideStatusColor ? (
+                    <ListItem.Content style={{}}>
+                        <StatusCircleComponent color={statusColor(item.status)}/>
+                    </ListItem.Content>
+                ) : null}
+
+                <ListItem.Content style={styles.iconContainerContainer}>
+                    <View style={styles.iconContainer}>
+                        {gasLevelToIcon(item.gas_level, styles.icon)}
+                        <Text style={[styles.iconText, {color: gasLevelToColorRecord[item.gas_level]}]}>
+                            {getGasLevelText(item.gas_level)}
+                        </Text>
+                    </View>        
+                </ListItem.Content>
+            </View>
         </ListItem>
     )
 
@@ -57,5 +60,38 @@ export function ListVehiclesViewComponent(props: ListVehiclesViewComponentProps)
 const styles = StyleSheet.create({
     nameText: {
         fontFamily: 'Montserrat-Medium',
+    },
+    listElement: {
+        padding: 0,
+        resizeMode:"contain",
+    },
+    bigContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: '100%',
+        height: 40
+    },
+    iconContainerContainer:{
+        
+    },
+    iconContainer: {
+        flexDirection: "row",
+        justifyContent: 'flex-end',
+        alignItems: "center",
+        padding: 5,
+        height: 72,
+        width: '100%',
+    },
+    icon: {
+        resizeMode:"contain",
+        height: 40,
+        width: 40
+    },
+    iconText: {
+        color: Colors.STATUS_READY,
+        width: 70,
+        fontSize: 15,
+        textAlign: "center",
+        textAlignVertical: "center",
     }
 })

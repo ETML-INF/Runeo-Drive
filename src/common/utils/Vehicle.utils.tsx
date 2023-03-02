@@ -1,40 +1,60 @@
 import {Icon} from "react-native-elements";
+import {Image, StyleProp} from "react-native";
 import React from "react"
 import {Colors} from "./Color.utils";
+import {JerikanIcon} from "./Jerikan.utils";
 
 const gasLevelToTextMapping: Record<string, string> = {
     "-1": "Inconnu",
     "0": "Vide",
-    "1": "Moyen",
-    "2": "Plein",
-    "3": "Plein",
-    "4": "Plein",
+    "1": "OK",
+    "2": "OK",
+    "3": "OK",
+    "4": "OK",
 }
 
 export function getGasLevelText(gasLevel: number): string {
     return gasLevelToTextMapping[String(gasLevel)] || ""
 }
 
-const gasLevelToIconRecord: Record<number, string> = {
-    0: "gas-pump",
-    1: "meh",
-    2: "smile",
-    3: "smile",
-    4: "smile"
+/**
+     * renvoie l'icon de jerickan corespondant id
+     * @param id id 
+     * @returns img avec l'icon de jerican
+     */
+export function gasLevelToIcon(gasLevel:number, iconStyle?:object){
+    let img;
+    //let size= iconSize ? iconSize : 30;
+    let superStyle = iconStyle ? iconStyle : {resizeMode:"contain", height: 30}
+    switch(gasLevel){
+        case -1:
+            img=JerikanIcon.Death_Red;
+            break;
+        case 0:
+            img=JerikanIcon.Death_Red;
+            break;
+        case 1 : 
+            img=JerikanIcon.Happy_Green;
+            break;
+        case 2 : 
+            img=JerikanIcon.Happy_Green;
+            break;
+        default:
+            img=JerikanIcon.Happy_Green;
+            break;
+    }
+    return <Image source={img} style={superStyle}/>
 }
 
-const gasLevelToColorRecord: Record<number, string> = {
+export const gasLevelToColorRecord: Record<number, string> = {
     0: Colors.STATUS_PROBLEM,
-    1: Colors.STATUS_NEED,
-    2: Colors.GREEN,
-    3: Colors.GREEN,
-    4: Colors.GREEN
+    1: Colors.STATUS_READY,
+    2: Colors.STATUS_READY,
+    3: Colors.STATUS_READY,
+    4: Colors.STATUS_READY
 }
 
-export function gasLevelToIcon(gasLevel: number, iconSize?: number, color?: string) {
-    const iconName = gasLevelToIconRecord[gasLevel] || "question";
-    return (<Icon type='font-awesome-5' name={iconName} size={iconSize} color={(color!=undefined)?color:Colors.BLUE}/>)
-}
+
 
 const statusColorRecord: Record<string, string> = {
     "taken": "#ff66ff",

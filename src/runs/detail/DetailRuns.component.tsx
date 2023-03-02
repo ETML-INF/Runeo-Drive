@@ -26,9 +26,11 @@ export function DetailRunsComponent() {
         <ScrollView style={{backgroundColor: 'white'}}>                         
             {lastUpdatedRun(currentRun, authenticatedUser?.id) ? <DetailRunsAcknowledgeUpdateComponent currentRun={currentRun}/> : false }
 
-            <DetailRunsGasWarningComponent currentRun={currentRun}/>
+            
 
             <DetailRunsStatusControlBtn currentRun={currentRun}/>
+
+            <DetailRunsGasWarningComponent currentRun={currentRun}/>
 
             <DetailRunsScheduleComponent currentRun={currentRun}/>
 

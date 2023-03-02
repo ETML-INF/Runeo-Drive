@@ -1,5 +1,5 @@
 import {RunResource, RunStatus} from "../../common/resources/Run.resource";
-import React, {Fragment} from "react";
+import React, {Fragment, useState} from "react";
 import {CardComponentWithIcon, CardContainerComponent} from "../../common/component/Card.component";
 import {Alert, StyleSheet, Text, View} from "react-native";
 import {Icon, Button} from "react-native-elements";
@@ -26,7 +26,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
 
     const selectVehicle = (runnerId: number, type: string) => {
         const params: RunsSelectVehicleParams = {runnerId, type}
-        navigation.navigate("select_vehicle", params)
+        navigation.navigate("select_vehicle", params);
     }
 
     return (

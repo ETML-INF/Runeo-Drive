@@ -7,9 +7,11 @@
 
 export const JerikanIcon = {
     Happy_White: require("../../../assets/jerikanIcon/Happy_White.png"),
+    Happy_Green: require("../../../assets/jerikanIcon/Happy_Green.png"),
     Happy_Black: require("../../../assets/jerikanIcon/Happy_Black.png"),
     Death_White: require("../../../assets/jerikanIcon/Death_White.png"),
     Death_Black: require("../../../assets/jerikanIcon/Death_Black.png"),
+    Death_Red: require("../../../assets/jerikanIcon/Death_Red.png"),
     Idk_White: require("../../../assets/jerikanIcon/Idk_White.png"),
     Idk_Black: require("../../../assets/jerikanIcon/Idk_Black.png")
   };
