@@ -32,7 +32,8 @@ export interface RunResource extends CommonResource {
     num_contact: string,
     good_for_me: boolean,
     waypoints: List<Waypoint>,
-    runners: List<RunnerResource>
+    runners: List<RunnerResource>,
+    artist_id: number
 }
 
 export interface Waypoint {

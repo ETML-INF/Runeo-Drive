@@ -15,6 +15,7 @@ export interface RunsContainer extends DataContainerInterface<RunResource> {
   takeRun: (run: RunResource, runner: RunnerResource) => Promise<void>;
   acknowledgeRun: (run: RunResource) => Promise<void>;
   getLogs: (runId: number) => Promise<LogResource[]>;
+  getRunsFromSameArtist: (run: RunResource) => Promise<RunResource[]>
   postLog: (run: number, message: string) => Promise<LogResource>;
 }
 
@@ -26,6 +27,10 @@ export function useRunsContainer(): RunsContainer {
       .then((fetchedRuns) => cacheHelper.insertItems(List(fetchedRuns)))
       .catch((error) => error.text);
   };
+
+  const getRunsFromSameArtist = (run: RunResource) : Promise<RunResource[]> => {
+    return getRunsFromSameArtistApi(run)
+  }
 
   const updateVehicle = (runnerId: number, carId: number): Promise<void> =>
     updateRunnerCarApi(runnerId, carId)
@@ -60,6 +65,7 @@ export function useRunsContainer(): RunsContainer {
     items: cacheHelper.items,
     readFromCache: cacheHelper.readFromCache,
     refresh,
+    getRunsFromSameArtist,
     updateVehicle,
     startRun,
     stopRun,
@@ -116,6 +122,12 @@ function getRunsFromApi(onlyFromTime?: DateTime): Promise<RunResource[]> {
   }
 
   return Axios.get("/runs", { params })
+    .then((res) => res.data.map(parseRunResource))
+    .catch((error) => error.text);
+}
+
+function getRunsFromSameArtistApi(run: RunResource): Promise<RunResource[]> {
+  return Axios.patch(`/runs/artist/${run.artist_id}`)
     .then((res) => res.data.map(parseRunResource))
     .catch((error) => error.text);
 }

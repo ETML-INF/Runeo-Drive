@@ -7,6 +7,7 @@ import {DetailRunsRunnersComponent} from "./DetailRunsRunners.component";
 import {DetailRunsContactBtn} from "./DetailRunsContactBtn.component";
 import {DetailRunsStatusControlBtn} from "./DetailRunsStatusControlBtn";
 import {DetailRunsAcknowledgeUpdateComponent} from "./DetailRunsAcknowledgeUpdate.component";
+import { DetailRunsOtherFromArtistComponent } from "./DetailRunsOtherFromArtist.component";
 import {DetailRunsCommentComponent} from "./DetailRunsComment.component";
 import {DetailRunsGasWarningComponent} from "./DetailRunsGasWarning.component"
 import {useRunFromRouteParam} from "../../common/hook/Run.hook";
@@ -39,6 +40,8 @@ export function DetailRunsComponent() {
             <DetailRunsInfoComponent currentRun={currentRun}/>
 
             <DetailRunsRunnersComponent currentRun={currentRun}/>
+
+            <DetailRunsOtherFromArtistComponent currentRun={currentRun}/>
 
             <DetailRunsCommentComponent currentRun={currentRun}/>
 

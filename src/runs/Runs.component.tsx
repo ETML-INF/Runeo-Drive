@@ -1,4 +1,5 @@
 import {ListRunsComponent} from "./list/ListRuns.component";
+import { ListRunsFromArtistComponent } from "./list/ListRunsFromArtist.component";
 import React from "react";
 import {createStackNavigator} from "@react-navigation/stack";
 import {RouteProp} from "@react-navigation/native";
@@ -38,6 +39,14 @@ export function RunsComponent() {
             <Stack.Screen name={"select_vehicle"}
                           component={RunsSelectVehicleComponent}
                           options={{title: "Choisissez un véhicule", headerBackTitle: "Annuler"}}/>
+            <Stack.Screen name={"listFromArtist"}
+                          component={ListRunsFromArtistComponent}
+                          options={(route) => {
+                            return {
+                                ...generateStackOptionWithRunTitle(route),
+                                headerBackTitle: "Retour"
+                            }
+                        }}/>            
             <Stack.Screen name={"end_run"}
                           component={RunsEndComponent}
                           options={(route) => {
