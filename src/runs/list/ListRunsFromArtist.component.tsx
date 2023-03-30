@@ -24,7 +24,7 @@ export function ListRunsFromArtistComponent() {
     const [items, setItems] = useState<RunResource[]>([]);
     const {isInternetReachable} = NetworkContainer.useContainer();
 
-    const gotoRun = (run: RunResource) => navigation.navigate("detail", {runId: run.id})
+    const gotoRun = (run: RunResource) => navigation.navigate("detail", {run: run})
 
     const renderItem = ({item}: { item: RunResource }) => {
         return <ListRunsItemComponent onSelectRun={gotoRun} run={item}/>

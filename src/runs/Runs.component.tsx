@@ -8,11 +8,13 @@ import {RunsContainer} from "../Provider.component";
 import {RunsSelectVehicleComponent} from "./RunsSelectVehicle.component";
 import {RunsEndComponent} from "./RunsEnd.component";
 import { CommentRunsComponent } from "./detail/comment/CommentRuns.component";
+import { RunResource } from "../common/resources/Run.resource";
 
 const Stack = createStackNavigator();
 
 export interface RunDetailParams {
-    runId: number
+    runId: number, 
+    run: RunResource | null 
 }
 
 export function RunsComponent() {

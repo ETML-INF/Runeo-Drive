@@ -7,7 +7,14 @@ export function useRunFromRouteParam(): RunResource | null {
     const runsContainer = RunsContainer.useContainer();
 
     const route = useRoute();
-    const {runId} = route.params as RunDetailParams;
+    const params = route.params as RunDetailParams;
 
-    return runsContainer.items.find(run => run.id === runId) || null;
+    if(params.run == null)
+    {
+        return runsContainer.items.find(run => run.id === params.runId) || null;
+    }
+    else
+    {
+        return params.run;
+    } 
 }
