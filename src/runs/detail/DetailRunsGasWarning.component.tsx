@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-02-02
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-02-08 15:04:10
+ *   Modified time: 2023-03-31 08:39:55
  *   Description: Ajoute un avertissement en cas de manque d'essence d'un ou de plusieurs des véhicules
  */
 
@@ -60,9 +60,6 @@ export function DetailRunsGasWarningComponent({currentRun}: GasWarningDetailRuns
                     {emptyVehicles}
                 </View>
             </View>);
-            /*<CardComponentWithIcon title={"Attention à l'essence"} icon={"exclamation-triangle"} color={Colors.STATUS_PROBLEM}>
-                {emptyVehicles}
-        </CardComponentWithIcon>*/
     }
     else
     {

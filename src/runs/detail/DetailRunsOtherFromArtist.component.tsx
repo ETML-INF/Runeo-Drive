@@ -1,7 +1,16 @@
+/**
+ *   Author: Clément Sartoni
+ *   Create Time: 2023-03-29
+ *   Modified by: Clément Sartoni
+ *   Modified time: 2023-03-31 09:26:28
+ *   Description: The button leading to the list of runs from the same artist. Has the particularity of not showing up 
+ *   when the run page is called again to see the details of the other runs. 
+ */
+
 import {RunResource} from "../../common/resources/Run.resource";
 import {Alert, StyleSheet, Text, View} from "react-native";
 import React, {Fragment, useEffect} from "react";
-import {CardComponent, CardComponentWithIcon} from "../../common/component/Card.component";
+import {CardComponent, CardComponentWithIcon, CardContainerComponent} from "../../common/component/Card.component";
 import {ButtonComponent} from "../../common/component/ButtonComponent";
 import {useNavigation} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -17,14 +26,21 @@ export function DetailRunsOtherFromArtistComponent({currentRun}: InfoDetailRunsC
     const onChangePress = async () => {
         navigation.navigate("listFromArtist", {runId: currentRun.id});
     }
+
+    //if the page is called after the runs from other artist page the index is tree 
+    if(navigation.getState().index == 3)
+    {
+        return null
+    }
+
     return (
-        <CardComponent>
+        <CardContainerComponent>
             <View style={styles.buttonContainer}>
                 <View style={styles.buttonWrapper}>
                     <ButtonComponent titleStyle={styles.buttonTitle} title="Autres runs de l'artiste" onPress={onChangePress}/>
                 </View>
             </View>
-        </CardComponent>
+        </CardContainerComponent>
     )
 }
 
