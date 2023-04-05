@@ -1,8 +1,7 @@
 /**
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-03-24 15:28:12
- *   Description: J'ai déplacé la possibilité de choisir l'URL du backend par défaut dans
- *   le fichier ./src/auth/TokenAuth.component.tsx, tout en ajoutant la possibilité de renseigner plusieurs festivals
+ *   Modified time: 2023-04-05 13:59:44
+ *   Description: Transformé la manière de gérer l'URL en ajoutant la possibilité de renseigner plusieurs festivals
  *   parmis lesquels l'utilisateur peut choisir. (il peut aussi renseigner un URL manuellement).
  */
 
@@ -15,8 +14,14 @@ import { useFonts } from 'expo-font';
 import { RootSiblingParent } from 'react-native-root-siblings';
 import Constants from 'expo-constants';
 
-// Le paramétrage concernant les URLs par défaut utilisés par l'application a été déplacé dans le fichier suivant :
-// './src/auth/TokenAuth.component.tsx'
+// Le paramétrage concernant les URLs par défaut utilisés par l'application a été transformé sous la forme suivante pour
+// pouvoir accepter plusieurs festivals ou pouvoir rentrer une IP personnalisée pour le débug (Autre). 
+// Laisser la valeur de l'option "Autre" vide pour que le champ "url" aparaisse. 
+export const urlConfigData = [
+  { label: 'Paléo', value: 'http://runeo.paleo.ch/api' },
+  { label: 'Belfort', value: 'http://belfort.festival.temp/api' },
+  { label: 'Autre', value: '' }
+];
 
 export default function App() {
   const [loaded] = useFonts({

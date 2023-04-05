@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-03-29
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-03-31 09:26:28
+ *   Modified time: 2023-04-05 07:06:43
  *   Description: The button leading to the list of runs from the same artist. Has the particularity of not showing up 
  *   when the run page is called again to see the details of the other runs. 
  */
@@ -28,7 +28,7 @@ export function DetailRunsOtherFromArtistComponent({currentRun}: InfoDetailRunsC
     }
 
     //if the page is called after the runs from other artist page the index is tree 
-    if(navigation.getState().index == 3)
+    if(navigation.getState().index >= 3)
     {
         return null
     }

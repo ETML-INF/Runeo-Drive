@@ -7,10 +7,12 @@ import {gasLevelToColorRecord, gasLevelToIcon, getGasLevelText, statusColor} fro
 import {ListCommonResourceComponent} from "../../common/component/ListCommonResource.component";
 import {StatusCircleComponent} from "../../common/component/StatusCircle.component";
 import {Colors} from "../../common/utils/Color.utils";
+import { CommonResource } from "../../common/resources/Common.resource";
 
 export interface ListVehiclesViewComponentProps {
     onItemPress: (vehicle: VehicleResource) => void,
-    hideStatusColor?: boolean
+    hideStatusColor?: boolean,
+    filter?: (item: VehicleResource) => boolean
 }
 
 export function ListVehiclesViewComponent(props: ListVehiclesViewComponentProps) {
@@ -48,6 +50,7 @@ export function ListVehiclesViewComponent(props: ListVehiclesViewComponentProps)
     return (
         <SafeAreaView>
             <ListCommonResourceComponent
+                filter={props.filter}
                 sort={(vehicleA: VehicleResource, vehicleB: VehicleResource) => {
                     return vehicleA.name > vehicleB.name ? 1 : -1
                 }}

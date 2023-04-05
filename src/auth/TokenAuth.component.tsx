@@ -1,6 +1,6 @@
 /**
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-03-24 15:22:55
+ *   Modified time: 2023-04-05 13:47:18
  *   Description: Added a dropdown that allows to switch festival or enter a custom URL. 
  *   The dropdown only decide if the text field is visible or not and fills it with data, so the formik form only uses the text field.
  */
@@ -13,14 +13,12 @@ import {TextInputComponent} from "../common/component/TextInput.component";
 import {AuthContainer} from "../Provider.component";
 import {ButtonComponent} from "../common/component/ButtonComponent";
 import Dropdown from "..//common//component//Dropdown";
+import { urlConfigData } from "../../App";
 
 export const TokenAuthComponent = () => {
     //#region dropdown config
-    const data = [
-      { label: 'Paléo', value: 'http://runeo.paleo.ch/api' },
-      { label: 'Belfort', value: 'http://belfort.festival.temp/api' },
-      { label: 'Autre', value: '' }
-    ];
+    const data = urlConfigData;
+    
     const [selected, setSelected] = useState(data[0]);
 
     const [urlVisible, setUrlVisible] = useState(false);

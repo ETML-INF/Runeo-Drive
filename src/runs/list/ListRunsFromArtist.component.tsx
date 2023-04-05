@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-03-29
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-03-31 09:35:36
+ *   Modified time: 2023-04-03 20:05:11
  *   Description: This component was inspired by the ListRuns component with the big change that this one does not use the container system to display 
  *   its runs. It just load them once from the API and then no reload is possible without quitting the page and coming back. This makes more sense
  *   for this page since the use it to access data once and not that frequently.
