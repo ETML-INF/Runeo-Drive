@@ -43,7 +43,7 @@ export function InfoComponent(props: InfoComponentProps) {
                     <Text>Zaïd</Text>
                 </InlineTextComponent>
             </View>
-            <Text style={styles.version}>Version actuelle 1.3.2</Text>
+            <Text style={styles.version}>Version actuelle 2023.1</Text>
         </View>
     )
 }
