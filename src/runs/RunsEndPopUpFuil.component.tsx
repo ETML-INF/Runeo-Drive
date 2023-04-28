@@ -52,7 +52,7 @@ export function RunsEndPopUpComponent(props : RunsEndPopUpProps) {
             return;
         
         }
-        let newGasLevel=(val==-1)?currentRunner.vehicle.gas_level:val-1;
+        let newGasLevel=(val==-1)?-1:val-1;
         stopRun(currentRun, newGasLevel)
         .then(() => {
             props.onPopUpClose();

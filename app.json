@@ -1,35 +1,42 @@
 {
-    "expo": {
-        "name": "Runeo-Drive",
-        "slug": "runeo-drive",
-        "version": "1.3.2",
-        "orientation": "portrait",
-        "icon": "./assets/icon.png",
-        "owner": "etml.inf.dev",
-        "splash": {
-            "image": "./assets/splash.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
-        },
-        "updates": {
-            "fallbackToCacheTimeout": 0
-        },
-        "assetBundlePatterns": ["**/*"],
-        "ios": {
-            "supportsTablet": true,
-            "bundleIdentifier": "runeo.mycpnv.runeodrive2022",
-            "buildNumber": "1.3.2"
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/icon.png",
-                "backgroundColor": "#FFFFFF"
-            },
-            "package": "runeo.mycpnv.runeodrive2022",
-            "versionCode": 132
-        },
-        "web": {
-            "favicon": "./assets/favicon.png"
-        }
+  "expo": {
+    "name": "Runeo-Drive",
+    "slug": "runeo-drive",
+    "version": "1.4.1",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "owner": "etml.inf.dev",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "runeo.mycpnv.runeodrive2022",
+      "buildNumber": "1.4.1"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "runeo.mycpnv.runeodrive2022",
+      "versionCode": 141
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0c84914b-359f-45cf-8ef8-6ef36e3bb048"
+      }
     }
+  }
 }

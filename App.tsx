@@ -1,6 +1,6 @@
 /**
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-04-05 13:59:44
+ *   Modified time: 2023-04-27 13:59:21
  *   Description: Transformé la manière de gérer l'URL en ajoutant la possibilité de renseigner plusieurs festivals
  *   parmis lesquels l'utilisateur peut choisir. (il peut aussi renseigner un URL manuellement).
  */
@@ -47,6 +47,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: (Platform.OS === 'ios') ? 0 : Constants.statusBarHeight,
+    marginTop: 0
+    //marginTop: (Platform.OS === 'ios') ? 0 : Constants.statusBarHeight,
   },
 });

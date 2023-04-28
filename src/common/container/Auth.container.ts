@@ -61,7 +61,7 @@ export function useAuthContainer(
         } catch (e) {
           console.log(e);
           await logout();
-          throw new Error(e.message);
+          throw new Error(e.message, {cause: 1});
         }
       }
     };

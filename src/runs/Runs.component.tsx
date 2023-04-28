@@ -1,8 +1,6 @@
 /**
- * @ Author: Some student of the CPNV
- * @ Create Time: The past
- * @ Modified by: Clément Sartoni
- * @ Modified time: 2023-03-30 
+ *   Modified by: Clément Sartoni
+ *   Modified time: 2023-04-27 13:33:19
  * @ Description: modified a bit this system to implement the "get runs from same artists" functionnality. 
  *   Had to add a route and modify the "RunDetailsParams" to add the possibility to pass a run directly.
  */

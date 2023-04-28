@@ -2,10 +2,10 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-03-29
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-04-03 20:05:11
+ *   Modified time: 2023-04-28 11:27:18
  *   Description: This component was inspired by the ListRuns component with the big change that this one does not use the container system to display 
  *   its runs. It just load them once from the API and then no reload is possible without quitting the page and coming back. This makes more sense
- *   for this page since the use it to access data once and not that frequently.
+ *   for this page since the users use it to access data once and not that frequently.
  */
 
 
@@ -13,8 +13,7 @@ import React, {useEffect, useState, Fragment} from "react";
 import {RunResource} from "../../common/resources/Run.resource";
 import {useNavigation} from "@react-navigation/native";
 import {SafeAreaView, StyleSheet, FlatList, Text} from "react-native";
-import {AuthContainer, NetworkContainer, RunsContainer} from "../../Provider.component";
-import {Map} from "immutable";
+import {NetworkContainer, RunsContainer} from "../../Provider.component";
 import { ListRunsItemComponent } from "./ListRunsItem.component";
 import {useRunFromRouteParam} from "../../common/hook/Run.hook";
 
@@ -52,6 +51,7 @@ export function ListRunsFromArtistComponent() {
 
 
     useEffect(() => {
+        //TODO: Add a .catch with timeout to manage connexion errors. 
         runContainer.getRunsFromSameArtist(currentRun).then((data) => {
             if (items.length == 0){
                 data = data.sort((runA,runB) => {return (runA.begin_at.diff(runB.begin_at).toMillis() > 0) ? 1 : -1});

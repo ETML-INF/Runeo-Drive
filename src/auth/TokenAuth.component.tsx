@@ -12,7 +12,7 @@ import {Text, View, Modal} from "react-native";
 import {TextInputComponent} from "../common/component/TextInput.component";
 import {AuthContainer} from "../Provider.component";
 import {ButtonComponent} from "../common/component/ButtonComponent";
-import Dropdown from "..//common//component//Dropdown";
+import Dropdown from "../common/component/Dropdown";
 import { urlConfigData } from "../../App";
 
 export const TokenAuthComponent = () => {

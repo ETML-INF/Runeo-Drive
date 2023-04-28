@@ -19,6 +19,10 @@
     "production": {}
   },
   "submit": {
-    "production": {}
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "G:/Runeo-Desk/MobileAppPublicationServiceAccountKey.json"
+      }
+    }
   }
 }

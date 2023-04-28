@@ -1,7 +1,7 @@
 /**
  *   Author: eristoddle
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-03-23 16:28:40
+ *   Modified time: 2023-04-27 13:38:32
  *   Description: Composant récupéré depuis le lien https://blog.logrocket.com/creating-custom-react-native-dropdown/
  *   pour éviter de perdre du temps.
  *   Il a tout de même dû être modifié pour être correctement adapté au besoin de la page de login. 
