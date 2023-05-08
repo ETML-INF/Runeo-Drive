@@ -1,4 +1,4 @@
-import {ScrollView} from "react-native";
+import {ScrollView, Text} from "react-native";
 import React, {Fragment} from "react";
 import {DetailRunsScheduleComponent} from "./DetailRunsSchedule.component";
 import {DetailRunsCourseComponent} from "./DetailRunsCourse.component";
@@ -26,8 +26,6 @@ export function DetailRunsComponent() {
     return (
         <ScrollView style={{backgroundColor: 'white'}}>                         
             {lastUpdatedRun(currentRun, authenticatedUser?.id) ? <DetailRunsAcknowledgeUpdateComponent currentRun={currentRun}/> : false }
-
-            
 
             <DetailRunsStatusControlBtn currentRun={currentRun}/>
 

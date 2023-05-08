@@ -123,7 +123,7 @@ function getRunsFromApi(onlyFromTime?: DateTime): Promise<RunResource[]> {
 function getRunsFromSameArtistApi(run: RunResource): Promise<RunResource[]> {
   return Axios.get(`/runs/artist/${run.artist_id}`)
     .then((res) => res.data.map(parseRunResource))
-    .catch((error) => error.text);
+    .catch((error) => error);
 }
 
 function acknowledgeRunApi(run: RunResource): Promise<RunResource> {

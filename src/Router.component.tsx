@@ -6,7 +6,7 @@ import { ListUsersComponent } from "./users/listUsers.component";
 import { Icon } from "react-native-elements";
 import { RunsComponent } from "./runs/Runs.component";
 import { VehiclesComponent } from "./vehicles/Vehicles.components";
-import { ParamsComponent } from "./params/Params.component";
+import { ScheduleNavigatorComponent } from "./schedule/ScheduleNavigator.component";
 import { Colors } from "./common/utils/Color.utils";
 import { ListFastDialsComponent } from "./fastDials/FastDials.component";
 import { Text, View, StyleSheet } from "react-native";
@@ -84,11 +84,11 @@ export function RouterComponent() {
                             component={ListFastDialsComponent}
                         />
                         <Tab.Screen
-                            name="Params"
+                            name="Horaire"
                             options={{
-                                tabBarIcon: tabBarIconGen('cog'),
+                                tabBarIcon: tabBarIconGen('calendar'),
                             }}
-                            component={ParamsComponent}
+                            component={ScheduleNavigatorComponent}
                         />
                     </Tab.Navigator>
                 )

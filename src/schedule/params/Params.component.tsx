@@ -1,8 +1,8 @@
 import {Alert, SafeAreaView, StyleSheet, View} from "react-native";
 import React from "react";
-import {AuthContainer} from "../Provider.component"
-import {ButtonComponent} from "../common/component/ButtonComponent";
-import { InfoComponent } from "../common/component/InfoComponent";
+import {AuthContainer} from "../../Provider.component"
+import {ButtonComponent} from "../../common/component/ButtonComponent";
+import { InfoComponent } from "../../common/component/InfoComponent";
 
 export function ParamsComponent() {
     const authContainer = AuthContainer.useContainer();
