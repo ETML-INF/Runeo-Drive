@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-08 16:23:57
+ *   Modified time: 2023-05-10 15:44:19
  *   Description: Main page of the schedules fonctionnality
  */
 import {SafeAreaView, StyleSheet, View, Text} from "react-native";
@@ -33,14 +33,22 @@ export function SchedulePageComponent() {
     const [errorMessage, setErrorMessage] = useState(null);
 
     useEffect(() => {
+        load();
+    })
+
+    const load = async () => {
         try {
-            schedulesContainer.refresh();
-            userRunsContainer.refresh();
+            Promise.all([
+            schedulesContainer.refresh(),
+            userRunsContainer.refresh()
+            ]).then(()=>{
+                setIsLoading(false);
+            })
         }
         catch(e){
             setErrorMessage(e.message);
         }
-    })
+    }
 
     return (
         <SafeAreaView style={styles.body}>
@@ -51,8 +59,14 @@ export function SchedulePageComponent() {
                 </View>
                 <Avatar rounded size="medium" source={{ uri: currentUser?.image_profile}} />
             </View>
-            <ScheduleComponent setCurrentDay={setDay} startDate={new Date(2023, 4, 6)} endDate={new Date(2023, 4, 10)}></ScheduleComponent>
-            <Text>{day.toString()}</Text>
+            <ScheduleComponent 
+                setCurrentDay={setDay} 
+                startDate={new Date(2023, 4, 8)} 
+                endDate={new Date(2023, 4, 12)}
+                schedules={schedulesContainer.items}
+                runs={userRunsContainer.items}
+                loading={isLoading}
+            ></ScheduleComponent>
         </SafeAreaView>
     )
 }
@@ -62,6 +76,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         display: "flex",
         height: "100%",
+        
     },
     header: {
         height: "8%",
