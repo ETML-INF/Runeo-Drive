@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-10 15:44:19
+ *   Modified time: 2023-05-11 13:42:02
  *   Description: Main page of the schedules fonctionnality
  */
 import {SafeAreaView, StyleSheet, View, Text} from "react-native";
@@ -61,8 +61,8 @@ export function SchedulePageComponent() {
             </View>
             <ScheduleComponent 
                 setCurrentDay={setDay} 
-                startDate={new Date(2023, 4, 8)} 
-                endDate={new Date(2023, 4, 12)}
+                startDate={new Date(2023, 1, 20)} 
+                endDate={new Date(2023, 1, 24)}
                 schedules={schedulesContainer.items}
                 runs={userRunsContainer.items}
                 loading={isLoading}

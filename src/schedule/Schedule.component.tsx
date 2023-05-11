@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-10 15:45:16
+ *   Modified time: 2023-05-11 14:45:39
  *   Description: Specific component dedicated to display the schedule. Uses a scale property that is then used to display hour
  *      (ScheduleHour) and to convert Moments Objects (equivalent to Date) to scroll.
  */
@@ -17,6 +17,7 @@ import { ScheduleScheduleComponent } from "./ScheduleSchedule.component";
 import { ScheduleResource } from "../common/resources/Schedule.resourse";
 import { RunResource } from "../common/resources/Run.resource";
 import { List } from "immutable";
+import { ScheduleRunComponent } from "./ScheduleRun.component";
 
 export interface ScheduleComponentProps {
     startDate : Date,
@@ -99,16 +100,22 @@ export class ScheduleComponent extends React.Component {
     
     render(){
         let _schedules;
-        /* if(this.props.schedules.count() > 0)
-        { */
-            _schedules = this.props.schedules.toArray().map(schedule =>
-                <ScheduleScheduleComponent
-                    key={schedule.id}
-                    y={this.parseDateToScroll(moment(schedule.start_time))}
-                    height={moment(schedule.end_time).diff(moment(schedule.start_time), "hours") * 2 * this.scale}
-                    text={"Groupe A"}
-                ></ScheduleScheduleComponent>);
-        /* } */
+        let _runs;
+        _schedules = this.props.schedules.toArray().map(schedule =>
+            <ScheduleScheduleComponent
+                key={schedule.id}
+                y={this.parseDateToScroll(moment(schedule.start_time))}
+                height={moment(schedule.end_time).diff(moment(schedule.start_time), "hours") * 2 * this.scale}
+                text={"Groupe A"}
+            ></ScheduleScheduleComponent>);
+
+        _runs = this.props.runs.toArray().map(run =>
+            <ScheduleRunComponent
+                key={run.id}
+                y={this.parseDateToScroll(moment(run.begin_at.toISO()))}
+                height={ Math.round(moment(run.finished_at.toISO()).diff(moment(run.begin_at.toISO()), "hours", true) * 2 * this.scale)}
+                run={run}
+                ></ScheduleRunComponent>)
         let loader = <Text style={[styles.loader, {opacity: 1/*this.loadinAnim*/}]}>Chargement...</Text>
 
         return (
@@ -117,8 +124,10 @@ export class ScheduleComponent extends React.Component {
                     {this.hours}
                     <View  style={[styles.currentTimeLine, {top: this.parseDateToScroll(moment().startOf('minute')), left: "15%"}]}></View>
                     {!this.props.loading && _schedules}
+                    {!this.props.loading && _runs}
                 </ScrollView>
                 {this.props.loading && loader}
+                <Text>{}</Text>
             </View>
         )
     }
