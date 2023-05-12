@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-12 11:36:04
+ *   Modified time: 2023-05-12 13:39:41
  *   Description: Specific component dedicated to display the schedule. Uses a scale property that is then used to display hour
  *      (ScheduleHour) and to convert Moments Objects (equivalent to Date) to scroll.
  */
@@ -114,12 +114,13 @@ export class ScheduleComponent extends React.Component {
     render(){
         let _schedules;
         let _runs;
-        _schedules = this.props.schedules.toArray().map(schedule =>
+        _schedules = this.props.schedules.toArray().map((schedule: ScheduleResource)=>
             <ScheduleScheduleComponent
                 key={schedule.id}
                 y={this.parseDateToScroll(moment(schedule.start_time))}
                 height={moment(schedule.end_time).diff(moment(schedule.start_time), "hours") * 2 * this.scale}
-                text={"Groupe A"}
+                text={"Groupe " + schedule.group.name}
+                color={schedule.group.color}
             ></ScheduleScheduleComponent>);
 
         _runs = this.props.runs.toArray().map(run =>

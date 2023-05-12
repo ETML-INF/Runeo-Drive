@@ -8,6 +8,7 @@
 
 
 import { ScheduleResource } from "../resources/Schedule.resourse";
+import { GroupResource } from "../resources/Group.resource";
 import Axios from "axios";
 import { List } from "immutable";
 import { useCacheHelper } from "../utils/CacheHelper.utils";
@@ -58,5 +59,10 @@ function parseSchedule(rawSchedule: any): ScheduleResource {
         id: rawSchedule.id,
         start_time: new Date(rawSchedule.start_time),
         end_time: new Date(rawSchedule.end_time),
+        group: {
+          id: rawSchedule.group.id,
+          color: rawSchedule.group.color,
+          name: rawSchedule.group.name,
+        }
     }
 }

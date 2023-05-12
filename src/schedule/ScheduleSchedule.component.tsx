@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-10
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-10 11:30:11
+ *   Modified time: 2023-05-12 13:45:56
  *   Description: represents one users's schedule on on the main schedule, hence the funny name
  */
 import {StyleSheet, View, Text} from "react-native";
@@ -12,13 +12,16 @@ import { Colors } from "../common/utils/Color.utils";
 interface ScheduleScheduleProps {
     y: number, 
     height: number, 
-    text: string
+    text: string,
+    color: string,
 }
 
 export function ScheduleScheduleComponent(props: ScheduleScheduleProps){
     return (
-        <View style={[styles.view,{top: props.y, height: props.height}]}>
-            <Text style={styles.text}>{props.text}</Text>
+        <View style={[styles.view,{top: props.y, height: props.height, backgroundColor: addAlpha('#' + props.color, 0.13), borderLeftColor: '#' + props.color}]}>
+            <Text style={[styles.text,{color: '#' +props.color}]}>
+                {props.text}
+            </Text>
         </View>
     )
 }
@@ -38,9 +41,6 @@ const styles = StyleSheet.create({
         width: "85%",
         left: "14.6%",
 
-        backgroundColor: addAlpha(Colors.STATUS_READY, 0.13),
-
-        borderLeftColor: Colors.STATUS_READY,
         borderLeftWidth: 3,
     },
     text:{
@@ -48,6 +48,5 @@ const styles = StyleSheet.create({
         top: -25,
         left: 5,
         fontSize: 16,
-        color: Colors.STATUS_READY,
     }
 });
