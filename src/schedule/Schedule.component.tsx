@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-12 15:10:11
+ *   Modified time: 2023-05-12 15:51:03
  *   Description: Specific component dedicated to display the schedule. Uses a scale property that is then used to display hour
  *      (ScheduleHour) and to convert Moments Objects (equivalent to Date) to scroll.
  */
@@ -183,7 +183,7 @@ export class ScheduleComponent extends React.Component {
 const styles = StyleSheet.create({
     container: {
         
-        height: "92%",
+        height: "95%",
     },
     scrollView:{
         display: "flex",
