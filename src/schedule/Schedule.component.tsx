@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-11 14:45:39
+ *   Modified time: 2023-05-12 08:47:39
  *   Description: Specific component dedicated to display the schedule. Uses a scale property that is then used to display hour
  *      (ScheduleHour) and to convert Moments Objects (equivalent to Date) to scroll.
  */
@@ -20,8 +20,6 @@ import { List } from "immutable";
 import { ScheduleRunComponent } from "./ScheduleRun.component";
 
 export interface ScheduleComponentProps {
-    startDate : Date,
-    endDate : Date,
     setCurrentDay : Dispatch<SetStateAction<Date>>,
     schedules: List<ScheduleResource>,
     runs: List<RunResource>,
@@ -42,10 +40,14 @@ export class ScheduleComponent extends React.Component {
     constructor(props: ScheduleComponentProps){
         super(props);
 
-        // the +1 is there because we want to display the whole days and not just the difference between them.
-        let numberOfDays = moment(props.endDate).diff(moment(props.startDate), 'days') + 1 ;
+        let data = Array();
+        data = this.props.schedules.toArray();
+        data = data.sort((a:ScheduleResource, b:ScheduleResource) => {return a.start_time.valueOf() - b.start_time.valueOf()})
 
-        this.startDate = moment(props.startDate).startOf("day");
+        this.startDate = moment(data[0].start_time).startOf("day");
+
+        // the +1 is there because we want to display the whole days and not just the difference between them.
+        let numberOfDays = moment(data[data.length-1].end_time).startOf("day").diff(moment(this.startDate), 'days') + 1 ;
 
         /*this.loadinAnim = useRef(new Animated.Value(0)).current;
 

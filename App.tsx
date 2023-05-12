@@ -1,6 +1,6 @@
 /**
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-05 10:12:05
+ *   Modified time: 2023-05-12 08:50:00
  *   Description: Transformé la manière de gérer l'URL en ajoutant la possibilité de renseigner plusieurs festivals
  *   parmis lesquels l'utilisateur peut choisir. (il peut aussi renseigner un URL manuellement).
  */
@@ -18,8 +18,8 @@ import Constants from 'expo-constants';
 // pouvoir accepter plusieurs festivals ou pouvoir rentrer une IP personnalisée pour le débug (Autre). 
 // Laisser la valeur de l'option "Autre" vide pour que le champ "url" aparaisse. 
 export const urlConfigData = [
-  { label: 'Paléo', value: 'http://runeo.paleo.ch/api' },
-  { label: 'Belfort', value: 'http://belfort.festival.temp/api' },
+  { label: 'Paléo', value: 'https://runeo.paleo.ch/api' },
+  { label: 'Belfort', value: 'https://runeo.eurockeennes.fr/api' },
   { label: 'Autre', value: '' }
 ];
 
