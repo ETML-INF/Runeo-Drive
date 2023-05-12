@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-10
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-11 16:17:30
+ *   Modified time: 2023-05-12 15:07:42
  *   Description: represents one users's run on on the main schedule, with the particularity that it adapts 
  *      to the place available. 
  */
@@ -19,11 +19,10 @@ interface ScheduleRunProps {
 }
 
 export function ScheduleRunComponent(props: ScheduleRunProps){
-    let numberHeight = 50;
     return (
-        <View style={[styles.container,{top: props.y, height: numberHeight, backgroundColor: Colors.STATUS_NEED }]}>
+        <View style={[styles.container,{top: props.y, height: props.height, backgroundColor: Colors.STATUS_NEED }]}>
             <View>
-                <Text style={styles.id}>{'#' + props.run.id + " - " + props.height}</Text>
+                <Text style={styles.id}>{'#' + props.run.id}</Text>
             </View>
             <View>
                 <Text>{props.run.title}</Text>

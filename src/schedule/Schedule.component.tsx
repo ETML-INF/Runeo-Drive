@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-12 13:39:41
+ *   Modified time: 2023-05-12 15:10:11
  *   Description: Specific component dedicated to display the schedule. Uses a scale property that is then used to display hour
  *      (ScheduleHour) and to convert Moments Objects (equivalent to Date) to scroll.
  */
@@ -18,6 +18,7 @@ import { ScheduleResource } from "../common/resources/Schedule.resourse";
 import { RunResource } from "../common/resources/Run.resource";
 import { List } from "immutable";
 import { ScheduleRunComponent } from "./ScheduleRun.component";
+import { DateTime } from "luxon";
 
 export interface ScheduleComponentProps {
     setCurrentDay : Dispatch<SetStateAction<Date>>,
@@ -123,13 +124,39 @@ export class ScheduleComponent extends React.Component {
                 color={schedule.group.color}
             ></ScheduleScheduleComponent>);
 
-        _runs = this.props.runs.toArray().map(run =>
-            <ScheduleRunComponent
+        _runs = this.props.runs.toArray().map((run: RunResource) => {
+            //run.start_at and run.end_at are the recorded values of an already finished run, the other are the planned ones. 
+            let start = run.start_at.isValid ? run.start_at : run.begin_at;
+            let end = run.end_at.isValid ? run.end_at : run.finished_at;
+          
+            let y = this.parseDateToScroll(moment(start.toISO()));
+
+            let height = Math.round(moment(end.toISO()).diff(moment(start.toISO()), "hours", true) * 2 * this.scale);
+            
+            if (typeof height != "number" || height < 0)
+            {
+                alert("La durée du run #" + run.id + "  n'a pas pu être calculée. Il est donc affiché comme durant une heure et demie par défaut.")
+                height = 3 * this.scale;
+            }
+
+
+            if(typeof y != "number" || Number.isNaN(y))
+            {
+                alert("La date de départ du run #" + run.id + "  n'a pas pu être trouvée. Il a été placé en haut de votre calendrier.")
+                y = 50;
+            }
+                
+
+
+            return(
+                <ScheduleRunComponent
                 key={run.id}
-                y={this.parseDateToScroll(moment(run.begin_at.toISO()))}
-                height={ Math.round(moment(run.finished_at.toISO()).diff(moment(run.begin_at.toISO()), "hours", true) * 2 * this.scale)}
+                y={y}
+                height={height}
                 run={run}
-                ></ScheduleRunComponent>)
+                ></ScheduleRunComponent>
+            )
+        })
         let loader = <Text style={[styles.loader, {opacity: 1/*this.loadinAnim*/}]}>Chargement...</Text>
 
         return (
