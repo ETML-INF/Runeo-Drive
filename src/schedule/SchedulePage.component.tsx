@@ -2,14 +2,14 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-12 08:52:56
+ *   Modified time: 2023-05-12 11:41:29
  *   Description: Main page of the schedules fonctionnality
  */
 import {SafeAreaView, StyleSheet, View, Text} from "react-native";
 import { Avatar } from "react-native-elements";
 import React, {useEffect, useState, Fragment} from "react";
 import { Colors } from "../common/utils/Color.utils";
-import { AuthContainer} from "../Provider.component";
+import { AuthContainer, NetworkContainer} from "../Provider.component";
 import { ScheduleComponent } from "./Schedule.component";
 import { useSchedulesContainer } from "../common/container/Schedules.container";
 import { localDayOfWeek } from "../common/utils/Date.utils";
@@ -18,35 +18,66 @@ import { FlatList } from "react-native-gesture-handler";
 import { ListCommonResourceComponent } from "../common/component/ListCommonResource.component";
 import { participates } from "../common/utils/Run.utils";
 import { RunResource } from "../common/resources/Run.resource";
+import { showToastLong, toastType } from "../notifications/ToastNotification";
 import { useUserRunsContainer } from "../common/container/UserRuns.container";
+import { useNavigation } from "@react-navigation/native";
+import { AxiosError } from "axios";
 
 export function SchedulePageComponent() {
     let currentUser = AuthContainer.useContainer().authenticatedUser;
     let schedulesContainer = useSchedulesContainer();
     let userRunsContainer = useUserRunsContainer();
+    let navigation = useNavigation();
+    let {isInternetReachable} = NetworkContainer.useContainer();
     
 
     const [day, setDay] = useState(new Date(2023, 5, 8));
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
     //const [userRuns, setUserRuns] = useState<RunResource[]>([]);
-    const [errorMessage, setErrorMessage] = useState(null);
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        load();
-    })
+        load((error:string)=>{
+            if(error != "")
+            {
+                showToastLong(error, toastType.failed)
+            }
+            setIsLoading(false);
+        });
+    }, []);
 
-    const load = async () => {
-        try {
+    const load = (callback:Function) => {
+        if(isInternetReachable)
+        {
             Promise.all([
-            schedulesContainer.refresh(),
-            userRunsContainer.refresh()
-            ]).then(()=>{
-                setIsLoading(false);
-            })
+                schedulesContainer.refresh(),
+                userRunsContainer.refresh()
+                ]).then(()=>{
+                    callback("");
+                }).catch((e: AxiosError) => {
+                    if(e.response)
+                    {
+                        switch(e.response?.status)
+                        {
+                            case 400:
+                                callback("Nous n'avons pas pu charger vos horaires ou vos runs. Il est possible que si vous n'avez pas de groupe attribué, cette erreur apparaisse. (erreur 400)")
+                                break;
+                            default:
+                                callback("Nous n'avons pas pu charger vos horaires ou vos runs. Contactez un administrateur pour en savoir plus. (erreur HTTP:" + e.response?.status + ")")
+                                break;
+                        }
+                    }
+                    else if(e.request)
+                    {
+                        callback("Les données n'ont pas pu être chargées pour le moment, en raison d'un incident technique ou d'une mauvaise connexion. Merci de réessayer plus tard. ")
+                    }
+                    
+                })
         }
-        catch(e){
-            setErrorMessage(e.message);
+        else
+        {
+            callback("Internet n'est pas disponible. Merci de vérifier vos données mobiles ou de réessayer plus tard.")
         }
     }
 
@@ -57,13 +88,13 @@ export function SchedulePageComponent() {
                     <Text style={styles.dayText}>{localDayOfWeek(day)}</Text>
                     <Text style={styles.dayNumber}>{day.getDate()}</Text>
                 </View>
-                <Avatar rounded size="medium" source={{ uri: currentUser?.image_profile}} />
+                <Avatar rounded size="medium" source={{ uri: currentUser?.image_profile}} onPress={() =>{navigation.navigate("params")}}/>
             </View>
             {isLoading ?
                 <Text style={[styles.loader, {opacity: 1/*this.loadinAnim*/}]}>Chargement...</Text>
             : 
                 <ScheduleComponent 
-                    setCurrentDay={setDay} 
+                    setCurrentDay={setDay}
                     schedules={schedulesContainer.items}
                     runs={userRunsContainer.items}
                     loading={isLoading}

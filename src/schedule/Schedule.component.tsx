@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-12 08:47:39
+ *   Modified time: 2023-05-12 11:36:04
  *   Description: Specific component dedicated to display the schedule. Uses a scale property that is then used to display hour
  *      (ScheduleHour) and to convert Moments Objects (equivalent to Date) to scroll.
  */
@@ -41,13 +41,24 @@ export class ScheduleComponent extends React.Component {
         super(props);
 
         let data = Array();
+        let numberOfDays = 8;
         data = this.props.schedules.toArray();
-        data = data.sort((a:ScheduleResource, b:ScheduleResource) => {return a.start_time.valueOf() - b.start_time.valueOf()})
 
-        this.startDate = moment(data[0].start_time).startOf("day");
+        //si l'utilisateur n'a pas d'horaires, on affiche un horaire englobant quelques jours avant et après et on l'avertit.
+        if(data.length > 0)
+        {
+            data = data.sort((a:ScheduleResource, b:ScheduleResource) => {return a.start_time.valueOf() - b.start_time.valueOf()})
 
-        // the +1 is there because we want to display the whole days and not just the difference between them.
-        let numberOfDays = moment(data[data.length-1].end_time).startOf("day").diff(moment(this.startDate), 'days') + 1 ;
+            this.startDate = moment(data[0].start_time).startOf("day");
+
+            // the +1 is there because we want to display the whole days and not just the difference between them.
+            numberOfDays = moment(data[data.length-1].end_time).startOf("day").diff(moment(this.startDate), 'days') + 1 ;
+        }
+        else
+        {
+            this.startDate = moment().subtract(4,"days");
+            console.log("horaires non récupérés, donc dates de l'horaire estimées à 4 jours avant et après aujourd'hui.")
+        }
 
         /*this.loadinAnim = useRef(new Animated.Value(0)).current;
 
@@ -125,8 +136,8 @@ export class ScheduleComponent extends React.Component {
                 <ScrollView ref= {scrollView => this.scrollViewRef = scrollView} onScroll={this.onScroll} style={styles.scrollView}>
                     {this.hours}
                     <View  style={[styles.currentTimeLine, {top: this.parseDateToScroll(moment().startOf('minute')), left: "15%"}]}></View>
-                    {!this.props.loading && _schedules}
-                    {!this.props.loading && _runs}
+                    {_schedules}
+                    {_runs}
                 </ScrollView>
                 {this.props.loading && loader}
                 <Text>{}</Text>

@@ -26,7 +26,6 @@ export function useSchedulesContainer(): DataContainerInterface<ScheduleResource
     getSchedulesFromApi(userId)
       .then((fetchedSchedules) => cacheHelper.insertItems(List(fetchedSchedules)))
       .catch((error) => {
-        console.log(error);
         throw error;
       });
 
@@ -38,13 +37,20 @@ export function useSchedulesContainer(): DataContainerInterface<ScheduleResource
   };
 }
 
-function getSchedulesFromApi(userId): Promise<ScheduleResource[]> {
-  return Axios.get("/users/" + userId.toString() + "/schedules")
+function getSchedulesFromApi(userId:number): Promise<ScheduleResource[]> {
+    return Axios.get("/users/" + userId.toString() + "/schedules", {timeout: 10000})
     .then((res) => res.data.map(parseSchedule))
     .catch((error) => {
-      console.log(error);
+      console.log(error.message);
       throw error;
     });
+  /* }
+  else
+  {
+    return new Promise(function(resolve, reject) {
+      resolve(new Array<ScheduleResource>())
+    });
+  } */
 }
 
 function parseSchedule(rawSchedule: any): ScheduleResource {
