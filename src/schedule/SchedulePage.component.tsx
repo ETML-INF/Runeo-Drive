@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-12 11:41:29
+ *   Modified time: 2023-05-12 13:18:57
  *   Description: Main page of the schedules fonctionnality
  */
 import {SafeAreaView, StyleSheet, View, Text} from "react-native";
@@ -37,15 +37,24 @@ export function SchedulePageComponent() {
     //const [userRuns, setUserRuns] = useState<RunResource[]>([]);
     const [errorMessage, setErrorMessage] = useState("");
 
-    useEffect(() => {
-        load((error:string)=>{
-            if(error != "")
-            {
-                showToastLong(error, toastType.failed)
-            }
-            setIsLoading(false);
-        });
-    }, []);
+    /* useEffect(() => {
+        load(afterLoad);
+    }, []); */
+
+    useEffect(() =>  {
+        const subscribe = navigation.addListener("focus", (e) => {
+            setIsLoading(true);
+            load(afterLoad);
+        })
+    }, [navigation])
+
+    const afterLoad = (error:string) :void => {
+        if(error != "")
+        {
+            showToastLong(error, toastType.failed)
+        }
+        setIsLoading(false);
+    }
 
     const load = (callback:Function) => {
         if(isInternetReachable)
@@ -68,7 +77,7 @@ export function SchedulePageComponent() {
                                 break;
                         }
                     }
-                    else if(e.request)
+                    else
                     {
                         callback("Les données n'ont pas pu être chargées pour le moment, en raison d'un incident technique ou d'une mauvaise connexion. Merci de réessayer plus tard. ")
                     }
