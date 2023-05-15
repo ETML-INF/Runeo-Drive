@@ -45,13 +45,6 @@ function getSchedulesFromApi(userId:number): Promise<ScheduleResource[]> {
       console.log(error.message);
       throw error;
     });
-  /* }
-  else
-  {
-    return new Promise(function(resolve, reject) {
-      resolve(new Array<ScheduleResource>())
-    });
-  } */
 }
 
 function parseSchedule(rawSchedule: any): ScheduleResource {

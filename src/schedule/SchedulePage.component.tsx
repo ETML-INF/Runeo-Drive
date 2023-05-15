@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-15 13:20:10
+ *   Modified time: 2023-05-15 14:43:30
  *   Description: Main page of the schedules fonctionnality
  */
 import {SafeAreaView, StyleSheet, View, Text} from "react-native";
@@ -33,16 +33,23 @@ export function SchedulePageComponent() {
 
     const [day, setDay] = useState(new Date());
 
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isFirstLoading, setIsFirstLoading] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     //const [userRuns, setUserRuns] = useState<RunResource[]>([]);
     const [errorMessage, setErrorMessage] = useState("");
 
-    /* useEffect(() => {
-        load(afterLoad);
-    }, []); */
+    useEffect(() => {
+        load((error : string) => {
+            if(error != "")
+            {
+                showToastLong(error, toastType.failed)
+            }
+            setIsFirstLoading(false);
+        });
+    }, []);
 
     useEffect(() =>  {
-        const subscribe = navigation.addListener("focus", (e) => {
+        const unsubscribe = navigation.addListener("focus", (e) => {
             setIsLoading(true);
             load(afterLoad);
         })
@@ -101,8 +108,8 @@ export function SchedulePageComponent() {
                 </View>
                 <Avatar rounded size="medium" source={{ uri: currentUser?.image_profile}} onPress={() =>{navigation.navigate("params")}}/>
             </View>
-            {isLoading ?
-                <Text style={[styles.loader, {opacity: 1/*this.loadinAnim*/}]}>Chargement...</Text>
+            {isFirstLoading ?
+                <Text style={[styles.loader, {opacity: 1 /*this.loadinAnim*/}]}>Chargement...</Text>
             : 
                 <ScheduleComponent 
                     setCurrentDay={setDay}
@@ -134,7 +141,6 @@ const styles = StyleSheet.create({
 
         paddingHorizontal: 15,
 
-        //backgroundColor: Colors.BLACK,
         shadowColor: Colors.BLACK,
         shadowOffset: {
             width: 0,
@@ -164,5 +170,7 @@ const styles = StyleSheet.create({
         top: 20,
         width: "100%",
         textAlign: "center",
+        height: "100%",
+        
     }
 })
