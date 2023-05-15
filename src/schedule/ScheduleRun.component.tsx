@@ -2,11 +2,11 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-10
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-15 11:02:47
+ *   Modified time: 2023-05-15 13:21:13
  *   Description: represents one users's run on on the main schedule, with the particularity that it adapts 
  *      to the place available and the amount of runners in the run.
  */
-import {StyleSheet, View, Text} from "react-native";
+import {StyleSheet, View, Text, Pressable} from "react-native";
 import React, { DOMElement } from "react";
 import { Colors } from "../common/utils/Color.utils";
 import { RunResource } from "../common/resources/Run.resource";
@@ -18,6 +18,7 @@ interface ScheduleRunProps {
     y: number, 
     height: number, 
     run: RunResource,
+    onRunPress: (run: RunResource) => void,
 }
 
 export function ScheduleRunComponent(props: ScheduleRunProps){
@@ -58,7 +59,7 @@ export function ScheduleRunComponent(props: ScheduleRunProps){
 
 
     return (
-        <View style={[styles.container,{top: props.y, height: props.height, backgroundColor: statusColor(props.run)}]}>
+        <Pressable onPress={() => props.onRunPress(props.run)} style={[styles.container,{top: props.y, height: props.height, backgroundColor: statusColor(props.run)}]}>
             <View style={styles.upContainer}>
                 <Text style={styles.id}>{'#' + props.run.id}</Text>
                 { isMultipleAndShort&&
@@ -77,7 +78,7 @@ export function ScheduleRunComponent(props: ScheduleRunProps){
                 <Text style={styles.runners}>{runnersString}</Text>
             </View>}
             
-        </View>
+        </Pressable>
     )
 }
 

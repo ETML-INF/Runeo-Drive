@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-15 09:56:39
+ *   Modified time: 2023-05-15 13:20:10
  *   Description: Main page of the schedules fonctionnality
  */
 import {SafeAreaView, StyleSheet, View, Text} from "react-native";
@@ -90,6 +90,8 @@ export function SchedulePageComponent() {
         }
     }
 
+    const gotoRun = (run: RunResource) => navigation.navigate("detail", {run: run})
+
     return (
         <SafeAreaView style={styles.body}>
             <View style={styles.header}>
@@ -107,6 +109,7 @@ export function SchedulePageComponent() {
                     schedules={schedulesContainer.items}
                     runs={userRunsContainer.items}
                     loading={isLoading}
+                    onRunPress={gotoRun}
                 ></ScheduleComponent>
             }
             
