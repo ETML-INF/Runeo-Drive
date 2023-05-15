@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-12 13:18:57
+ *   Modified time: 2023-05-15 09:56:39
  *   Description: Main page of the schedules fonctionnality
  */
 import {SafeAreaView, StyleSheet, View, Text} from "react-native";
@@ -31,7 +31,7 @@ export function SchedulePageComponent() {
     let {isInternetReachable} = NetworkContainer.useContainer();
     
 
-    const [day, setDay] = useState(new Date(2023, 5, 8));
+    const [day, setDay] = useState(new Date());
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
     //const [userRuns, setUserRuns] = useState<RunResource[]>([]);
