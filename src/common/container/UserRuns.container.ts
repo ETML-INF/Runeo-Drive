@@ -24,9 +24,17 @@ export function useUserRunsContainer() : DataContainerInterface<RunResource> {
 
     const refresh = (): Promise<void> =>
     getUserRunsApi()
-      .then((fetchedRuns) => cacheHelper.insertItems(List(fetchedRuns)))
-      .catch((error) => {
-        console.log(error);
+      .then((fetchedRuns) => {
+        if(fetchedRuns.length > 0)
+        {
+          return cacheHelper.insertItems(List(fetchedRuns))
+        }
+        else
+        {
+          return;
+        }
+      }).catch((error) => {
+        console.log(error + "blblü");
         throw error;
       });
 
@@ -40,8 +48,9 @@ export function useUserRunsContainer() : DataContainerInterface<RunResource> {
 
 function getUserRunsApi(): Promise<RunResource[]> {
     return Axios.get("/me/runs")
-      .then((res) => res.data.map(parseRunResource))
-      .catch((error) => error);
+      .then((res) => {
+          return res.data.map(parseRunResource);
+      }).catch((error) => { return error});
   }
 
 function parseRunResource(runFromApi: any): RunResource {

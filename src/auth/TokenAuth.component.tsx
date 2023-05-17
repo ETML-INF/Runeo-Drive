@@ -1,6 +1,6 @@
 /**
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-04-05 13:47:18
+ *   Modified time: 2023-05-17 10:26:16
  *   Description: Added a dropdown that allows to switch festival or enter a custom URL. 
  *   The dropdown only decide if the text field is visible or not and fills it with data, so the formik form only uses the text field.
  */
@@ -14,6 +14,7 @@ import {AuthContainer} from "../Provider.component";
 import {ButtonComponent} from "../common/component/ButtonComponent";
 import Dropdown from "../common/component/Dropdown";
 import { urlConfigData } from "../../App";
+import { AxiosError } from "axios";
 
 export const TokenAuthComponent = () => {
     //#region dropdown config
@@ -37,9 +38,8 @@ export const TokenAuthComponent = () => {
     const onSubmit = async (values: { token: string, url: string }, {setSubmitting, setFieldError}: FormikHelpers<any>) => {
         setSubmitting(true);
 
-        try {
-            await authContainer.authenticate(values);
-        } catch (e) {
+        authContainer.authenticate(values).catch((e: AxiosError) => {
+            console.log(e.response?.status)
             // TODO : peut-être que cette partie pourrait être fait plus dynamiquement en gérant les types des erreurs 
             // comme en C# et non le message, mais je ne suis pas sûr que cela soit possible en react et cela fonctionne bien comme cela.
             if(e.message == "Network Error")
@@ -58,7 +58,7 @@ export const TokenAuthComponent = () => {
                 setFieldError("token", "Erreur de token, vérifie que le token que tu as entré est bien valide pour le festival sélectionné.")
             }
             setSubmitting(false);
-        }
+        });
     };
 
     return (

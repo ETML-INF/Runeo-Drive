@@ -25,8 +25,12 @@ export function useSchedulesContainer(): DataContainerInterface<ScheduleResource
 
     const refresh = (): Promise<void> =>
     getSchedulesFromApi(userId)
-      .then((fetchedSchedules) => cacheHelper.insertItems(List(fetchedSchedules)))
-      .catch((error) => {
+      .then((fetchedSchedules) => {
+        if(fetchedSchedules.length > 0)
+        {
+          return cacheHelper.insertItems(List(fetchedSchedules))
+        }
+      }).catch((error) => {
         throw error;
       });
 
@@ -40,7 +44,7 @@ export function useSchedulesContainer(): DataContainerInterface<ScheduleResource
 
 function getSchedulesFromApi(userId:number): Promise<ScheduleResource[]> {
     return Axios.get("/users/" + userId.toString() + "/schedules", {timeout: 10000})
-    .then((res) => res.data.map(parseSchedule))
+    .then((res) => { return res.data.map(parseSchedule)})
     .catch((error) => {
       console.log(error.message);
       throw error;
