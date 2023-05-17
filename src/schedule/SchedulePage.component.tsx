@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-17 09:16:09
+ *   Modified time: 2023-05-17 09:28:50
  *   Description: Main page of the schedules fonctionnality
  */
 import {SafeAreaView, StyleSheet, View, Text} from "react-native";
@@ -106,13 +106,24 @@ export function SchedulePageComponent() {
                     <Text style={styles.dayText}>{localDayOfWeek(day)}</Text>
                     <Text style={styles.dayNumber}>{day.getDate()}</Text>
                 </View>
-                <Icon
-                    type='font-awesome'
-                    name={'cog'}
-                    size={35}
-                    onPress={() =>{navigation.navigate("params")}}
-                />
-                {/* <Avatar rounded size="medium" source={{ uri: currentUser?.image_profile}} onPress={() =>{navigation.navigate("params")}}/> */}
+                <View style={styles.iconsBox}>
+                    <Icon
+                        type='font-awesome'
+                        name={'refresh'}
+                        size={35}
+                        onPress={() =>{
+                            setIsLoading(true);
+                            load(afterLoad);
+                        }}
+                    />
+                    <Icon
+                        type='font-awesome'
+                        name={'cog'}
+                        size={35}
+                        onPress={() =>{navigation.navigate("params")}}
+                    />
+                </View>
+                {/* Profile Picture:  <Avatar rounded size="medium" source={{ uri: currentUser?.image_profile}} onPress={() =>{navigation.navigate("params")}}/> */}
             </View>
             {isFirstLoading ?
                 <Text style={[styles.loader, {opacity: 1 /*this.loadinAnim*/}]}>Chargement...</Text>
@@ -165,11 +176,15 @@ const styles = StyleSheet.create({
     dayNumber:{
         fontSize: 25
     },
+    iconsBox:{
+        flexDirection: "row",
+        width: '25%',
+        justifyContent: "space-between",
+    },
     loader:{
         top: 20,
         width: "100%",
         textAlign: "center",
         height: "100%",
-        
     }
 })
