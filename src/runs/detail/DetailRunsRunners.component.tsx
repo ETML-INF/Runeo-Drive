@@ -29,6 +29,10 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
         navigation.navigate("select_vehicle", params);
     }
 
+    //In order to not display the interaction buttons 
+    //TODO: not optimal system, if the main page's name changes this line will need to be changed.
+    const navFromList = navigation.getState().routeNames[0] == 'list';
+
     return (
         <CardComponentWithIcon title={"Runners"} icon={"tachometer-alt"}>
             <Text style={{color: Colors.GREY, fontFamily: 'Montserrat-Regular'}}>Chauffeurs et Véhicules :</Text>
@@ -68,7 +72,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                             </Fragment>
                                         ) : null}
 
-                                        { canSelectVehicle (authenticatedUser,runner, currentRun) ? (
+                                        { (canSelectVehicle (authenticatedUser,runner, currentRun) && navFromList) ? (
                                             <ButtonComponent
                                                 title="Choisir"
                                                 disabled={ !isInternetReachable }
@@ -87,7 +91,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                             }/>
                                     ) : null}
 
-                                    { canChangeVehicle(authenticatedUser,runner, currentRun) ? (
+                                    { (canChangeVehicle(authenticatedUser,runner, currentRun) && navFromList) ? (
                                         <View>
                                             <ButtonComponent
                                                 disabled={ !isInternetReachable }

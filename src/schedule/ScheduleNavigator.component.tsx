@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-08
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-15 13:25:33
+ *   Modified time: 2023-05-17 08:34:03
  *   Description: Navigation for the schedule page
  */
 
@@ -11,10 +11,12 @@ import {createStackNavigator} from "@react-navigation/stack";
 import { SchedulePageComponent } from "./SchedulePage.component";
 import {ParamsComponent} from "./params/Params.component"
 import { DetailRunsComponent } from "../runs/detail/DetailRuns.component";
+import { RunsSelectVehicleComponent } from "../runs/RunsSelectVehicle.component";
 
 const Stack = createStackNavigator();
 
 export function ScheduleNavigatorComponent() {
+
     return (
         <Stack.Navigator initialRouteName={"schedule"}>
             <Stack.Screen name={"schedule"} component={SchedulePageComponent} options={{headerShown: false}}/>

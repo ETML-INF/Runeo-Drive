@@ -95,9 +95,6 @@ export function statusColor(run: RunResource) {
         case 'ready':
             return Colors.STATUS_READY
         break
-        case 'finished':
-            return Colors.WHITE
-        
         default:
             return Colors.GREY;
         }
