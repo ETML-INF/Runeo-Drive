@@ -21,7 +21,7 @@
   "submit": {
     "production": {
       "android": {
-        "serviceAccountKeyPath": "G:/Runeo-Desk/MobileAppPublicationServiceAccountKey.json"
+        "serviceAccountKeyPath": "G:\\ETML\\Projets\\MobileAppPublicationServiceAccountKey.json"
       }
     }
   }
