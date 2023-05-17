@@ -2,11 +2,11 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-15 14:43:30
+ *   Modified time: 2023-05-17 09:16:09
  *   Description: Main page of the schedules fonctionnality
  */
 import {SafeAreaView, StyleSheet, View, Text} from "react-native";
-import { Avatar } from "react-native-elements";
+import { Avatar, Icon } from "react-native-elements";
 import React, {useEffect, useState, Fragment} from "react";
 import { Colors } from "../common/utils/Color.utils";
 import { AuthContainer, NetworkContainer} from "../Provider.component";
@@ -106,7 +106,13 @@ export function SchedulePageComponent() {
                     <Text style={styles.dayText}>{localDayOfWeek(day)}</Text>
                     <Text style={styles.dayNumber}>{day.getDate()}</Text>
                 </View>
-                <Avatar rounded size="medium" source={{ uri: currentUser?.image_profile}} onPress={() =>{navigation.navigate("params")}}/>
+                <Icon
+                    type='font-awesome'
+                    name={'cog'}
+                    size={35}
+                    onPress={() =>{navigation.navigate("params")}}
+                />
+                {/* <Avatar rounded size="medium" source={{ uri: currentUser?.image_profile}} onPress={() =>{navigation.navigate("params")}}/> */}
             </View>
             {isFirstLoading ?
                 <Text style={[styles.loader, {opacity: 1 /*this.loadinAnim*/}]}>Chargement...</Text>
@@ -140,14 +146,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
 
         paddingHorizontal: 15,
-
-        shadowColor: Colors.BLACK,
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 1,
-        shadowRadius: 5,
+        
         borderBottomColor: Colors.GREY,
         borderBottomWidth: 1,
     },

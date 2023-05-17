@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-10
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-15 13:21:13
+ *   Modified time: 2023-05-17 09:10:32
  *   Description: represents one users's run on on the main schedule, with the particularity that it adapts 
  *      to the place available and the amount of runners in the run.
  */
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
 
         width: '18%',
         marginLeft: 10,
+        marginTop: -3,
 
         color: Colors.WHITE,
     },
@@ -116,11 +117,11 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: Colors.WHITE,
         marginTop: 2,
-        marginLeft: 2,
+        marginLeft: -4,
         width: '20%',
     },
     title:{
-        marginVertical: 3,
+        marginVertical: 1,
         color: Colors.WHITE,
         fontSize: 17,
         fontWeight: 'bold',
