@@ -1,6 +1,6 @@
 /**
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-17 10:26:16
+ *   Modified time: 2023-05-22 09:33:05
  *   Description: Added a dropdown that allows to switch festival or enter a custom URL. 
  *   The dropdown only decide if the text field is visible or not and fills it with data, so the formik form only uses the text field.
  */
@@ -39,23 +39,29 @@ export const TokenAuthComponent = () => {
         setSubmitting(true);
 
         authContainer.authenticate(values).catch((e: AxiosError) => {
-            console.log(e.response?.status)
-            // TODO : peut-être que cette partie pourrait être fait plus dynamiquement en gérant les types des erreurs 
-            // comme en C# et non le message, mais je ne suis pas sûr que cela soit possible en react et cela fonctionne bien comme cela.
-            if(e.message == "Network Error")
+            if(e.response)
+                {
+                    switch(e.response?.status)
+                    {
+                        case 401:
+                            setFieldError("token", "Erreur de token, vérifie que le token que tu as entré est bien valide pour le festival sélectionné.");
+                            if(urlVisible){setFieldError("url", "Il est aussi possible que tu aies oublié le \"/api\" à la fin de ton URL.");}
+                            break;
+                        default:
+                            setFieldError("token", "Il y a eu un problème lors de la connexion. Contactez un administrateur pour en savoir plus. (erreur HTTP:" + e.response?.status + ")");
+                            break;
+                    }
+                    }
+            else
             {
                 if(urlVisible)
                 {
-                    setFieldError("url", "Erreur de connexion, vérifie ton accès à internet et l'URL que tu as entré.");
+                    setFieldError("url", "Erreur de connexion, vérifie ton accès à internet et l'URL que tu as entré et réessaye plus tard.");
                 }
                 else
                 {
-                    setFieldError("token", "Erreur de connexion, vérifie ton accès à internet.");
+                    setFieldError("token", "Erreur de connexion, vérifie ton accès à internet ou réessaye plus tard.");
                 }
-            }
-            else
-            {
-                setFieldError("token", "Erreur de token, vérifie que le token que tu as entré est bien valide pour le festival sélectionné.")
             }
             setSubmitting(false);
         });

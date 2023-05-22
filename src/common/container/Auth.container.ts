@@ -84,5 +84,5 @@ export function useAuthContainer(
 }
 
 function getAuthenticatedUserApi(): Promise<UserResource> {
-  return Axios.get<UserResource>("/me").then((res) => res.data);
+  return Axios.get<UserResource>("/me", {timeout: 10000}).then((res) => res.data);
 }

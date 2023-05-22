@@ -47,7 +47,7 @@ export function useUserRunsContainer() : DataContainerInterface<RunResource> {
 }
 
 function getUserRunsApi(): Promise<RunResource[]> {
-    return Axios.get("/me/runs")
+    return Axios.get("/me/runs", {timeout: 10000})
       .then((res) => {
           return res.data.map(parseRunResource);
       }).catch((error) => { return error});
