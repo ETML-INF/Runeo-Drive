@@ -1,6 +1,6 @@
 /**
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-17 12:04:07
+ *   Modified time: 2023-05-22 13:47:47
  *   Description: Transformé la manière de gérer l'URL en ajoutant la possibilité de renseigner plusieurs festivals
  *   parmis lesquels l'utilisateur peut choisir. (il peut aussi renseigner un URL manuellement).
  */
@@ -19,7 +19,7 @@ import Constants from 'expo-constants';
 // Laisser la valeur de l'option "Autre" vide pour que le champ "url" aparaisse. 
 export const urlConfigData = [
   { label: 'Paléo', value: 'http://runeo.paleo.ch/api' },
-  { label: 'Belfort', value: 'https://runeo.eurockeennes.fr/api' },
+  { label: 'Belfort', value: 'https://runeurock.eurockeennes.fr/api' },
   { label: 'Autre', value: '' }
 ];
 

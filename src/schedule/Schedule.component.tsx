@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-17 09:00:38
+ *   Modified time: 2023-05-22 16:06:26
  *   Description: Specific component dedicated to display the schedule. Uses a scale property that is then used to display hour
  *      (ScheduleHour) and to convert Moments Objects (equivalent to Date) to scroll.
  */
@@ -28,12 +28,9 @@ export interface ScheduleComponentProps {
     onRunPress: (run: RunResource) => void,
 }
 
-//Shall always be at 00:00
-//let startDate : Moment;
-
 export class ScheduleComponent extends React.Component {
     
-    // class variables
+    // - class variables - 
     hours = Array();
     //amount of pixels for 30 minutes
     scale = 25;
@@ -58,19 +55,9 @@ export class ScheduleComponent extends React.Component {
         }
         else
         {
-            this.startDate = moment().subtract(4,"days");
-            console.log("horaires non récupérés, donc dates de l'horaire estimées à 4 jours avant et après aujourd'hui.")
+            this.startDate = moment().subtract(4,"days").startOf("day");
+            console.log("Horaires non récupérés, donc dates de l'horaire estimées à 4 jours avant et après aujourd'hui.")
         }
-
-        /*this.loadinAnim = useRef(new Animated.Value(0)).current;
-
-        this.anim = Animated.loop(
-            Animated.timing(this.loadinAnim,{
-            toValue: 1,
-            duration: 750,
-            useNativeDriver: true
-            })
-        )*/
 
         for(let i = 0; i < numberOfDays; i++){
             for(let h= 0; h < 24; h++)
@@ -78,7 +65,6 @@ export class ScheduleComponent extends React.Component {
                 this.hours.push(<ScheduleHour key={i.toString() + h.toString()} hour={(h>=10?'':'0') + h + ":00"} scale={this.scale}></ScheduleHour>);
             }
         }
-
 
     }
     
@@ -107,8 +93,6 @@ export class ScheduleComponent extends React.Component {
         let hoursAmount = date.diff(this.startDate, 'hours', true);
     
         let scroll = (hoursAmount * 2 * this.scale) + this.scale;
-    
-        //alert(startDate.toString())
         
         return scroll;
     }
@@ -166,7 +150,7 @@ export class ScheduleComponent extends React.Component {
                 ></ScheduleRunComponent>
             )
         })
-        let loader = <Text style={[styles.loader, {opacity: 1/*this.loadinAnim*/}]}>Chargement...</Text>
+        let loader = <Text style={styles.loader}>Chargement...</Text>
 
         return (
             <View style={styles.container}>
@@ -182,9 +166,8 @@ export class ScheduleComponent extends React.Component {
     }
 
     componentDidMount(): void {
+        //the - 10 * this.scale is there to show the current time at a position of 5 hours from the top.
         this.scrollViewRef.scrollTo({y: (this.parseDateToScroll(moment().startOf('minute')) - 10  * this.scale), animated: false})
-
-        //this.anim.start();
     }
 }
 
