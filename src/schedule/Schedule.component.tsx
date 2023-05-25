@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-24 16:31:29
+ *   Modified time: 2023-05-25 13:30:19
  *   Description: Specific component dedicated to display the schedule. Uses a scale property that is then used to display hour
  *      (ScheduleHour) and to convert Moments Objects (equivalent to Date) to scroll.
  */
@@ -121,7 +121,7 @@ export class ScheduleComponent extends React.Component {
             
             let error="";
 
-            //Vérifie que si le run démarre après le TODO: 
+            //Si le run démarre après la date de fin planifiée ou si il est trop petit car il a démarré trop tard, la hauteur est définie par rapport à la durée planifiée
             if((run.start_at.isValid && run.begin_at.isValid && run.finished_at.isValid && run.start_at.toSeconds > run.finished_at.toSeconds) || height < this.scale)
             {
                 height = Math.round(moment(run.finished_at.toISO()).diff(moment(run.begin_at.toISO()), "hours", true) * 2 * this.scale);

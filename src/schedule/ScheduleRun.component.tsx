@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-10
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-24 16:26:12
+ *   Modified time: 2023-05-25 14:16:36
  *   Description: represents one users's run on on the main schedule, with the particularity that it adapts 
  *      to the place available and the amount of runners in the run.
  */
@@ -22,7 +22,7 @@ interface ScheduleRunProps {
 }
 
 export function ScheduleRunComponent(props: ScheduleRunProps){
-    let lineheight = 20;
+    let lineheight = 25;
     let isMultiple = props.run.runners.count() > 1;
     let isMultipleAndShort = isMultiple && props.height/lineheight < 4;
     let isMultipleAndLong = isMultiple && !isMultipleAndShort;
@@ -57,7 +57,7 @@ export function ScheduleRunComponent(props: ScheduleRunProps){
         }
     }
 
-    //TODO mettre le stylesheet ici :)
+    //TODO mettre le stylesheet ici pour alléger le JSX :)
 
     return (
         <Pressable onPress={() => props.onRunPress(props.run)} style={[styles.container,{top: props.y, height: props.height, backgroundColor: statusColor(props.run)}]}>
@@ -69,7 +69,7 @@ export function ScheduleRunComponent(props: ScheduleRunProps){
                         <Text style={styles.runnersAmount}>{props.run.runners.count()}</Text>
                     </View>  
                 }
-                <Text numberOfLines={isMultipleAndLong? props.height/lineheight/2 : props.height/lineheight} style={[styles.title, isMultipleAndShort? {width: '60%'} : {width: '75%'}]}>
+                <Text numberOfLines={Math.round(isMultipleAndLong? props.height/lineheight/2 : props.height/lineheight)} style={[styles.title, isMultipleAndShort? {width: '60%'} : {width: '75%'}]}>
                     {props.run.title.toUpperCase()}
                 </Text>
             </View>
@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
         width: "80%",
         left: "16%",
         borderRadius: 15,
+        minHeight: 25,
     },
     id:{
         fontSize: 22,
