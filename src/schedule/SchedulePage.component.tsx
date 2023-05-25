@@ -2,21 +2,17 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-17 10:28:00
+ *   Modified time: 2023-05-24 16:02:27
  *   Description: Main page of the schedules fonctionnality
  */
 import {SafeAreaView, StyleSheet, View, Text} from "react-native";
-import { Avatar, Icon } from "react-native-elements";
-import React, {useEffect, useState, Fragment} from "react";
+import { Icon } from "react-native-elements";
+import React, {useEffect, useState} from "react";
 import { Colors } from "../common/utils/Color.utils";
 import { AuthContainer, NetworkContainer} from "../Provider.component";
 import { ScheduleComponent } from "./Schedule.component";
 import { useSchedulesContainer } from "../common/container/Schedules.container";
 import { localDayOfWeek } from "../common/utils/Date.utils";
-import { ScheduleResource } from "../common/resources/Schedule.resourse";
-import { FlatList } from "react-native-gesture-handler";
-import { ListCommonResourceComponent } from "../common/component/ListCommonResource.component";
-import { participates } from "../common/utils/Run.utils";
 import { RunResource } from "../common/resources/Run.resource";
 import { showToastLong, toastType } from "../notifications/ToastNotification";
 import { useUserRunsContainer } from "../common/container/UserRuns.container";
@@ -24,7 +20,6 @@ import { useNavigation } from "@react-navigation/native";
 import { AxiosError } from "axios";
 
 export function SchedulePageComponent() {
-    let currentUser = AuthContainer.useContainer().authenticatedUser;
     let schedulesContainer = useSchedulesContainer();
     let userRunsContainer = useUserRunsContainer();
     let navigation = useNavigation();
@@ -35,7 +30,6 @@ export function SchedulePageComponent() {
 
     const [isFirstLoading, setIsFirstLoading] = useState<boolean>(true);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    //const [userRuns, setUserRuns] = useState<RunResource[]>([]);
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
@@ -126,7 +120,7 @@ export function SchedulePageComponent() {
                 {/* Profile Picture:  <Avatar rounded size="medium" source={{ uri: currentUser?.image_profile}} onPress={() =>{navigation.navigate("params")}}/> */}
             </View>
             {isFirstLoading ?
-                <Text style={[styles.loader, {opacity: 1 /*this.loadinAnim*/}]}>Chargement...</Text>
+                <Text style={styles.loader}>Chargement...</Text>
             : 
                 <ScheduleComponent 
                     setCurrentDay={setDay}

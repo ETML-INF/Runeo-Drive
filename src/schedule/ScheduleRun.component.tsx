@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-10
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-17 09:10:32
+ *   Modified time: 2023-05-24 16:26:12
  *   Description: represents one users's run on on the main schedule, with the particularity that it adapts 
  *      to the place available and the amount of runners in the run.
  */
@@ -57,6 +57,7 @@ export function ScheduleRunComponent(props: ScheduleRunProps){
         }
     }
 
+    //TODO mettre le stylesheet ici :)
 
     return (
         <Pressable onPress={() => props.onRunPress(props.run)} style={[styles.container,{top: props.y, height: props.height, backgroundColor: statusColor(props.run)}]}>
@@ -68,7 +69,7 @@ export function ScheduleRunComponent(props: ScheduleRunProps){
                         <Text style={styles.runnersAmount}>{props.run.runners.count()}</Text>
                     </View>  
                 }
-                <Text numberOfLines={isMultipleAndLong? props.height/lineheight/2 : props.height/lineheight} style={[styles.title, isMultipleAndShort? {width: '60%'} : {width: '80%'}]}>
+                <Text numberOfLines={isMultipleAndLong? props.height/lineheight/2 : props.height/lineheight} style={[styles.title, isMultipleAndShort? {width: '60%'} : {width: '75%'}]}>
                     {props.run.title.toUpperCase()}
                 </Text>
             </View>
@@ -93,8 +94,8 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: "bold",
 
-        width: '18%',
-        marginLeft: 10,
+        width: '20%',
+        marginLeft: 7,
         marginTop: -3,
 
         color: Colors.WHITE,
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
         marginLeft: 7,
         color: Colors.WHITE,
         fontSize: 15,
-        width: '80%',
+        width: '75%',
     },
     upContainer:{
         flexDirection: 'row',

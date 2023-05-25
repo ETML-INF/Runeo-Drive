@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-22 16:06:26
+ *   Modified time: 2023-05-24 16:31:29
  *   Description: Specific component dedicated to display the schedule. Uses a scale property that is then used to display hour
  *      (ScheduleHour) and to convert Moments Objects (equivalent to Date) to scroll.
  */
@@ -28,6 +28,7 @@ export interface ScheduleComponentProps {
     onRunPress: (run: RunResource) => void,
 }
 
+//TODO: petit détail: pour maintenir la cohérence, il serait bien de transformer ce composant classe en composant fonction.
 export class ScheduleComponent extends React.Component {
     
     // - class variables - 
@@ -65,7 +66,7 @@ export class ScheduleComponent extends React.Component {
                 this.hours.push(<ScheduleHour key={i.toString() + h.toString()} hour={(h>=10?'':'0') + h + ":00"} scale={this.scale}></ScheduleHour>);
             }
         }
-
+        
     }
     
     
@@ -120,23 +121,23 @@ export class ScheduleComponent extends React.Component {
             
             let error="";
 
+            //Vérifie que si le run démarre après le TODO: 
             if((run.start_at.isValid && run.begin_at.isValid && run.finished_at.isValid && run.start_at.toSeconds > run.finished_at.toSeconds) || height < this.scale)
             {
                 height = Math.round(moment(run.finished_at.toISO()).diff(moment(run.begin_at.toISO()), "hours", true) * 2 * this.scale);
             }
 
-            if (typeof height != "number" || height < 0)
+            if (typeof height != "number" || height < 0 || Number.isNaN(height))
             {
                     error = "La durée du run #" + run.id + "  n'a pas pu être calculée. Il est donc affiché comme durant une heure et demie par défaut.";
                     height = 3 * this.scale;
             }
 
-
             if(typeof y != "number" || Number.isNaN(y))
             {
                 error = "La date de départ du run #" + run.id + "  n'a pas pu être trouvée. Il a été placé en haut de votre calendrier.";
                 y = 50;
-            }
+            } 
                 
 
 
