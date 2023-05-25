@@ -42,6 +42,10 @@ export function InfoComponent(props: InfoComponentProps) {
                     <ImportantTextComponent>Schouwey </ImportantTextComponent> 
                     <Text>Zaïd</Text>
                 </InlineTextComponent>
+                <InlineTextComponent>
+                    <Text>Puis améliorée en 2023 par Clément Sartoni et Théo Bensaci, de l'ETML</Text>
+                    <ImportantTextComponent>CPNV.</ImportantTextComponent> 
+                </InlineTextComponent>
             </View>
             <Text style={styles.version}>Version actuelle 2023.1</Text>
         </View>

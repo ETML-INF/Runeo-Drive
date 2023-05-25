@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-24 16:02:27
+ *   Modified time: 2023-05-25 16:30:42
  *   Description: Main page of the schedules fonctionnality
  */
 import {SafeAreaView, StyleSheet, View, Text} from "react-native";
@@ -20,6 +20,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AxiosError } from "axios";
 
 export function SchedulePageComponent() {
+    let currentUser = AuthContainer.useContainer().authenticatedUser;
     let schedulesContainer = useSchedulesContainer();
     let userRunsContainer = useUserRunsContainer();
     let navigation = useNavigation();
@@ -114,7 +115,7 @@ export function SchedulePageComponent() {
                         type='font-awesome'
                         name={'cog'}
                         size={35}
-                        onPress={() =>{navigation.navigate("params")}}
+                        onPress={() =>{navigation.navigate("profile", {user: currentUser})}}
                     />
                 </View>
                 {/* Profile Picture:  <Avatar rounded size="medium" source={{ uri: currentUser?.image_profile}} onPress={() =>{navigation.navigate("params")}}/> */}
