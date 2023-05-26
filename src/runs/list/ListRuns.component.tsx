@@ -50,7 +50,7 @@ export function ListRunsComponent() {
                     sort={(runA,runB) => {
                         if (participates(runA,authenticatedUser)) {
                             if (participates(runB,authenticatedUser)) {
-                                return (runA.begin_at.diff(runB.begin_at).toMillis() > 0)
+                                return (runA.begin_at.diff(runB.begin_at).toMillis())
                             } else {
                                 return -1 // runA comes first
                             }
@@ -58,7 +58,7 @@ export function ListRunsComponent() {
                             if (participates(runB,authenticatedUser)) {
                                 return 1 // runB comes first
                             } else {
-                                return (runA.begin_at.diff(runB.begin_at).toMillis() > 0)
+                                return (runA.begin_at.diff(runB.begin_at).toMillis())
                             }
                         }
                     }}
