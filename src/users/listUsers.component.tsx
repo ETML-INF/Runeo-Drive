@@ -9,6 +9,7 @@ import {callPhoneNumber} from "../common/utils/Phone.utils";
 import {SafeAreaView, StyleSheet, Text} from "react-native";
 import {ListCommonResourceComponent} from "../common/component/ListCommonResource.component";
 import {StatusCircleComponent} from "../common/component/StatusCircle.component";
+import Axios from "axios";
 
 
 export function ListUsersComponent() {
@@ -21,9 +22,18 @@ export function ListUsersComponent() {
     const renderItem = (item: UserResource) => {
         const userCurrentRun = startedRuns.find(run => !!run.runners.find(runner => runner.user?.id == item.id));
 
+        let baseURL = Axios.defaults.baseURL;
+
+        let uri = "";
+
+        if(baseURL)
+        {
+            uri = baseURL.replace('api', 'storage/profiles/') + item.picture;
+        }
+
         return (
             <ListItem bottomDivider={true}>
-                <Avatar rounded size="medium" source={{ uri: 'http://runeo.paleo.ch/storage/profiles/'+item.picture}} />
+                <Avatar rounded size="medium" source={{ uri: uri}} />
                 <ListItem.Content>
                     <ListItem.Title style={styles.columnName}>
                         {item.firstname} {item.lastname}

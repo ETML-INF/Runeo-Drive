@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-25 13:30:19
+ *   Modified time: 2023-05-26 09:30:45
  *   Description: Specific component dedicated to display the schedule. Uses a scale property that is then used to display hour
  *      (ScheduleHour) and to convert Moments Objects (equivalent to Date) to scroll.
  */
@@ -28,7 +28,7 @@ export interface ScheduleComponentProps {
     onRunPress: (run: RunResource) => void,
 }
 
-//TODO: petit détail: pour maintenir la cohérence, il serait bien de transformer ce composant classe en composant fonction.
+//TODO: little detail : it would be better to transform this class compoment in a function compoment to maintain coherence.
 export class ScheduleComponent extends React.Component {
     
     // - class variables - 

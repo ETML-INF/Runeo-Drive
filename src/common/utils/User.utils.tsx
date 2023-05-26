@@ -34,4 +34,15 @@ export function userStatusColor(userStatus: string) {
     return userStatusColorRecord[userStatus] || "white"
 }
 
+const userRoleMapping: Record<string, string> = {
+    "admin": "Runners Administrator",
+    "coordinator": "Runners coordinator",
+    "runner": "Runner",
+    "production": "Production",
+    "manager": "Artist manager"
+}
+
+export function getUserRole(userRole: string) {
+    return userRoleMapping[userRole] || ""
+}
 

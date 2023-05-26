@@ -2,11 +2,11 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-25 16:30:42
+ *   Modified time: 2023-05-26 12:05:30
  *   Description: Main page of the schedules fonctionnality
  */
 import {SafeAreaView, StyleSheet, View, Text} from "react-native";
-import { Icon } from "react-native-elements";
+import { Icon, Avatar } from "react-native-elements";
 import React, {useEffect, useState} from "react";
 import { Colors } from "../common/utils/Color.utils";
 import { AuthContainer, NetworkContainer} from "../Provider.component";
@@ -14,10 +14,12 @@ import { ScheduleComponent } from "./Schedule.component";
 import { useSchedulesContainer } from "../common/container/Schedules.container";
 import { localDayOfWeek } from "../common/utils/Date.utils";
 import { RunResource } from "../common/resources/Run.resource";
+import { GroupResource } from "../common/resources/Group.resource";
 import { showToastLong, toastType } from "../notifications/ToastNotification";
 import { useUserRunsContainer } from "../common/container/UserRuns.container";
 import { useNavigation } from "@react-navigation/native";
 import { AxiosError } from "axios";
+import { userStatusColor } from "../common/utils/User.utils";
 
 export function SchedulePageComponent() {
     let currentUser = AuthContainer.useContainer().authenticatedUser;
@@ -92,7 +94,18 @@ export function SchedulePageComponent() {
         }
     }
 
-    const gotoRun = (run: RunResource) => navigation.navigate("detail", {run: run})
+    const gotoRun = (run: RunResource) => navigation.navigate("detail", {run: run});
+
+    //#region Parameters for the profile page
+    let group: GroupResource | undefined;
+
+    if(schedulesContainer.items.toArray().length > 0)
+    {
+        group = schedulesContainer.items.get(0)?.group;
+    }
+
+    let statusColor = userStatusColor(currentUser.status); 
+    //#endregion
 
     return (
         <SafeAreaView style={styles.body}>
@@ -111,14 +124,19 @@ export function SchedulePageComponent() {
                             load(afterLoad);
                         }}
                     />
-                    <Icon
+                    {/* <Icon
                         type='font-awesome'
                         name={'cog'}
                         size={35}
-                        onPress={() =>{navigation.navigate("profile", {user: currentUser})}}
+                        onPress={() =>{navigation.navigate("params")}}
+                    /> */}
+                    <Avatar 
+                        rounded size="medium" 
+                        source={{ uri: currentUser?.image_profile}} 
+                        onPress={() =>{navigation.navigate("profile", {user: currentUser, group: group})}}
+                        containerStyle={[styles.avatar, {borderColor: statusColor}]}
                     />
                 </View>
-                {/* Profile Picture:  <Avatar rounded size="medium" source={{ uri: currentUser?.image_profile}} onPress={() =>{navigation.navigate("params")}}/> */}
             </View>
             {isFirstLoading ?
                 <Text style={styles.loader}>Chargement...</Text>
@@ -175,11 +193,15 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         width: '25%',
         justifyContent: "space-between",
+        alignItems: "center",
     },
     loader:{
         top: 20,
         width: "100%",
         textAlign: "center",
         height: "100%",
-    }
+    },
+    avatar:{
+        borderWidth: 3,
+    },
 })

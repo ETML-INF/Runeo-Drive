@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-10
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-25 14:16:36
+ *   Modified time: 2023-05-26 10:28:20
  *   Description: represents one users's run on on the main schedule, with the particularity that it adapts 
  *      to the place available and the amount of runners in the run.
  */
@@ -57,7 +57,7 @@ export function ScheduleRunComponent(props: ScheduleRunProps){
         }
     }
 
-    //TODO mettre le stylesheet ici pour alléger le JSX :)
+    //TODO move the stylesheet or at least most of the logic here to make the JSX more readable.
 
     return (
         <Pressable onPress={() => props.onRunPress(props.run)} style={[styles.container,{top: props.y, height: props.height, backgroundColor: statusColor(props.run)}]}>

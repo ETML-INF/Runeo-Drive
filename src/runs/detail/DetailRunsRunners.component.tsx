@@ -29,7 +29,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
         navigation.navigate("select_vehicle", params);
     }
 
-    //In order to not display the interaction buttons 
+    //In order to not display the interaction buttons in the schedule page
     //TODO: not optimal system, if the main page's name changes this line will need to be changed.
     const navFromList = navigation.getState().routeNames[0] == 'list';
 
