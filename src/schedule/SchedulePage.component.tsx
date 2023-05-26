@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-26 12:05:30
+ *   Modified time: 2023-05-26 13:27:31
  *   Description: Main page of the schedules fonctionnality
  */
 import {SafeAreaView, StyleSheet, View, Text} from "react-native";
@@ -115,6 +115,12 @@ export function SchedulePageComponent() {
                     <Text style={styles.dayNumber}>{day.getDate()}</Text>
                 </View>
                 <View style={styles.iconsBox}>
+                    {/* <Icon
+                        type='font-awesome'
+                        name={'cog'}
+                        size={35}
+                        onPress={() =>{navigation.navigate("params")}}
+                    /> */}
                     <Icon
                         type='font-awesome'
                         name={'refresh'}
@@ -124,16 +130,10 @@ export function SchedulePageComponent() {
                             load(afterLoad);
                         }}
                     />
-                    {/* <Icon
-                        type='font-awesome'
-                        name={'cog'}
-                        size={35}
-                        onPress={() =>{navigation.navigate("params")}}
-                    /> */}
                     <Avatar 
                         rounded size="medium" 
                         source={{ uri: currentUser?.image_profile}} 
-                        onPress={() =>{navigation.navigate("profile", {user: currentUser, group: group})}}
+                        onPress={() =>{navigation.navigate("profile",  {user: currentUser, group: group})}}
                         containerStyle={[styles.avatar, {borderColor: statusColor}]}
                     />
                 </View>

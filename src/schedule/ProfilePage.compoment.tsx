@@ -1,15 +1,16 @@
-import {SafeAreaView, StyleSheet, View, Text, NativeSyntheticEvent, NativeScrollEvent, Animated, InteractionManager} from "react-native";
-import React, {Dispatch, SetStateAction, useEffect, useState, useRef} from "react";
+/**
+ *   Author: Clément Sartoni
+ *   Create Time: 2023-05-25
+ *   Modified by: Clément Sartoni
+ *   Modified time: 2023-05-26 13:25:22
+ *   Description: Page de profil. Cette page affiche toutes les informations disponibles de l'utilisateur. 
+ *   Elle doit être appelée en renseignant dans les paramètres de navigation un utilisateur et son groupe.
+ */
+
+
+import {StyleSheet, View, Text} from "react-native";
+import React, {} from "react";
 import { Colors } from "../common/utils/Color.utils";
-import moment, { Moment } from "moment";
-import { ScrollView } from "react-native-gesture-handler";
-import { ScheduleHour } from "./ScheduleHour.component";
-import { ScheduleScheduleComponent } from "./ScheduleSchedule.component";
-import { ScheduleResource } from "../common/resources/Schedule.resourse";
-import { RunResource } from "../common/resources/Run.resource";
-import { List } from "immutable";
-import { ScheduleRunComponent } from "./ScheduleRun.component";
-import { DateTime } from "luxon";
 import { UserResource } from "../common/resources/User.resource";
 import { Avatar } from "react-native-elements";
 import { GroupResource } from "../common/resources/Group.resource";
@@ -18,7 +19,6 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import Axios from "axios";
 import { getUserStatus, userStatusColor, getUserRole } from "../common/utils/User.utils";
 import { StatusCircleComponent } from "../common/component/StatusCircle.component";
-import { rootNavigationRef } from "../RootNavigator";
 
 interface ProfilePageProps{
     user: UserResource,
@@ -29,6 +29,11 @@ export function ProfilePageComponent(){
 
     let navigation = useNavigation();
     let params = useRoute().params as ProfilePageProps;
+
+    if(params == undefined || params.user == undefined)
+    {
+        return <View style={styles.mainView}><Text>Aucun utilisateur spécifié à la page. Merci de contacter un administrateur si ce problème apparait.</Text></View>
+    }
 
     let user = params.user;
     let group = params.group;

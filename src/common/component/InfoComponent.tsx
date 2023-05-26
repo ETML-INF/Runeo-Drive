@@ -36,7 +36,6 @@ export function InfoComponent(props: InfoComponentProps) {
                     <Text>Gabriel, </Text>
                 </InlineTextComponent>
                 <InlineTextComponent>
-
                     <ImportantTextComponent>Santos Oliveira </ImportantTextComponent> 
                     <Text>Andi, </Text>
                     <ImportantTextComponent>Schouwey </ImportantTextComponent> 
@@ -44,10 +43,9 @@ export function InfoComponent(props: InfoComponentProps) {
                 </InlineTextComponent>
                 <InlineTextComponent>
                     <Text>Puis améliorée en 2023 par Clément Sartoni et Théo Bensaci, de l'ETML</Text>
-                    <ImportantTextComponent>CPNV.</ImportantTextComponent> 
                 </InlineTextComponent>
             </View>
-            <Text style={styles.version}>Version actuelle 2023.1</Text>
+            <Text style={styles.version}>Version actuelle 2023.2</Text>
         </View>
     )
 }
