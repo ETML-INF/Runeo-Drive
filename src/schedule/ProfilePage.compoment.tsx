@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-25
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-26 13:25:22
+ *   Modified time: 2023-05-26 14:10:36
  *   Description: Page de profil. Cette page affiche toutes les informations disponibles de l'utilisateur. 
  *   Elle doit être appelée en renseignant dans les paramètres de navigation un utilisateur et son groupe.
  */

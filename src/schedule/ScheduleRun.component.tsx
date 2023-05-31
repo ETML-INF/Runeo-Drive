@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-10
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-26 10:28:20
+ *   Modified time: 2023-05-31 09:00:21
  *   Description: represents one users's run on on the main schedule, with the particularity that it adapts 
  *      to the place available and the amount of runners in the run.
  */
@@ -69,7 +69,7 @@ export function ScheduleRunComponent(props: ScheduleRunProps){
                         <Text style={styles.runnersAmount}>{props.run.runners.count()}</Text>
                     </View>  
                 }
-                <Text numberOfLines={Math.round(isMultipleAndLong? props.height/lineheight/2 : props.height/lineheight)} style={[styles.title, isMultipleAndShort? {width: '60%'} : {width: '75%'}]}>
+                <Text numberOfLines={Math.round(isMultipleAndLong? props.height/lineheight/2 : props.height/lineheight)} style={[styles.title, isMultipleAndShort? {width: '58%'} : {width: '75%'}]}>
                     {props.run.title.toUpperCase()}
                 </Text>
             </View>
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
 
         width: '20%',
+        minWidth: 70,
         marginLeft: 7,
         marginTop: -3,
 
@@ -108,6 +109,7 @@ const styles = StyleSheet.create({
     iconShort:{
         margin: 3,
         width: '80%',
+        minWidth: 45
     },
     iconShortContainer:{
         flexDirection: "row",
@@ -121,6 +123,7 @@ const styles = StyleSheet.create({
         marginTop: 2,
         marginLeft: -4,
         width: '20%',
+        minWidth: 10
     },
     title:{
         marginVertical: 1,
