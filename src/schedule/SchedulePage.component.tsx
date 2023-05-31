@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-26 14:10:23
+ *   Modified time: 2023-05-31 09:16:31
  *   Description: Main page of the schedules fonctionnality
  */
 import {SafeAreaView, StyleSheet, View, Text} from "react-native";
@@ -134,7 +134,7 @@ export function SchedulePageComponent() {
                         rounded size="medium" 
                         source={{ uri: currentUser?.image_profile}} 
                         onPress={() =>{navigation.navigate("profile",  {user: currentUser, group: group})}}
-                        containerStyle={[styles.avatar, {borderColor: statusColor}]}
+                        containerStyle={[styles.avatar, {borderColor: Colors.BLACK/* statusColor */}]}
                     />
                 </View>
             </View>
@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     avatar:{
-        borderWidth: 3,
+        //put to three when implementing status
+        borderWidth: 2,
     },
 })
