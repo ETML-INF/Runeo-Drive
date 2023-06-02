@@ -24,16 +24,18 @@ export interface AuthContainer {
   authenticate: (values: { token: string, url: string }) => Promise<void>;
   logout: () => Promise<void>;
   refreshAuthenticated: () => Promise<void>;
+  refreshUserStatus: () => Promise<void>;
 }
+
 
 export function useAuthContainer(
   networkContainer: Container<NetworkContainer>
 ) {
   return (): AuthContainer => {
     const network = networkContainer.useContainer();
-
+    
     const [authenticatedUser, setAuthenticatedUser] =
-      useState<UserResource | null>(null);
+    useState<UserResource | null>(null);
 
     const authenticate = async (values: { token: string, url: string }): Promise<void> => {
       await AsyncStorage.setItem(TOKEN_STORAGE_KEY, values.token);
@@ -74,11 +76,22 @@ export function useAuthContainer(
       setAuthenticatedUser(null);
     };
 
+    function refreshUserStatus(): Promise<void> {
+      return getAuthenticatedUserApi().then((user : UserResource) => 
+          setAuthenticatedUser(user)
+        ).catch((e) =>{
+          console.log("error while updating user:  " + e);
+          throw e;
+        });
+      ;
+    }
+
     return {
       authenticatedUser,
       authenticate,
       logout,
       refreshAuthenticated,
+      refreshUserStatus,
     };
   };
 }
@@ -86,3 +99,5 @@ export function useAuthContainer(
 function getAuthenticatedUserApi(): Promise<UserResource> {
   return Axios.get<UserResource>("/me", {timeout: 10000}).then((res) => res.data);
 }
+
+

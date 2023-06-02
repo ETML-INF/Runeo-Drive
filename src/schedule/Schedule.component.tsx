@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-26 09:30:45
+ *   Modified time: 2023-06-02 10:43:03
  *   Description: Specific component dedicated to display the schedule. Uses a scale property that is then used to display hour
  *      (ScheduleHour) and to convert Moments Objects (equivalent to Date) to scroll.
  */
@@ -156,9 +156,11 @@ export class ScheduleComponent extends React.Component {
         return (
             <View style={styles.container}>
                 <ScrollView ref= {scrollView => this.scrollViewRef = scrollView} onScroll={this.onScroll} style={styles.scrollView}>
-                    {this.hours}
-                    <View  style={[styles.currentTimeLine, {top: this.parseDateToScroll(moment().startOf('minute')), left: "15%"}]}></View>
+                    {this.hours}                
                     {_schedules}
+                    <View  style={[styles.currentTimeLine, {top: this.parseDateToScroll(moment().startOf('minute')), left: "15%"}]}>
+                        <View style={styles.currentTimeBall}></View>
+                    </View>
                     {_runs}
                 </ScrollView>
                 {this.props.loading && loader}
@@ -187,7 +189,18 @@ const styles = StyleSheet.create({
         height: 2,
         position: "absolute",
         borderColor: "#CC00FF",
-        borderTopWidth: 2,        
+        borderTopWidth: 3,  
+        overflow: "visible",      
+    },
+    currentTimeBall:{
+        height: 10,
+        width: 10,
+        backgroundColor: "#CC00FF",
+        position: "absolute",
+        left: -6,
+        top: -7,
+        zIndex: 10,
+        borderRadius: 6
     },
     loader:{
         position: "absolute",

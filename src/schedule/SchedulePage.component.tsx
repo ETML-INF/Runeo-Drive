@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-31 09:16:31
+ *   Modified time: 2023-06-02 09:27:26
  *   Description: Main page of the schedules fonctionnality
  */
 import {SafeAreaView, StyleSheet, View, Text} from "react-native";
@@ -22,11 +22,12 @@ import { AxiosError } from "axios";
 import { userStatusColor } from "../common/utils/User.utils";
 
 export function SchedulePageComponent() {
-    let currentUser = AuthContainer.useContainer().authenticatedUser;
+    let authContainer = AuthContainer.useContainer();
     let schedulesContainer = useSchedulesContainer();
     let userRunsContainer = useUserRunsContainer();
     let navigation = useNavigation();
     let {isInternetReachable} = NetworkContainer.useContainer();
+    let currentUser = authContainer.authenticatedUser;
     
 
     const [day, setDay] = useState(new Date());
@@ -65,7 +66,8 @@ export function SchedulePageComponent() {
         {
             Promise.all([
                 schedulesContainer.refresh(),
-                userRunsContainer.refresh()
+                userRunsContainer.refresh(),
+                authContainer.refreshUserStatus()
                 ]).then(()=>{
                     callback("");
                 }).catch((e: AxiosError) => {
@@ -86,7 +88,7 @@ export function SchedulePageComponent() {
                         callback("Les données n'ont pas pu être chargées pour le moment, en raison d'un incident technique ou d'une mauvaise connexion. Merci de réessayer plus tard. ")
                     }
                     
-                })
+                });
         }
         else
         {
@@ -134,7 +136,7 @@ export function SchedulePageComponent() {
                         rounded size="medium" 
                         source={{ uri: currentUser?.image_profile}} 
                         onPress={() =>{navigation.navigate("profile",  {user: currentUser, group: group})}}
-                        containerStyle={[styles.avatar, {borderColor: Colors.BLACK/* statusColor */}]}
+                        containerStyle={[styles.avatar, {borderColor: statusColor}]}
                     />
                 </View>
             </View>
@@ -203,6 +205,6 @@ const styles = StyleSheet.create({
     },
     avatar:{
         //put to three when implementing status
-        borderWidth: 2,
+        borderWidth: 3,
     },
 })

@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-25
  *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-31 09:12:54
+ *   Modified time: 2023-06-02 09:34:41
  *   Description: Page de profil. Cette page affiche toutes les informations disponibles de l'utilisateur. 
  *   Elle doit être appelée en renseignant dans les paramètres de navigation un utilisateur et son groupe.
  *   For the moment, the status is commented because it wasn't updated at all anywhere. In order to implement it, uncomment lines in this file and find a way to update it more frequenty.
@@ -54,14 +54,14 @@ export function ProfilePageComponent(){
         <View style={styles.mainView}>
             <View style={styles.viewTop}>
                 {
-                    uri != "" && <Avatar containerStyle={[styles.avatar, {borderColor: Colors.BLACK/* statusColor */}]} rounded size={200} source={{ uri: uri}}/>
+                    uri != "" && <Avatar containerStyle={[styles.avatar, {borderColor: statusColor}]} rounded size={200} source={{ uri: uri}}/>
                 }
                 <Text style={styles.name}>{user.name}</Text>
                 <Text style={styles.role}>{getUserRole(user.role)}</Text>
-                {/* <View style={styles.statusView}>
+                <View style={styles.statusView}>
                     <StatusCircleComponent color={statusColor}></StatusCircleComponent>
                     <Text style={[styles.statusText, {color: statusColor}]}>{getUserStatus(user.status).toUpperCase()}</Text>
-                </View> */}
+                </View>
             </View>
             <View style={styles.viewBottom}>
                 {
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     },
     avatar:{
         // put to five when implementing the status
-        borderWidth: 3,
+        borderWidth: 5,
     },
     name:{
         fontSize: 24,
