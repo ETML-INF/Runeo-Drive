@@ -37,5 +37,7 @@ export interface RunResource extends CommonResource {
 }
 
 export interface Waypoint {
-    nickname: string
+    nickname: string,
+    is_meeting: number,
+    meeting_time: string,
 }

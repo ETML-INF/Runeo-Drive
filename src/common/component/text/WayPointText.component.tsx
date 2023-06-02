@@ -3,9 +3,15 @@ import React, {PropsWithChildren} from "react";
 import {Colors} from "../../utils/Color.utils";
 import { colors } from "react-native-elements";
 
-export function MeetingTextComponent(props: PropsWithChildren<any>) {
+interface WayPointTextComponentProps{
+    place: string,
+    time: string,
+    isMeeting: boolean,
+}
+
+export function WayPointTextComponent(props: WayPointTextComponentProps) {
     return (
-        <View style={styles.meeting}>
+        <View style={[styles.basicWayPoint, props.isMeeting ? styles.meeting : {}]}>
             <Text>{props.place}</Text>
             <Text>{props.time}</Text>
         </View>
@@ -14,13 +20,15 @@ export function MeetingTextComponent(props: PropsWithChildren<any>) {
 
 const styles = StyleSheet.create({
     meeting: {
-        fontWeight: "bold",
         borderRadius: 5,
         borderColor: "#008000",
         borderWidth: 3,
+    },
+    basicWayPoint: {
+        fontWeight: "bold",
         padding: 5,
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between"
-    },
+    }
 });

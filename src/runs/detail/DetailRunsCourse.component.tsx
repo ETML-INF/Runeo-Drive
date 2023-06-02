@@ -4,7 +4,7 @@ import {DURATION_FORMAT} from "../../common/utils/Date.utils";
 import React, {Fragment} from "react";
 import {CardComponentWithIcon} from "../../common/component/Card.component";
 import {ImportantTextComponent} from "../../common/component/text/ImportantText.component";
-import {MeetingTextComponent} from "../../common/component/text/MeetingText.component";
+import { WayPointTextComponent } from "../../common/component/text/WayPointText.component";
 import {InlineTextComponent} from "../../common/component/text/InlineText.component";
 import moment from "moment"
 
@@ -19,9 +19,12 @@ export function DetailRunsCourseComponent({currentRun}: CourseDetailRunsComponen
         <CardComponentWithIcon title={"Parcours"} icon={"map-marked-alt"}>
             <View>
                 {currentRun.waypoints.map((waypoint, idx) => (
-                    waypoint.meeting_time ?
-                    <MeetingTextComponent key={idx} place={waypoint.nickname} time={moment(moment().format("YYYY-MM-DD ")+waypoint.meeting_time).format("H:mm")} /> :
-                    <ImportantTextComponent key={idx}>{waypoint.nickname}</ImportantTextComponent>))}
+                    <WayPointTextComponent 
+                        key={idx} 
+                        place={waypoint.nickname} 
+                        time={moment(moment().format("YYYY-MM-DD ")+waypoint.meeting_time).format("H:mm")} 
+                        isMeeting={waypoint.is_meeting == 1}
+                    />))}
             </View>
             {runDuration.isValid ? (
                 <InlineTextComponent>
