@@ -2,7 +2,7 @@
   "expo": {
     "name": "Runeo-Drive",
     "slug": "runeo-drive",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "owner": "etml.inf.dev",
@@ -20,7 +20,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "runeo.mycpnv.runeodrive2022",
-      "buildNumber": "2.0.1"
+      "buildNumber": "2.0.2"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,7 +28,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "runeo.mycpnv.runeodrive2022",
-      "versionCode": 201
+      "versionCode": 202
     },
     "web": {
       "favicon": "./assets/favicon.png"
