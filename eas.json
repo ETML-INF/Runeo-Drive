@@ -16,12 +16,17 @@
         "cocoapods": "1.11.2"
       }
     },
-    "production": {}
+    "production": {
+      "distribution": "store",
+      "ios": {
+        "cocoapods": "1.11.2"
+      }
+    }
   },
   "submit": {
     "production": {
       "android": {
-        "serviceAccountKeyPath": "G:\\ETML\\Projets\\MobileAppPublicationServiceAccountKey.json"
+        "serviceAccountKeyPath": "/Users/Xavier/Github/Runeo-Drive/publicationkey.json"
       }
     }
   }

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Runeo-Drive",
     "slug": "runeo-drive",
-    "version": "2.0.2",
+    "version": "2.1.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "owner": "etml.inf.dev",
@@ -14,21 +14,19 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "runeo.mycpnv.runeodrive2022",
-      "buildNumber": "2.0.2"
+      "bundleIdentifier": "etml.inf.dev.runeo",
+      "buildNumber": "2.1.1"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "runeo.mycpnv.runeodrive2022",
-      "versionCode": 202
+      "package": "etml.inf.dev.runeo",
+      "versionCode": 211
     },
     "web": {
       "favicon": "./assets/favicon.png"

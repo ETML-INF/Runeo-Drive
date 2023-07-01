@@ -1,10 +1,9 @@
 /**
  * @ Modified by: Clément Sartoni
  * @ Modified time: 2023-03-24 08:45:23
- * @ Description: added the URL as a variable to get from the TokenAuth component, 
+ * @ Description: added the URL as a variable to get from the TokenAuth component,
  * and the distinction between rejection and network errors.
  */
-
 
 import { useState } from "react";
 import { UserResource } from "../resources/User.resource";
@@ -21,23 +20,19 @@ const USER_STORAGE_KEY = "authenticatedUser";
 
 export interface AuthContainer {
   authenticatedUser: UserResource | null;
-  authenticate: (values: { token: string, url: string }) => Promise<void>;
+  authenticate: (values: { token: string; url: string }) => Promise<void>;
   logout: () => Promise<void>;
   refreshAuthenticated: () => Promise<void>;
   refreshUserStatus: () => Promise<void>;
 }
 
-
-export function useAuthContainer(
-  networkContainer: Container<NetworkContainer>
-) {
+export function useAuthContainer(networkContainer: Container<NetworkContainer>) {
   return (): AuthContainer => {
     const network = networkContainer.useContainer();
-    
-    const [authenticatedUser, setAuthenticatedUser] =
-    useState<UserResource | null>(null);
 
-    const authenticate = async (values: { token: string, url: string }): Promise<void> => {
+    const [authenticatedUser, setAuthenticatedUser] = useState<UserResource | null>(null);
+
+    const authenticate = async (values: { token: string; url: string }): Promise<void> => {
       await AsyncStorage.setItem(TOKEN_STORAGE_KEY, values.token);
       await AsyncStorage.setItem(URL_STORAGE_KEY, values.url);
 
@@ -49,10 +44,9 @@ export function useAuthContainer(
       const url = await AsyncStorage.getItem(URL_STORAGE_KEY);
 
       if (token && url) {
-        
         Axios.defaults.headers.common = {
           Authorization: `Bearer ${token}`,
-          Accept: "application/json",
+          Accept: "application/json"
         };
 
         try {
@@ -62,7 +56,6 @@ export function useAuthContainer(
           setAuthenticatedUser(user);
         } catch (e) {
           console.log(e);
-          await logout();
           throw e;
         }
       }
@@ -77,13 +70,12 @@ export function useAuthContainer(
     };
 
     function refreshUserStatus(): Promise<void> {
-      return getAuthenticatedUserApi().then((user : UserResource) => 
-          setAuthenticatedUser(user)
-        ).catch((e) =>{
+      return getAuthenticatedUserApi()
+        .then((user: UserResource) => setAuthenticatedUser(user))
+        .catch((e) => {
           console.log("error while updating user:  " + e);
           throw e;
         });
-      ;
     }
 
     return {
@@ -91,13 +83,11 @@ export function useAuthContainer(
       authenticate,
       logout,
       refreshAuthenticated,
-      refreshUserStatus,
+      refreshUserStatus
     };
   };
 }
 
 function getAuthenticatedUserApi(): Promise<UserResource> {
-  return Axios.get<UserResource>("/me", {timeout: 10000}).then((res) => res.data);
+  return Axios.get<UserResource>("/me", { timeout: 10000 }).then((res) => res.data);
 }
-
-

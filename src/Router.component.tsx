@@ -63,14 +63,14 @@ export function RouterComponent() {
                             component={RunsComponent}
                         />
                         <Tab.Screen
-                            name="Drivers"
+                            name="Chauffeurs"
                             options={{
                                 tabBarIcon: tabBarIconGen('drivers-license-o'),
                             }}
                             component={ListUsersComponent}
                         />
                         <Tab.Screen
-                            name="Vehicles"
+                            name="Véhicules"
                             options={{
                                 tabBarIcon: tabBarIconGen('car'),
                             }}
