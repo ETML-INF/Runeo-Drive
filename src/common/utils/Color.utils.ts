@@ -8,6 +8,7 @@ export const Colors = {
   ORANGE: "#f24f13",
   GREEN: "#8ee8a5",
   ME: "#dddddd",
+  STATUS_NEEDS_FILLING: "#99FF99",
   STATUS_GONE: "#60b0c0",
   STATUS_PROBLEM: "#ff0000",
   STATUS_NEED: "#ffc000",

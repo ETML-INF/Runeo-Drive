@@ -26,6 +26,7 @@ export function useSchedulesContainer(): DataContainerInterface<ScheduleResource
     const refresh = (): Promise<void> =>
     getSchedulesFromApi(userId)
       .then((fetchedSchedules) => {
+        console.log("Logs : " + JSON.stringify(fetchedSchedules));
         if(fetchedSchedules.length > 0)
         {
           return cacheHelper.insertItems(List(fetchedSchedules))

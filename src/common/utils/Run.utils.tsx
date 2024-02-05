@@ -86,6 +86,7 @@ export function statusColor(run: RunResource) {
             return Colors.STATUS_GONE
         break
         case 'needs_filling':
+            return Colors.STATUS_NEEDS_FILLING
         case 'almostready':
             return Colors.STATUS_NEED
             break
