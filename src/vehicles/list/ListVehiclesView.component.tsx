@@ -14,7 +14,7 @@ export interface ListVehiclesViewComponentProps {
     hideStatusColor?: boolean,
     filter?: (item: VehicleResource) => boolean
 }
-
+// test2
 export function ListVehiclesViewComponent(props: ListVehiclesViewComponentProps) {
     const renderItem = (item: VehicleResource) => (
         <ListItem
