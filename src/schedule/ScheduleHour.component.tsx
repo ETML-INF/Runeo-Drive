@@ -19,7 +19,6 @@ export function ScheduleHour(props: ScheduleHourProps){
             <Text style={styles.hourText}>{props.hour}</Text>
             <View style={styles.hourLinesContainer}>
                 <View style={styles.hourLine}></View>
-                <View style={styles.halfHourLine}></View>
             </View>
         </View>
     );
@@ -38,9 +37,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         width: "15%",
         height: "100%",
-        
+        paddingTop: "12px",
         textAlign: "center",
-        textAlignVertical: "center",
 
         borderRightWidth: 1,
         borderRightColor: '#D9D9D9'
@@ -50,11 +48,5 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         height: "50%",
         width: "100%",
-    },
-    halfHourLine:{
-        borderBottomColor: '#EBEBEB',
-        borderBottomWidth: 1,
-        height: "50%",
-        width: "100%",
-    },
+    }
 });
