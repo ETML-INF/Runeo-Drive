@@ -105,7 +105,8 @@ export class ScheduleComponent extends React.Component {
             <ScheduleScheduleComponent
                 key={schedule.id}
                 y={this.parseDateToScroll(moment(schedule.start_time))}
-                height={moment(schedule.end_time).diff(moment(schedule.start_time), "hours") * 2 * this.scale}
+                // hours doit etre en minutes
+                height={moment(schedule.end_time).diff(moment(schedule.start_time), "minutes") / 60 * 2 * this.scale}
                 text={"Groupe " + schedule.group.name}
                 color={schedule.group.color}
             ></ScheduleScheduleComponent>);
