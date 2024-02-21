@@ -30,8 +30,12 @@ export function ListVehiclesViewComponent(props: ListVehiclesViewComponentProps)
                 </ListItem.Content>
 
                 {!props.hideStatusColor ? (
-                    <ListItem.Content style={{}}>
-                        <StatusCircleComponent color={statusColor(item.status)}/>
+                    <ListItem.Content style={styles.statusFlexed}>
+                        <Text style={{ color: statusColor(item.status) }}>{"["}</Text>
+                        <Text style={styles.nameText}>
+                            {item.status}
+                        </Text>
+                        <Text  style={{ color: statusColor(item.status) }}>{"]"}</Text>
                     </ListItem.Content>
                 ) : null}
 
@@ -95,5 +99,9 @@ const styles = StyleSheet.create({
         fontSize: 15,
         textAlign: "center",
         textAlignVertical: "center",
+    },
+    statusFlexed:{
+        display: "flex",
+        flexDirection: "row",
     }
 })
