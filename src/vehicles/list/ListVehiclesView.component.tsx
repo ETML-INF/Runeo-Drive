@@ -37,7 +37,6 @@ export function ListVehiclesViewComponent(props: ListVehiclesViewComponentProps)
 
                 <ListItem.Content style={styles.iconContainerContainer}>
                     <View style={styles.iconContainer}>
-                        {gasLevelToIcon(item.gas_level, styles.icon)}
                         <Text style={[styles.iconText, {color: gasLevelToColorRecord[item.gas_level]}]}>
                             {getGasLevelText(item.gas_level)}
                         </Text>
