@@ -95,9 +95,8 @@ export function RouterComponent() {
             default:
                 return (
                     <View style={styles.error}>
-                        <Text style={styles.error_message}>Problème!</Text>
-                        <Text style={styles.error_message}>Ton compte n'est pas encore activé</Text>
-                        <ButtonComponent titleStyle={styles.buttonTitle} title="Retour" onPress={onLogoutPress}/>
+                        <Text style={styles.error_message}>Vérification...</Text>
+                        <ButtonComponent title="Retour" onPress={onLogoutPress}/>
                     </View>
                 )
         }
@@ -112,7 +111,7 @@ const styles = StyleSheet.create({
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "space-around",
         padding:30
     },
     error_message: {
@@ -123,8 +122,5 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: "#dddddd",
         textAlign: "center"
-    },
-    buttonTitle: {
-        marginVertical: 5,
     }
 });
