@@ -23,7 +23,7 @@ const userStatusColorRecord: Record<string, string> = {
     [UserStatus.REQUESTED]: "#ffffcc",
     [UserStatus.CONFIRMED]: "#ccffcc",
     [UserStatus.VALIDATED]: "#00ff00",
-    [UserStatus.HIRED]: Colors.STATUS_NEED,
+    [UserStatus.HIRED]: Colors.STATUS_NEED_DRIVER,
     [UserStatus.FREE]: Colors.STATUS_READY,
     [UserStatus.NOT_PRESENT]: Colors.STATUS_PROBLEM,
     [UserStatus.RETIRED]: "#000000",

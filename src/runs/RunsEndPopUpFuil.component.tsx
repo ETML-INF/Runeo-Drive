@@ -137,7 +137,7 @@ export function RunsEndPopUpComponent(props : RunsEndPopUpProps) {
                             height={FUIL_LVL_BNT_SIZE.y}
                             width={FUIL_LVL_BNT_SIZE.x}
                             title={'Inconnu'}
-                            color={Colors.STATUS_NEED}
+                            color={Colors.STATUS_NEED_DRIVER}
                             icon={getJericanIcon(1)}
                             onPress={()=>{onInfoOptionSelect(-1)}}>
                         </IconButtonComponent>

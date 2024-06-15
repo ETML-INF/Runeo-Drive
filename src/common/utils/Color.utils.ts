@@ -10,7 +10,8 @@ export const Colors = {
   ME: "#dddddd",
   STATUS_GONE: "#60b0c0",
   STATUS_PROBLEM: "#ff0000",
-  STATUS_NEED: "#ffc000",
+  STATUS_NEED_CAR: "#cdf78d",
+  STATUS_NEED_DRIVER: "#ff9900",
   STATUS_READY: "#00b050",
-  HAS_CHANGED: "#ffaa00",
+  HAS_CHANGED: "#ffaa00"
 };
