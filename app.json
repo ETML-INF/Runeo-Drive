@@ -5,7 +5,7 @@
     "version": "2.1.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "owner": "etml.inf.dev",
+    "owner": "etml-inf-dev",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -33,7 +33,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "0c84914b-359f-45cf-8ef8-6ef36e3bb048"
+        "projectId": "df624953-600d-44b4-8de0-553244a93199"
       }
     }
   }

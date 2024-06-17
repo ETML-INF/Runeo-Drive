@@ -45,7 +45,7 @@ export function RouterComponent() {
     }
 
     if (authContainer.authenticatedUser) {
-        switch (authContainer.authenticatedUser?.status) {
+        switch (authContainer.authenticatedUser?.status.slug) {
             case "hired":
             case "taken":
             case "free":
