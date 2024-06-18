@@ -40,29 +40,31 @@ export const TokenAuthComponent = () => {
 
         authContainer.authenticate(values).catch((e: AxiosError) => {
             if(e.response)
+            {
+                switch(e.response?.status)
                 {
-                    switch(e.response?.status)
-                    {
-                        case 401:
-                            setFieldError("token", "Erreur de token, vérifie que le token que tu as entré est bien valide pour le festival sélectionné.");
-                            if(urlVisible){setFieldError("url", "Il est aussi possible que tu aies oublié le \"/api\" à la fin de ton URL.");}
-                            break;
-                        default:
-                            setFieldError("token", "Il y a eu un problème lors de la connexion. Contactez un administrateur pour en savoir plus. (erreur HTTP:" + e.response?.status + ")");
-                            break;
-                    }
-                    }
+                    case 401:
+                        setFieldError("token", "Erreur de token, vérifie que le token que tu as entré est bien valide pour le festival sélectionné.");
+                        if(urlVisible){setFieldError("url", "Il est aussi possible que tu aies oublié le \"/api\" à la fin de ton URL.");}
+                        break;
+                    default:
+                        setFieldError("token", "Il y a eu un problème lors de la connexion. Contactez un administrateur pour en savoir plus. (erreur HTTP:" + e.response?.status + ")");
+                        break;
+                }
+            }
             else
             {
                 if(urlVisible)
                 {
-                    setFieldError("url", "Erreur de connexion, vérifie ton accès à internet et l'URL que tu as entré et réessaye plus tard.");
+                    setFieldError("url", JSON.stringify(e.response));
+                    // setFieldError("url", "Erreur de connexion, vérifie ton accès à internet et l'URL que tu as entré et réessaye plus tard.");
                 }
                 else
                 {
                     setFieldError("token", "Erreur de connexion, vérifie ton accès à internet ou réessaye plus tard.");
                 }
             }
+            setFieldError("url", JSON.stringify(e.response));
             setSubmitting(false);
         });
     };
