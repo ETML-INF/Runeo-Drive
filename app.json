@@ -21,6 +21,7 @@
       "buildNumber": "2.1.1"
     },
     "android": {
+      "permissions": ["INTERNET", "ACCESS_NETWORK_STATE"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"

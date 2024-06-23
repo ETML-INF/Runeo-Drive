@@ -15,6 +15,7 @@ import {ButtonComponent} from "../common/component/ButtonComponent";
 import Dropdown from "../common/component/Dropdown";
 import { urlConfigData } from "../../App";
 import { AxiosError } from "axios";
+import { ScrollView } from "react-native-gesture-handler";
 
 export const TokenAuthComponent = () => {
     //#region dropdown config
@@ -38,17 +39,17 @@ export const TokenAuthComponent = () => {
     const onSubmit = async (values: { token: string, url: string }, {setSubmitting, setFieldError}: FormikHelpers<any>) => {
         setSubmitting(true);
 
-        authContainer.authenticate(values).catch((e: AxiosError) => {
+        authContainer.authenticate(values).then(() => setFieldError('url','OK')).catch((e: AxiosError) => {
             if(e.response)
             {
                 switch(e.response?.status)
                 {
                     case 401:
-                        setFieldError("token", "Erreur de token, vérifie que le token que tu as entré est bien valide pour le festival sélectionné.");
+                        setFieldError("token", "erreur"+JSON.stringify(e.response)+"Erreur de token, vérifie que le token que tu as entré est bien valide pour le festival sélectionné.");
                         if(urlVisible){setFieldError("url", "Il est aussi possible que tu aies oublié le \"/api\" à la fin de ton URL.");}
                         break;
                     default:
-                        setFieldError("token", "Il y a eu un problème lors de la connexion. Contactez un administrateur pour en savoir plus. (erreur HTTP:" + e.response?.status + ")");
+                        setFieldError("token", "erreur"+JSON.stringify(e.response)+"Il y a eu un problème lors de la connexion. Contactez un administrateur pour en savoir plus. (erreur HTTP:" + e.response?.status + ")");
                         break;
                 }
             }
@@ -56,15 +57,13 @@ export const TokenAuthComponent = () => {
             {
                 if(urlVisible)
                 {
-                    setFieldError("url", JSON.stringify(e.response));
-                    // setFieldError("url", "Erreur de connexion, vérifie ton accès à internet et l'URL que tu as entré et réessaye plus tard.");
+                    setFieldError("url", "erreur"+JSON.stringify(e)+"Erreur de connexion, vérifie ton accès à internet et l'URL que tu as entré et réessaye plus tard.");
                 }
                 else
                 {
-                    setFieldError("token", "Erreur de connexion, vérifie ton accès à internet ou réessaye plus tard.");
+                    setFieldError("token", "erreur"+JSON.stringify(e)+"Erreur de connexion, vérifie ton accès à internet ou réessaye plus tard.");
                 }
             }
-            setFieldError("url", JSON.stringify(e.response));
             setSubmitting(false);
         });
     };
