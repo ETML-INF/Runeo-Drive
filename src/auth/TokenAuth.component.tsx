@@ -45,11 +45,11 @@ export const TokenAuthComponent = () => {
                 switch(e.response?.status)
                 {
                     case 401:
-                        setFieldError("token", "erreur"+JSON.stringify(e.response)+"Erreur de token, vérifie que le token que tu as entré est bien valide pour le festival sélectionné.");
+                        setFieldError("token", "Erreur de token, vérifie que le token que tu as entré est bien valide pour le festival sélectionné.");
                         if(urlVisible){setFieldError("url", "Il est aussi possible que tu aies oublié le \"/api\" à la fin de ton URL.");}
                         break;
                     default:
-                        setFieldError("token", "erreur"+JSON.stringify(e.response)+"Il y a eu un problème lors de la connexion. Contactez un administrateur pour en savoir plus. (erreur HTTP:" + e.response?.status + ")");
+                        setFieldError("token", "Il y a eu un problème lors de la connexion. Contactez un administrateur pour en savoir plus. (erreur HTTP:" + e.response?.status + ")");
                         break;
                 }
             }
@@ -57,11 +57,11 @@ export const TokenAuthComponent = () => {
             {
                 if(urlVisible)
                 {
-                    setFieldError("url", "erreur"+JSON.stringify(e)+"Erreur de connexion, vérifie ton accès à internet et l'URL que tu as entré et réessaye plus tard.");
+                    setFieldError("url", "Erreur de connexion, vérifie ton accès à internet et l'URL que tu as entré et réessaye plus tard.");
                 }
                 else
                 {
-                    setFieldError("token", "erreur"+JSON.stringify(e)+"Erreur de connexion, vérifie ton accès à internet ou réessaye plus tard.");
+                    setFieldError("token", "Erreur de connexion, vérifie ton accès à internet ou réessaye plus tard.");
                 }
             }
             setSubmitting(false);

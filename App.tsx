@@ -18,10 +18,8 @@ import Constants from 'expo-constants';
 // pouvoir accepter plusieurs festivals ou pouvoir rentrer une IP personnalisée pour le débug (Autre). 
 // Laisser la valeur de l'option "Autre" vide pour que le champ "url" aparaisse. 
 export const urlConfigData = [
-  { label: 'Paléo', value: 'http://runeo.paleo.ch/api' },
+  { label: 'Paléo', value: 'https://runeo.paleo.ch/api' },
   { label: 'Belfort', value: 'https://runeurock.eurockeennes.fr/api' },
-  { label: 'Belfort staging', value: 'http://staging.runeurock.eurockeennes.fr/api' },
-  { label: 'localhost', value: 'http://localhost:8000/api' },
   { label: 'Autre', value: '' }
 ];
 

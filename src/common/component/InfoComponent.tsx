@@ -45,7 +45,7 @@ export function InfoComponent(props: InfoComponentProps) {
                     <Text>Puis améliorée en 2023 par Clément Sartoni et Théo Bensaci, de l'ETML</Text>
                 </InlineTextComponent>
             </View>
-            <Text style={styles.version}>Version actuelle 2023.2</Text>
+            <Text style={styles.version}>Version actuelle 2024.1</Text>
         </View>
     )
 }

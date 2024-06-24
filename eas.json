@@ -30,6 +30,11 @@
     "production": {
       "android": {
         "serviceAccountKeyPath": "/Users/Xavier/Github/Runeo-Drive/publicationkey.json"
+      },
+      "ios": {
+        "appleId": "xavier.carrel.pro@gmail.com",
+        "ascAppId": "6450534619",
+        "appleTeamId": "9NQ69T686N"
       }
     }
   }
