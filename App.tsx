@@ -20,6 +20,7 @@ import Constants from 'expo-constants';
 export const urlConfigData = [
   { label: 'Paléo', value: 'https://runeo.paleo.ch/api' },
   { label: 'Belfort', value: 'https://runeurock.eurockeennes.fr/api' },
+  { label: 'localhost', value: 'http://localhost:8000/api' },
   { label: 'Autre', value: '' }
 ];
 

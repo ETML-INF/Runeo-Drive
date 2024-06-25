@@ -2,7 +2,6 @@ import {Icon} from "react-native-elements";
 import {Image, StyleProp} from "react-native";
 import React from "react"
 import {Colors} from "./Color.utils";
-import {JerikanIcon} from "./Jerikan.utils";
 
 const gasLevelToTextMapping: Record<string, string> = {
     "-1": "Inconnu",
@@ -15,35 +14,6 @@ const gasLevelToTextMapping: Record<string, string> = {
 
 export function getGasLevelText(gasLevel: number): string {
     return gasLevelToTextMapping[String(gasLevel)] || ""
-}
-
-/**
-     * renvoie l'icon de jerickan corespondant id
-     * @param id id 
-     * @returns img avec l'icon de jerican
-     */
-export function gasLevelToIcon(gasLevel:number, iconStyle?:object){
-    let img;
-    //let size= iconSize ? iconSize : 30;
-    let superStyle = iconStyle ? iconStyle : {resizeMode:"contain", height: 30}
-    switch(gasLevel){
-        case -1:
-            img=JerikanIcon.Death_Red;
-            break;
-        case 0:
-            img=JerikanIcon.Death_Red;
-            break;
-        case 1 : 
-            img=JerikanIcon.Happy_Green;
-            break;
-        case 2 : 
-            img=JerikanIcon.Happy_Green;
-            break;
-        default:
-            img=JerikanIcon.Happy_Green;
-            break;
-    }
-    return <Image source={img} style={superStyle}/>
 }
 
 export const gasLevelToColorRecord: Record<number, string> = {

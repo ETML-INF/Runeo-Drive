@@ -14,7 +14,6 @@ import {InlineTextComponent} from "../../common/component/text/InlineText.compon
 import {ImportantTextComponent} from "../../common/component/text/ImportantText.component";
 import {Colors} from "../../common/utils/Color.utils";
 import { participates } from "../../common/utils/Run.utils";
-import {JerikanIcon} from "../../common/utils/Jerikan.utils";
 import { AuthContainer } from "../../Provider.component";
 import { DetailRunsContactBtn } from "./DetailRunsContactBtn.component";
 import { List } from "immutable";
@@ -49,12 +48,6 @@ export function DetailRunsGasWarningComponent({currentRun}: GasWarningDetailRuns
     {
         return (
             <View style={styles.card}>
-                <View style={styles.icon}>
-                    <Image
-                        style={styles.icon}
-                        source={JerikanIcon.Death_Red}
-                    />
-                </View>
                 <View style={styles.left}>
                     <Text style={styles.title}>Attention à l'essence</Text>
                     {emptyVehicles}

@@ -4,7 +4,7 @@ import {Alert, SafeAreaView, Text, View} from "react-native";
 import {useRunFromRouteParam} from "../common/hook/Run.hook";
 import {AuthContainer, RunsContainer} from "../Provider.component";
 import {Slider} from "react-native-elements";
-import {gasLevelToIcon, getGasLevelText} from "../common/utils/Vehicle.utils";
+import { getGasLevelText} from "../common/utils/Vehicle.utils";
 import {useNavigation} from "@react-navigation/native";
 import {CardComponentWithIcon} from "../common/component/Card.component";
 import {Colors} from "../common/utils/Color.utils";
@@ -56,10 +56,6 @@ export function RunsEndComponent() {
                     thumbStyle={{backgroundColor: `${Colors.BLUE}`}}
                 />
 
-                <View style={{flexDirection: "row", justifyContent: "center"}}>
-                    <View style={{marginRight: 5}}>{gasLevelToIcon(getRealGasLevelValue(), 18)}</View>
-                    <Text>{getGasLevelText(getRealGasLevelValue())}</Text>
-                </View>
             </View>
 
             <View style={{marginBottom: 50, margin: 10}}>

@@ -11,11 +11,9 @@ import {Alert, Text, View, Modal,Image, Pressable, StyleSheet, TouchableOpacity,
 import {Button, Icon} from "react-native-elements";
 import {useRunFromRouteParam} from "../common/hook/Run.hook";
 import {AuthContainer, RunsContainer} from "../Provider.component";
-import {gasLevelToIcon, getGasLevelText} from "../common/utils/Vehicle.utils";
 import {useNavigation} from "@react-navigation/native";
 import {Colors} from "../common/utils/Color.utils";
 import {IconButtonComponent} from "../common/component/IconButtonComponent";
-import { JerikanIcon } from "../common/utils/Jerikan.utils";
 
 export interface RunsEndPopUpProps {
     isVisable: boolean;
@@ -66,30 +64,6 @@ export function RunsEndPopUpComponent(props : RunsEndPopUpProps) {
         Alert.alert("Erreur", "Le run n'a pas pu être terminé.")
     }
 
-    /**
-     * renvoie l'icon de jerickan corespondant id
-     * @param id id 
-     * @returns img avec l'icon de jerican
-     */
-    function getJericanIcon(id:number){
-        let img;
-        switch(id){
-            case 0:
-                img=JerikanIcon.Happy_White;
-                break;
-            case 1 : 
-                img=JerikanIcon.Idk_White;
-                break;
-            case 2 : 
-                img=JerikanIcon.Death_White;
-                break;
-            default:
-                img=JerikanIcon.Happy_White;
-                break;
-        }
-        return <Image source={img} style={FuilPopUpStyles.fuilLevlIcon}/>
-    }
-
     //#endregion
 
     if (!currentRun) {
@@ -128,7 +102,6 @@ export function RunsEndPopUpComponent(props : RunsEndPopUpProps) {
                             width={FUIL_LVL_BNT_SIZE.x}
                             title={'Vide'}
                             color={Colors.STATUS_PROBLEM}
-                            icon={getJericanIcon(2)}
                             onPress={()=>{onInfoOptionSelect(1)}}>
                         </IconButtonComponent>
                         <IconButtonComponent
@@ -138,7 +111,6 @@ export function RunsEndPopUpComponent(props : RunsEndPopUpProps) {
                             width={FUIL_LVL_BNT_SIZE.x}
                             title={'Inconnu'}
                             color={Colors.STATUS_NEED_DRIVER}
-                            icon={getJericanIcon(1)}
                             onPress={()=>{onInfoOptionSelect(-1)}}>
                         </IconButtonComponent>
                         <IconButtonComponent
@@ -148,7 +120,6 @@ export function RunsEndPopUpComponent(props : RunsEndPopUpProps) {
                             width={FUIL_LVL_BNT_SIZE.x}
                             title={'Rempli'}
                             color={Colors.STATUS_READY}
-                            icon={getJericanIcon(0)}
                             onPress={()=>{onInfoOptionSelect(5)}}>
                         </IconButtonComponent>
                     </View>
