@@ -95,7 +95,9 @@ export function RouterComponent() {
             default:
                 return (
                     <View style={styles.error}>
-                        <Text style={styles.error_message}>Vérification...</Text>
+                        <Text style={styles.error_message}>Problème!</Text>
+                        <Text style={styles.error_message}>Ton compte n'est pas encore activé</Text>
+                        <Text style={styles.discreet}>({authContainer.authenticatedUser?.status.slug})</Text>
                         <ButtonComponent title="Retour" onPress={onLogoutPress}/>
                     </View>
                 )
