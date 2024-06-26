@@ -19,7 +19,7 @@ import Constants from 'expo-constants';
 // Laisser la valeur de l'option "Autre" vide pour que le champ "url" aparaisse. 
 export const urlConfigData = [
   { label: 'Paléo', value: 'https://runeo.paleo.ch/api' },
-  { label: 'Belfort', value: 'https://runeurock.eurockeennes.fr/api' },
+  { label: 'Eurockéennes', value: 'https://runeurock.eurockeennes.fr/api' },
   { label: 'Autre', value: '' }
 ];
 
