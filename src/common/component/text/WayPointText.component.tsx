@@ -20,13 +20,12 @@ export function WayPointTextComponent(props: WayPointTextComponentProps) {
 
 const styles = StyleSheet.create({
     meeting: {
-        borderRadius: 5,
-        borderColor: "#008000",
-        borderWidth: 3,
+        borderRadius: 8,
+        backgroundColor: "#00C000",
     },
     basicWayPoint: {
         fontWeight: "bold",
-        padding: 5,
+        padding: 10,
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between"

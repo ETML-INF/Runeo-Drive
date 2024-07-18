@@ -1,5 +1,5 @@
 import {RunResource} from "../../common/resources/Run.resource";
-import {Text, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 import {DURATION_FORMAT} from "../../common/utils/Date.utils";
 import React, {Fragment} from "react";
 import {CardComponentWithIcon} from "../../common/component/Card.component";
@@ -26,13 +26,6 @@ export function DetailRunsCourseComponent({currentRun}: CourseDetailRunsComponen
                         isMeeting={waypoint.is_meeting == 1}
                     />))}
             </View>
-            {runDuration.isValid ? (
-                <InlineTextComponent>
-                    <Text>Durée estimée </Text>
-                    <ImportantTextComponent>{runDuration.toFormat(DURATION_FORMAT)}</ImportantTextComponent>
-                </InlineTextComponent>
-            ) : <Fragment/>}
-
         </CardComponentWithIcon>
     )
 }

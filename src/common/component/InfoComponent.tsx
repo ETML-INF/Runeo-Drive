@@ -30,22 +30,10 @@ export function InfoComponent(props: InfoComponentProps) {
                     <Text>Noe, </Text>
                 </InlineTextComponent>
                 <InlineTextComponent>
-                    <ImportantTextComponent>Butticaz </ImportantTextComponent> 
-                    <Text>Yvann, </Text>
-                    <ImportantTextComponent>Pereira </ImportantTextComponent> 
-                    <Text>Gabriel, </Text>
-                </InlineTextComponent>
-                <InlineTextComponent>
-                    <ImportantTextComponent>Santos Oliveira </ImportantTextComponent> 
-                    <Text>Andi, </Text>
-                    <ImportantTextComponent>Schouwey </ImportantTextComponent> 
-                    <Text>Zaïd</Text>
-                </InlineTextComponent>
-                <InlineTextComponent>
-                    <Text>Puis améliorée en 2023 par Clément Sartoni et Théo Bensaci, de l'ETML</Text>
+                    <Text>Puis améliorée en 2023 par divers contributeurs</Text>
                 </InlineTextComponent>
             </View>
-            <Text style={styles.version}>Version actuelle 2024.1</Text>
+            <Text style={styles.version}>Version actuelle 2024.2</Text>
         </View>
     )
 }
