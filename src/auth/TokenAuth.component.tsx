@@ -13,7 +13,7 @@ import {TextInputComponent} from "../common/component/TextInput.component";
 import {AuthContainer} from "../Provider.component";
 import {ButtonComponent} from "../common/component/ButtonComponent";
 import Dropdown from "../common/component/Dropdown";
-import { urlConfigData } from "../../App";
+import { urlConfigData } from "../../BackendList";
 import { AxiosError } from "axios";
 import { ScrollView } from "react-native-gesture-handler";
 
