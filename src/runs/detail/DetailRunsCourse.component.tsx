@@ -5,6 +5,7 @@ import { WayPointTextComponent } from "../../common/component/text/WayPointText.
 import moment from "moment"
 import {ButtonComponent} from "../../common/component/ButtonComponent";
 import { NetworkContainer } from "../../Provider.component";
+import { toastType, showToast } from "../../notifications/ToastNotification";
 
 export interface CourseDetailRunsComponentProps {
     currentRun: RunResource
@@ -15,7 +16,11 @@ export function DetailRunsCourseComponent({currentRun}: CourseDetailRunsComponen
     const {isInternetReachable} = NetworkContainer.useContainer();
 
     const showRunOnMap = () => {
-        Linking.openURL(currentRun.google).catch(err => console.error("Couldn't load page", err));
+        if (currentRun.google.startsWith('http')) {
+            Linking.openURL(currentRun.google).catch(err => console.error("Couldn't load page", err));
+        } else {
+            showToast("Désolé, les informations sont incomplètes", toastType.failed);
+        }
     };
 
     return (

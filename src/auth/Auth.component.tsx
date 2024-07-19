@@ -9,6 +9,7 @@ export function AuthComponent() {
                 <Text style={{fontFamily: 'Montserrat-SemiBold', fontSize: 30, marginBottom: 50}}>Runeo Drive</Text>
             </View>
             <TokenAuthComponent/>
+            <Text style={styles.version}>2024.3</Text>
         </SafeAreaView>
     )
 }
@@ -21,5 +22,10 @@ const styles = StyleSheet.create({
     textCenter: {
         flexDirection: "row",
         justifyContent: "center",
-    }
+    },
+    version: {
+        textAlign: 'right',
+        color: '#ddd',
+        marginTop: 'auto'
+    },
 });
