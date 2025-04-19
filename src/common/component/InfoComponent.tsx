@@ -33,7 +33,6 @@ export function InfoComponent(props: InfoComponentProps) {
                     <Text>Puis améliorée en 2023 par divers contributeurs</Text>
                 </InlineTextComponent>
             </View>
-            <Text style={styles.version}>Version actuelle 2024.2</Text>
         </View>
     )
 }
@@ -58,9 +57,6 @@ const styles = StyleSheet.create({
     centerContent: {
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    version: {
-        textAlign: 'right',
     },
 })
 
