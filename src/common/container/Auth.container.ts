@@ -42,7 +42,7 @@ export function useAuthContainer(networkContainer: Container<NetworkContainer>) 
     const refreshAuthenticated = async (): Promise<void> => {
       const token = await AsyncStorage.getItem(TOKEN_STORAGE_KEY);
       const url = await AsyncStorage.getItem(URL_STORAGE_KEY);
-
+      console.log("token", token);
       if (token && url) {
         Axios.defaults.headers.common = {
           Authorization: `Bearer ${token}`,
@@ -52,6 +52,7 @@ export function useAuthContainer(networkContainer: Container<NetworkContainer>) 
         try {
           Axios.defaults.baseURL = url;
           const user = await getAuthenticatedUserApi();
+          console.log("user", user);
           await AsyncStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
           setAuthenticatedUser(user);
         } catch (e) {
