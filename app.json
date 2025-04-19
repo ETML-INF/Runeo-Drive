@@ -5,7 +5,7 @@
     "version": "2025.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "owner": "mosiby",
+    "owner": "etml-inf-dev",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

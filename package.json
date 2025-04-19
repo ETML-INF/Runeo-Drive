@@ -54,7 +54,6 @@
     "@babel/core": "^7.24.0",
     "@types/luxon": "^2.4.0",
     "@types/react": "~18.2.79",
-    "@types/react-native": "^0.64.29",
     "typescript": "~5.3.3"
   },
   "private": true

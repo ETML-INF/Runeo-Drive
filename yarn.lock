@@ -2041,13 +2041,6 @@
     "@types/react" "*"
     "@types/react-native" "^0.70"
 
-"@types/react-native@^0.64.29":
-  version "0.64.29"
-  resolved "https://registry.npmjs.org/@types/react-native/-/react-native-0.64.29.tgz"
-  integrity sha512-nCa4rcAlilTWL7wEUwTnxo6HjxQvFjVeDPK9taglDvId06pw/eOUu2NozfpwY91o8K7UdZn8VUoDRaGt2i8LBA==
-  dependencies:
-    "@types/react" "^17"
-
 "@types/react-native@^0.70":
   version "0.70.9"
   resolved "https://registry.npmjs.org/@types/react-native/-/react-native-0.70.9.tgz"
@@ -2064,15 +2057,6 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@^17":
-  version "17.0.80"
-  resolved "https://registry.npmjs.org/@types/react/-/react-17.0.80.tgz"
-  integrity sha512-LrgHIu2lEtIo8M7d1FcI3BdwXWoRQwMoXOZ7+dPTW0lYREjmlHl3P0U1VD0i/9tppOuv8/sam7sOjx34TxSFbA==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "^0.16"
-    csstype "^3.0.2"
-
 "@types/react@~18.2.79":
   version "18.2.79"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.79.tgz#c40efb4f255711f554d47b449f796d1c7756d865"
@@ -2081,7 +2065,7 @@
     "@types/prop-types" "*"
     csstype "^3.0.2"
 
-"@types/scheduler@*", "@types/scheduler@^0.16":
+"@types/scheduler@*":
   version "0.16.2"
   resolved "https://registry.npmjs.org/@types/scheduler/-/scheduler-0.16.2.tgz"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
