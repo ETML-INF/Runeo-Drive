@@ -16,11 +16,13 @@ import { ButtonComponent } from "../common/component/ButtonComponent";
 import Dropdown from "../common/component/Dropdown";
 import { urlConfigData } from "../../BackendList";
 import { useNavigation } from '@react-navigation/native';
+import { AuthContainer } from "../Provider.component";
 
 export const TokenAuthComponent = () => {
     const data = urlConfigData;
     const [selected, setSelected] = useState(data[0]);
     const [urlVisible, setUrlVisible] = useState(false);
+    const authContainer = AuthContainer.useContainer();
 
     const initialValues = {
         email: "",
@@ -48,6 +50,7 @@ export const TokenAuthComponent = () => {
             await AsyncStorage.setItem("apiToken", token);
             await AsyncStorage.setItem("apiUrl", values.url);
             await AsyncStorage.setItem("authenticatedUser", JSON.stringify(response.data.user));
+            await authContainer.refreshAuthenticated();
 
         } catch (error) {
             const e = error as AxiosError;
