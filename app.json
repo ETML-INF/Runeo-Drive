@@ -14,7 +14,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "ch.mosiby.runeo",
@@ -32,7 +34,10 @@
       "expo-font"
     ],
     "android": {
-      "permissions": ["INTERNET", "ACCESS_NETWORK_STATE"],
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
@@ -45,7 +50,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "df624953-600d-44b4-8de0-553244a93199"
+        "projectId": "c9fa705a-ca31-4885-94b2-29a88407d1b8"
       }
     }
   }
