@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Runeo-Drive",
-    "slug": "runeo-drive",
+    "name": "RuneoDrive",
+    "slug": "runeodrive",
     "version": "2025.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

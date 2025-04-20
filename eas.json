@@ -13,7 +13,7 @@
         "buildType": "apk"
       },
       "ios": {
-        "cocoapods": "1.11.2"
+        "cocoapods": "1.15.2"
       }
     },
     "production": {
@@ -32,7 +32,7 @@
         "serviceAccountKeyPath": "/Users/Xavier/Github/Runeo-Drive/publicationkey.json"
       },
       "ios": {
-        "appleId": "xavier.carrel.pro@gmail.com",
+        "appleId": "xavier.carrel.perso@gmail.com",
         "ascAppId": "6450534619",
         "appleTeamId": "9NQ69T686N"
       }
