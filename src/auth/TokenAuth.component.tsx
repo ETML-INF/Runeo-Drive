@@ -1,10 +1,3 @@
-/**
- *   Modified by: Clément Sartoni
- *   Modified time: 2023-05-22 09:33:05
- *   Description: Added a dropdown that allows to switch festival or enter a custom URL. 
- *   The dropdown only decide if the text field is visible or not and fills it with data, so the formik form only uses the text field.
- */
-
 import React, { useState } from "react";
 import { View, Text } from "react-native";
 import { Formik, FormikHelpers } from "formik";
@@ -15,7 +8,6 @@ import { TextInputComponent } from "../common/component/TextInput.component";
 import { ButtonComponent } from "../common/component/ButtonComponent";
 import Dropdown from "../common/component/Dropdown";
 import { urlConfigData } from "../../BackendList";
-import { useNavigation } from '@react-navigation/native';
 import { AuthContainer } from "../Provider.component";
 
 export const TokenAuthComponent = () => {
@@ -29,10 +21,6 @@ export const TokenAuthComponent = () => {
         password: "",
         url: selected.value
     };
-
-    function onPress(item: { label: string; value: string }): void {
-        setUrlVisible(item.value === "");
-    }
 
     const onSubmit = async (
         values: { email: string; password: string; url: string },
@@ -51,7 +39,6 @@ export const TokenAuthComponent = () => {
             await AsyncStorage.setItem("apiUrl", values.url);
             await AsyncStorage.setItem("authenticatedUser", JSON.stringify(response.data.user));
             await authContainer.refreshAuthenticated();
-
         } catch (error) {
             const e = error as AxiosError;
             if (e.response?.status === 401) {
@@ -74,46 +61,56 @@ export const TokenAuthComponent = () => {
                 url: yup.string().required("URL requise")
             })}
         >
-            {(formik) => (
-                <View>
-                    <Text style={{ fontFamily: "Montserrat-ExtraBold", marginLeft: 10 }}>Je suis</Text>
-                    <Dropdown label={selected.label} data={data} onSelect={setSelected} onPress={onPress} />
+            {(formik) => {
+                const onPress = (item: { label: string; value: string }) => {
+                    setUrlVisible(item.value === "");
+                    setSelected(item);
+                    formik.setFieldValue("url", item.value); // ✅ met à jour Formik
+                };
 
-                    {urlVisible && (
-                        <>
-                            <Text style={{ fontFamily: "Montserrat-ExtraBold", marginLeft: 10 }}>URL</Text>
-                            <TextInputComponent
-                                name="url"
-                                formik={formik}
-                                inputProps={{ value: "http://localhost:8000/api" }}
-                            />
-                        </>
-                    )}
+                return (
+                    <View>
+                        <Text style={{ fontFamily: "Montserrat-ExtraBold", marginLeft: 10 }}>Je suis</Text>
+                        <Dropdown label={selected.label} data={data} onSelect={setSelected} onPress={onPress} />
 
-                    <Text style={{ fontFamily: "Montserrat-ExtraBold", marginLeft: 10 }}>Mon email c'est</Text>
-                    <TextInputComponent
-                        name="email"
-                        formik={formik}
-                        inputProps={{ placeholder: "Ton email" }}
-                    />
+                        {urlVisible && (
+                            <>
+                                <Text style={{ fontFamily: "Montserrat-ExtraBold", marginLeft: 10 }}>URL</Text>
+                                <TextInputComponent
+                                    name="url"
+                                    formik={formik}
+                                    inputProps={{
+                                        placeholder: "http://localhost:8000/api"
+                                    }}
+                                />
+                            </>
+                        )}
 
-                    <Text style={{ fontFamily: "Montserrat-ExtraBold", marginLeft: 10 }}>et mon mot de passe est</Text>
-                    <TextInputComponent
-                        name="password"
-                        formik={formik}
-                        inputProps={{
-                            placeholder: "Ton mot de passe",
-                            secureTextEntry: true
-                        }}
-                    />
+                        <Text style={{ fontFamily: "Montserrat-ExtraBold", marginLeft: 10 }}>Mon email c'est</Text>
+                        <TextInputComponent
+                            name="email"
+                            formik={formik}
+                            inputProps={{ placeholder: "Ton email" }}
+                        />
 
-                    <ButtonComponent
-                        title="Connexion"
-                        onPress={formik.handleSubmit}
-                        disabled={formik.isSubmitting || !formik.isValid}
-                    />
-                </View>
-            )}
+                        <Text style={{ fontFamily: "Montserrat-ExtraBold", marginLeft: 10 }}>et mon mot de passe est</Text>
+                        <TextInputComponent
+                            name="password"
+                            formik={formik}
+                            inputProps={{
+                                placeholder: "Ton mot de passe",
+                                secureTextEntry: true
+                            }}
+                        />
+
+                        <ButtonComponent
+                            title="Connexion"
+                            onPress={formik.handleSubmit}
+                            disabled={formik.isSubmitting || !formik.isValid}
+                        />
+                    </View>
+                );
+            }}
         </Formik>
     );
 };

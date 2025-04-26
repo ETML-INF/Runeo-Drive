@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "RuneoDrive",
-    "slug": "runeodrive",
-    "version": "2025.0.0",
+    "name": "Runeo-Drive",
+    "slug": "runeo-drive",
+    "version": "2025.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "owner": "etml-inf-dev",
@@ -14,13 +14,11 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "ch.mosiby.runeo",
-      "buildNumber": "2025.0.0"
+      "bundleIdentifier": "etml.inf.dev.runeo",
+      "buildNumber": "2025.0.2"
     },
     "plugins": [
       [
@@ -30,27 +28,23 @@
             "usesCleartextTraffic": true
           }
         }
-      ],
-      "expo-font"
+      ]
     ],
     "android": {
-      "permissions": [
-        "INTERNET",
-        "ACCESS_NETWORK_STATE"
-      ],
+      "permissions": ["INTERNET", "ACCESS_NETWORK_STATE"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "ch.mosiby.runeo",
-      "versionCode": 202500
+      "package": "etml.inf.dev.runeo",
+      "versionCode": 202502
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "c9fa705a-ca31-4885-94b2-29a88407d1b8"
+        "projectId": "df624953-600d-44b4-8de0-553244a93199"
       }
     }
   }

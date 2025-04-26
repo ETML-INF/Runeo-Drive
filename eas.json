@@ -19,7 +19,9 @@
     "production": {
       "distribution": "store",
       "ios": {
-        "cocoapods": "1.15.2"
+        "cocoapods": "1.15.2",
+        "image": "latest",
+        "resourceClass": "m-medium"
       },
       "android": {
         "buildType": "apk"

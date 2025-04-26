@@ -63,10 +63,10 @@ export function useAuthContainer(networkContainer: Container<NetworkContainer>) 
     };
 
     const logout = async () => {
-      clearCaches().finally(() => {
-        AsyncStorage.removeItem(TOKEN_STORAGE_KEY);
-        AsyncStorage.removeItem(USER_STORAGE_KEY);
-      });
+      clearCaches();
+      AsyncStorage.removeItem(TOKEN_STORAGE_KEY);
+      AsyncStorage.removeItem(USER_STORAGE_KEY);
+      AsyncStorage.removeItem(URL_STORAGE_KEY);
       setAuthenticatedUser(null);
     };
 
