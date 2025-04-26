@@ -14,9 +14,10 @@ export function LoaderComponent(props: PropsWithChildren<any>) {
         return networkContainer.subscribeToNetworkChange();
     }, [])
 
+    
     useEffect(() => {
         authContainer.refreshAuthenticated()
-    }, [networkContainer.isInternetReachable])
+    }, [/* I do not understand why you would do that, it just unlogs people when they disconnect from internet ??? networkContainer.isInternetReachable  */])
 
     useEffect(() => {
         if (authContainer.authenticatedUser && !hasCacheBeenRead) {

@@ -86,8 +86,10 @@ export function statusColor(run: RunResource) {
             return Colors.STATUS_GONE
         break
         case 'needs_filling':
+            return Colors.STATUS_NEED_DRIVER
+            break
         case 'almostready':
-            return Colors.STATUS_NEED
+            return Colors.STATUS_NEED_CAR
             break
         case 'error':
             return Colors.STATUS_PROBLEM
@@ -96,7 +98,7 @@ export function statusColor(run: RunResource) {
             return Colors.STATUS_READY
         break
         default:
-            return Colors.WHITE
+            return Colors.GREY;
         }
 }
 

@@ -1,5 +1,6 @@
 import React from "react"
 import {UserStatus} from "../resources/User.resource";
+import { Colors } from "./Color.utils";
 
 const userStatusMapping: Record<string, string> = {
     [UserStatus.INACTIVE]: 'Inactif',
@@ -8,7 +9,7 @@ const userStatusMapping: Record<string, string> = {
     [UserStatus.VALIDATED]: 'Validé',
     [UserStatus.HIRED]: 'Engagé',
     [UserStatus.FREE]: 'Disponible',
-    [UserStatus.NOT_PRESENT]: 'Pas présent',
+    [UserStatus.NOT_PRESENT]: 'Indisponible',
     [UserStatus.RETIRED]: 'Retraité',
     [UserStatus.TAKEN]: 'En run'
 }
@@ -22,11 +23,11 @@ const userStatusColorRecord: Record<string, string> = {
     [UserStatus.REQUESTED]: "#ffffcc",
     [UserStatus.CONFIRMED]: "#ccffcc",
     [UserStatus.VALIDATED]: "#00ff00",
-    [UserStatus.HIRED]: "#009900",
-    [UserStatus.FREE]: "#3399ff",
-    [UserStatus.NOT_PRESENT]: "#ffe6cc",
+    [UserStatus.HIRED]: Colors.STATUS_NEED_DRIVER,
+    [UserStatus.FREE]: Colors.STATUS_READY,
+    [UserStatus.NOT_PRESENT]: Colors.STATUS_PROBLEM,
     [UserStatus.RETIRED]: "#000000",
-    [UserStatus.TAKEN]: "#ff66ff"
+    [UserStatus.TAKEN]: Colors.STATUS_GONE,
 
 }
 
@@ -34,4 +35,15 @@ export function userStatusColor(userStatus: string) {
     return userStatusColorRecord[userStatus] || "white"
 }
 
+const userRoleMapping: Record<string, string> = {
+    "admin": "Runners Administrator",
+    "coordinator": "Runners coordinator",
+    "runner": "Runner",
+    "production": "Production",
+    "manager": "Artist manager"
+}
+
+export function getUserRole(userRole: string) {
+    return userRoleMapping[userRole] || ""
+}
 

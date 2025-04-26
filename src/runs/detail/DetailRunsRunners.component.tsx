@@ -1,5 +1,5 @@
 import {RunResource, RunStatus} from "../../common/resources/Run.resource";
-import React, {Fragment} from "react";
+import React, {Fragment, useState} from "react";
 import {CardComponentWithIcon, CardContainerComponent} from "../../common/component/Card.component";
 import {Alert, StyleSheet, Text, View} from "react-native";
 import {Icon, Button} from "react-native-elements";
@@ -26,8 +26,12 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
 
     const selectVehicle = (runnerId: number, type: string) => {
         const params: RunsSelectVehicleParams = {runnerId, type}
-        navigation.navigate("select_vehicle", params)
+        navigation.navigate("select_vehicle", params);
     }
+
+    //In order to not display the interaction buttons in the schedule page
+    //TODO: not optimal system, if the main page's name changes this line will need to be changed.
+    const navFromList = navigation.getState().routeNames[0] == 'list';
 
     return (
         <CardComponentWithIcon title={"Runners"} icon={"tachometer-alt"}>
@@ -68,7 +72,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                             </Fragment>
                                         ) : null}
 
-                                        { canSelectVehicle (authenticatedUser,runner, currentRun) ? (
+                                        { (canSelectVehicle (authenticatedUser,runner, currentRun) && navFromList) ? (
                                             <ButtonComponent
                                                 title="Choisir"
                                                 disabled={ !isInternetReachable }
@@ -87,7 +91,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                             }/>
                                     ) : null}
 
-                                    { canChangeVehicle(authenticatedUser,runner, currentRun) ? (
+                                    { (canChangeVehicle(authenticatedUser,runner, currentRun) && navFromList) ? (
                                         <View>
                                             <ButtonComponent
                                                 disabled={ !isInternetReachable }

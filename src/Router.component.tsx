@@ -6,7 +6,7 @@ import { ListUsersComponent } from "./users/listUsers.component";
 import { Icon } from "react-native-elements";
 import { RunsComponent } from "./runs/Runs.component";
 import { VehiclesComponent } from "./vehicles/Vehicles.components";
-import { ParamsComponent } from "./params/Params.component";
+import { ScheduleNavigatorComponent } from "./schedule/ScheduleNavigator.component";
 import { Colors } from "./common/utils/Color.utils";
 import { ListFastDialsComponent } from "./fastDials/FastDials.component";
 import { Text, View, StyleSheet } from "react-native";
@@ -45,7 +45,7 @@ export function RouterComponent() {
     }
 
     if (authContainer.authenticatedUser) {
-        switch (authContainer.authenticatedUser?.status) {
+        switch (authContainer.authenticatedUser?.status.slug) {
             case "hired":
             case "taken":
             case "free":
@@ -63,14 +63,14 @@ export function RouterComponent() {
                             component={RunsComponent}
                         />
                         <Tab.Screen
-                            name="Drivers"
+                            name="Chauffeurs"
                             options={{
                                 tabBarIcon: tabBarIconGen('drivers-license-o'),
                             }}
                             component={ListUsersComponent}
                         />
                         <Tab.Screen
-                            name="Vehicles"
+                            name="Véhicules"
                             options={{
                                 tabBarIcon: tabBarIconGen('car'),
                             }}
@@ -84,11 +84,11 @@ export function RouterComponent() {
                             component={ListFastDialsComponent}
                         />
                         <Tab.Screen
-                            name="Params"
+                            name="Horaire"
                             options={{
-                                tabBarIcon: tabBarIconGen('cog'),
+                                tabBarIcon: tabBarIconGen('calendar'),
                             }}
-                            component={ParamsComponent}
+                            component={ScheduleNavigatorComponent}
                         />
                     </Tab.Navigator>
                 )
@@ -97,8 +97,8 @@ export function RouterComponent() {
                     <View style={styles.error}>
                         <Text style={styles.error_message}>Problème!</Text>
                         <Text style={styles.error_message}>Ton compte n'est pas encore activé</Text>
-                        <Text style={styles.discreet}>({authContainer.authenticatedUser?.status})</Text>
-                        <ButtonComponent titleStyle={styles.buttonTitle} title="Retour" onPress={onLogoutPress}/>
+                        <Text style={styles.discreet}>({authContainer.authenticatedUser?.status.slug})</Text>
+                        <ButtonComponent title="Retour" onPress={onLogoutPress}/>
                     </View>
                 )
         }
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "space-around",
         padding:30
     },
     error_message: {
@@ -124,8 +124,5 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: "#dddddd",
         textAlign: "center"
-    },
-    buttonTitle: {
-        marginVertical: 5,
     }
 });

@@ -1,7 +1,7 @@
 import {RunResource} from "../../common/resources/Run.resource";
 import {Alert, StyleSheet, Text, View} from "react-native";
 import React, {Fragment, useEffect} from "react";
-import {CardComponent, CardComponentWithIcon} from "../../common/component/Card.component";
+import {CardContainerComponent, CardComponentWithIcon} from "../../common/component/Card.component";
 import {ButtonComponent} from "../../common/component/ButtonComponent";
 import {useNavigation} from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -18,13 +18,13 @@ export function DetailRunsCommentComponent({currentRun}: InfoDetailRunsComponent
         navigation.navigate("comment", {runId: currentRun.id});
     }
     return (
-        <CardComponent>
+        <CardContainerComponent>
             <View style={styles.buttonContainer}>
                 <View style={styles.buttonWrapper}>
                     <ButtonComponent titleStyle={styles.buttonTitle} title="Historique" onPress={onChangePress}/>
                 </View>
             </View>
-        </CardComponent>
+        </CardContainerComponent>
     )
 }
 

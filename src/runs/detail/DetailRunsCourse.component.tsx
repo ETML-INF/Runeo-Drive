@@ -1,12 +1,11 @@
 import {RunResource} from "../../common/resources/Run.resource";
-import {Text, View} from "react-native";
-import {DURATION_FORMAT} from "../../common/utils/Date.utils";
-import React, {Fragment} from "react";
+import {StyleSheet, Button, Text, TouchableOpacity, Linking, View} from "react-native";
 import {CardComponentWithIcon} from "../../common/component/Card.component";
-import {ImportantTextComponent} from "../../common/component/text/ImportantText.component";
-import {MeetingTextComponent} from "../../common/component/text/MeetingText.component";
-import {InlineTextComponent} from "../../common/component/text/InlineText.component";
+import { WayPointTextComponent } from "../../common/component/text/WayPointText.component";
 import moment from "moment"
+import {ButtonComponent} from "../../common/component/ButtonComponent";
+import { NetworkContainer } from "../../Provider.component";
+import { toastType, showToast } from "../../notifications/ToastNotification";
 
 export interface CourseDetailRunsComponentProps {
     currentRun: RunResource
@@ -14,22 +13,48 @@ export interface CourseDetailRunsComponentProps {
 
 export function DetailRunsCourseComponent({currentRun}: CourseDetailRunsComponentProps) {
     const runDuration = currentRun.finished_at.diff(currentRun.begin_at);
+    const {isInternetReachable} = NetworkContainer.useContainer();
+
+    const showRunOnMap = () => {
+        if (currentRun.google.startsWith('http')) {
+            Linking.openURL(currentRun.google).catch(err => console.error("Couldn't load page", err));
+        } else {
+            showToast("Désolé, les informations sont incomplètes", toastType.failed);
+        }
+    };
 
     return (
         <CardComponentWithIcon title={"Parcours"} icon={"map-marked-alt"}>
             <View>
                 {currentRun.waypoints.map((waypoint, idx) => (
-                    waypoint.meeting_time ?
-                    <MeetingTextComponent key={idx} place={waypoint.nickname} time={moment(moment().format("YYYY-MM-DD ")+waypoint.meeting_time).format("H:mm")} /> :
-                    <ImportantTextComponent key={idx}>{waypoint.nickname}</ImportantTextComponent>))}
+                    <WayPointTextComponent 
+                        key={idx} 
+                        place={waypoint.nickname} 
+                        time={moment(moment().format("YYYY-MM-DD ")+waypoint.meeting_time).format("H:mm")} 
+                        isMeeting={waypoint.is_meeting == 1}
+                    />))}
             </View>
-            {runDuration.isValid ? (
-                <InlineTextComponent>
-                    <Text>Durée estimée </Text>
-                    <ImportantTextComponent>{runDuration.toFormat(DURATION_FORMAT)}</ImportantTextComponent>
-                </InlineTextComponent>
-            ) : <Fragment/>}
+            <View style={styles.container}>
+                <ButtonComponent
+                    title="Visualiser"
+                    disabled={ !isInternetReachable }
+                    color="#f194ff"
+                    onPress={showRunOnMap}
+                />
 
+            </View>
         </CardComponentWithIcon>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    linkText: {
+        color: 'blue',
+        textDecorationLine: 'underline',
+    },
+  });

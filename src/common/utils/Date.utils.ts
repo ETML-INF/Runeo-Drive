@@ -25,3 +25,17 @@ export function logTimeStamp(date) {
   const daysOfWeek = ["Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa"];
   return daysOfWeek[res.format("d")] + " " + res.format("D, HH:mm");
 }
+
+export function localDayOfWeek(date : Date){
+  let res = moment(date);
+  const daysOfWeek = [
+    "Dimanche",
+    "Lundi",
+    "Mardi",
+    "Mercredi",
+    "Jeudi",
+    "Vendredi",
+    "Samedi",
+  ];
+  return daysOfWeek[res.format("d")];
+}

@@ -15,6 +15,7 @@ export interface RunsContainer extends DataContainerInterface<RunResource> {
   takeRun: (run: RunResource, runner: RunnerResource) => Promise<void>;
   acknowledgeRun: (run: RunResource) => Promise<void>;
   getLogs: (runId: number) => Promise<LogResource[]>;
+  getRunsFromSameArtist: (run: RunResource) => Promise<RunResource[]>;
   postLog: (run: number, message: string) => Promise<LogResource>;
 }
 
@@ -25,6 +26,10 @@ export function useRunsContainer(): RunsContainer {
     return getRunsFromApi()
       .then((fetchedRuns) => cacheHelper.insertItems(List(fetchedRuns)))
       .catch((error) => error.text);
+  };
+
+  const getRunsFromSameArtist = (run: RunResource): Promise<RunResource[]> => {
+    return getRunsFromSameArtistApi(run);
   };
 
   const updateVehicle = (runnerId: number, carId: number): Promise<void> =>
@@ -60,6 +65,7 @@ export function useRunsContainer(): RunsContainer {
     items: cacheHelper.items,
     readFromCache: cacheHelper.readFromCache,
     refresh,
+    getRunsFromSameArtist,
     updateVehicle,
     startRun,
     stopRun,
@@ -67,16 +73,13 @@ export function useRunsContainer(): RunsContainer {
     acknowledgeRun,
     getLogs,
     postLog,
-    empty: cacheHelper.empty,
+    empty: cacheHelper.empty
   };
 }
 
-function takeRunApi(
-  run: RunResource,
-  runner: RunnerResource
-): Promise<RunResource> {
+function takeRunApi(run: RunResource, runner: RunnerResource): Promise<RunResource> {
   return Axios.patch(`/runners/${runner.id}/driver`, {
-    updated_at: run.updated_at.toString(),
+    updated_at: run.updated_at.toString()
   })
     .then((res) => parseRunResource(res.data))
     .catch((error) => error.text);
@@ -90,18 +93,15 @@ function startRunApi(run: RunResource): Promise<RunResource> {
 
 function stopRunApi(run: RunResource, gasLevel: number): Promise<RunResource> {
   return Axios.patch(`/runs/${run.id}/stop`, {
-    gas_level: gasLevel,
+    gas_level: gasLevel
   })
     .then((res) => parseRunResource(res.data))
     .catch((error) => error.text);
 }
 
-function updateRunnerCarApi(
-  runnerId: number,
-  carId: number
-): Promise<RunResource> {
+function updateRunnerCarApi(runnerId: number, carId: number): Promise<RunResource> {
   return Axios.patch(`/runners/${runnerId}/car`, {
-    car_id: carId,
+    car_id: carId
   })
     .then((res) => parseRunResource(res.data))
     .catch((error) => error.text);
@@ -120,6 +120,12 @@ function getRunsFromApi(onlyFromTime?: DateTime): Promise<RunResource[]> {
     .catch((error) => error.text);
 }
 
+function getRunsFromSameArtistApi(run: RunResource): Promise<RunResource[]> {
+  return Axios.get(`/runs/artist/${run.artist_id}`)
+    .then((res) => res.data.map(parseRunResource))
+    .catch((error) => error);
+}
+
 function acknowledgeRunApi(run: RunResource): Promise<RunResource> {
   return Axios.patch(`/runs/${run}/acknowledge`)
     .then((res) => parseRunResource(res.data))
@@ -136,7 +142,7 @@ function parseRunResource(runFromApi: any): RunResource {
     updated_at: DateTime.fromISO(runFromApi.updated_at),
     acknowledged_at: DateTime.fromISO(runFromApi.acknowledged_at),
     waypoints: List(runFromApi.waypoints),
-    runners: List(runFromApi.runners),
+    runners: List(runFromApi.runners)
   };
 }
 
@@ -146,7 +152,7 @@ function getLogsFromApi(run: number): Promise<LogResource[]> {
 
 function postLogToApi(run: number, description: string): Promise<LogResource> {
   return Axios.post(`/runs/${run}/logs`, {
-    description,
+    description
   }).then((res) => res.data);
 }
 
@@ -161,6 +167,6 @@ function parseLogResource(logFromApi: any): LogResource {
     updated_at: DateTime.fromISO(logFromApi.updated_at),
     description: logFromApi.description,
     id: logFromApi.id,
-    action: logFromApi.action,
+    action: logFromApi.action
   };
 }

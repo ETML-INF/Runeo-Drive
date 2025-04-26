@@ -1,3 +1,11 @@
+/**
+ *   Modified by: Clément Sartoni
+ *   Modified time: 2023-06-09 08:09:55
+ *   Description: Transformé la manière de gérer l'URL en ajoutant la possibilité de renseigner plusieurs festivals
+ *   parmis lesquels l'utilisateur peut choisir. (il peut aussi renseigner un URL manuellement).
+ */
+
+
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Platform } from 'react-native';
 import { AppComponent } from './src/App.component';
@@ -5,9 +13,6 @@ import Axios from "axios";
 import { useFonts } from 'expo-font';
 import { RootSiblingParent } from 'react-native-root-siblings';
 import Constants from 'expo-constants';
-
-
-Axios.defaults.baseURL = "http://runeo.paleo.ch/api";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -33,6 +38,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: (Platform.OS === 'ios') ? 0 : Constants.statusBarHeight,
+    marginTop: 0,
+    //marginTop: (Platform.OS === 'ios') ? 0 : Constants.statusBarHeight,
   },
 });

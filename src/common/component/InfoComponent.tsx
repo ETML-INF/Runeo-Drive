@@ -30,20 +30,9 @@ export function InfoComponent(props: InfoComponentProps) {
                     <Text>Noe, </Text>
                 </InlineTextComponent>
                 <InlineTextComponent>
-                    <ImportantTextComponent>Butticaz </ImportantTextComponent> 
-                    <Text>Yvann, </Text>
-                    <ImportantTextComponent>Pereira </ImportantTextComponent> 
-                    <Text>Gabriel, </Text>
-                </InlineTextComponent>
-                <InlineTextComponent>
-
-                    <ImportantTextComponent>Santos Oliveira </ImportantTextComponent> 
-                    <Text>Andi, </Text>
-                    <ImportantTextComponent>Schouwey </ImportantTextComponent> 
-                    <Text>Zaïd</Text>
+                    <Text>Puis améliorée en 2023 par divers contributeurs</Text>
                 </InlineTextComponent>
             </View>
-            <Text style={styles.version}>Version actuelle 1.3.2</Text>
         </View>
     )
 }
@@ -68,9 +57,6 @@ const styles = StyleSheet.create({
     centerContent: {
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    version: {
-        textAlign: 'right',
     },
 })
 

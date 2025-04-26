@@ -49,10 +49,10 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.STATUS_READY
     },
     statusneeds_filling: {
-        backgroundColor: Colors.STATUS_NEED
+        backgroundColor: Colors.STATUS_NEED_DRIVER
     },
     statusalmostready: {
-        backgroundColor: Colors.STATUS_NEED
+        backgroundColor: Colors.STATUS_NEED_CAR
     },
     statuserror: {
         backgroundColor: Colors.STATUS_PROBLEM

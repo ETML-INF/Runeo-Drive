@@ -16,3 +16,14 @@ export function showToast(text:string,toastType:toastType) {
         backgroundColor:toastType,
     });
 }
+export function showToastLong(text:string,toastType:toastType) {
+    Toast.show(text, {
+        duration: 7000,
+        position: 100,
+        shadow: true,
+        animation: true,
+        hideOnPress: false,
+        delay: 0,
+        backgroundColor:toastType,
+    });
+}
