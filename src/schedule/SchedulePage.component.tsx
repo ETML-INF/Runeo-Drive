@@ -79,7 +79,7 @@ export function SchedulePageComponent() {
                                 callback("Nous n'avons pas pu charger vos horaires ou vos runs. Il est possible que si vous n'avez pas de groupe attribué, cette erreur apparaisse. (erreur 400)")
                                 break;
                             default:
-                                callback("Nous n'avons pas pu charger vos horaires ou vos runs. Contactez un administrateur pour en savoir plus. (erreur HTTP:" + e.response?.status + ")")
+                                callback("Nous n'avons pas pu charger vos horaires ou vos runs. Contactez un administrateur pour en savoir plus. (erreur " + e.response?.status + ")")
                                 break;
                         }
                     }

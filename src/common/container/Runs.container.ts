@@ -47,10 +47,7 @@ export function useRunsContainer(): RunsContainer {
       .then(cacheHelper.insertItem)
       .catch((error) => error.text);
 
-  const takeRun = (run: RunResource, runner: RunnerResource) =>
-    takeRunApi(run, runner)
-      .then(cacheHelper.insertItem)
-      .catch((error) => error.text);
+  const takeRun = (run: RunResource, runner: RunnerResource) => takeRunApi(run, runner).then(cacheHelper.insertItem);
 
   const acknowledgeRun = (run: RunResource): Promise<void> =>
     acknowledgeRunApi(run)
@@ -82,7 +79,14 @@ function takeRunApi(run: RunResource, runner: RunnerResource): Promise<RunResour
     updated_at: run.updated_at.toString()
   })
     .then((res) => parseRunResource(res.data))
-    .catch((error) => error.text);
+    .catch((error) => {
+      if (error.response.status === 409) {
+        // On garde le message clair depuis l'API ou le statut
+        throw new Error("Ce poste est déjà pris par un autre conducteur.");
+      } else {
+        throw new Error(error.message);
+      }
+    });
 }
 
 function startRunApi(run: RunResource): Promise<RunResource> {
