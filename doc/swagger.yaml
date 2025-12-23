@@ -1,0 +1,1222 @@
+openapi: 3.0.0
+info:
+  description: "This swagger documents the Runeo api."
+  version: "v2.3.0"
+  title: "Runeo"
+tags:
+  - name: "me"
+    description: "Routes related to the authenticated user"
+  - name: "users"
+    description: "Users resource"
+  - name: "schedules"
+    description: "Schedules resource"
+  - name: "runs"
+    description: "Runs resource"
+  - name: "runs.logs"
+    description: "Run's log resource"
+  - name: "runners"
+    description: "Runners resource (subscriptions)"
+  - name: "waypoints"
+    description: "Waypoints resource"
+  - name: "cars"
+    description: "Cars resource"
+  - name: "cars.comments"
+    description: "Cars comments"
+  - name: "cars.photo"
+    description: "Cars photos"
+  - name: "groups"
+    description: "Groups resource"
+  - name: "fastDials"
+    description: "fastDials resource"
+paths:
+  /me:
+    get:
+      tags:
+        - "me"
+      summary: "Get the current authenticated user"
+      description: "Check the bearer authentication, and return the current User model"
+      responses:
+        '200':    # status code
+          description: User model serialized to JSON
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    post:
+      tags:
+        - "me"
+      summary: "Authenticate user with username and password"
+      description: "Authenticate user with username and password"
+      #Sends username and password as a parameter
+      requestBody:
+        description: The datas of our new car
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        '200':    # status code
+          description: User model serialized to JSON
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /me/runs:
+    get:
+      tags:
+        - "me"
+      summary: "Get the current authenticated user runs"
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Run"
+  /users:
+    get:
+      tags:
+        - "users"
+      summary: "Get all the users"
+      responses:
+        '200':    # status code
+          description: "User model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+  /users/{user}:
+    get:
+      tags:
+        - "users"
+      summary: "Get specific user by his ID"
+      parameters:
+        - name: user
+          in: path
+          required: true
+          description: "The id of the user"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "User model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    patch:
+      tags:
+        - "users"
+      summary: "Update a specific user by his ID"
+      parameters:
+        - name: user
+          in: path
+          required: true
+          description: "The id of the user"
+          example: 2
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        description: The data to change on the user object
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notification_token:
+                  type: string
+                  example: "testToken"
+                image_license:
+                  type: string
+                  example: "data:image/png;base64,iVBORw0KGgoAA..."
+      responses:
+        '200':    # status code
+          description: "User model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /users/{user}/status:
+    patch:
+      tags:
+        - "users"
+      summary: "Update the status of a specific user by his ID"
+      parameters:
+        - name: user
+          in: path
+          required: true
+          description: "The id of the user"
+          example: 2
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        description: The data to change on the user object
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status_id:
+                  type: integer
+                  example: 6
+      responses:
+        '200':    # status code
+          description: "User model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /users/{user}/schedules:
+    get:
+      tags:
+        - "users"
+      summary: "Get user's schedules by his ID"
+      parameters:
+        - name: user
+          in: path
+          required: true
+          description: "The id of the user"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "User's schedules serialized to JSON"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Schedule"
+  /runs:
+    get:
+      tags:
+        - "runs"
+      summary: "Get all the runs"
+      parameters:
+        - name: finished
+          in: query
+          required: false
+          description: "Bolean if you want just finished runs '?finished=true'"
+          example: false
+          schema:
+            type: string
+            minimum: 1
+        - name: status
+          in: query
+          required: false
+          description: "Name of the status you want to filter the request"
+          example: 'finished'
+          schema:
+            type: string
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Run model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Run"
+  /runs/{run}:
+    get:
+      tags:
+        - "runs"
+      summary: "Get specific run by his ID"
+      parameters:
+        - name: run
+          in: path
+          required: true
+          description: "The id of the run"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Run model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Run"
+  /runs/{run}/start:
+    patch:
+      tags:
+        - "runs"
+      summary: "Start a specific run by his ID"
+      parameters:
+        - name: run
+          in: path
+          required: true
+          description: "The id of the run"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Run model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Run"
+  /runs/{run}/stop:
+    patch:
+      tags:
+        - "runs"
+      summary: "Stop a specific run by his ID"
+      parameters:
+        - name: run
+          in: path
+          required: true
+          description: "The id of the run"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Run model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Run"
+  /runs/{run}/acknowledge:
+    patch:
+      tags:
+        - "runs"
+      summary: "Acknowledge the data of a specific run by his ID"
+      parameters:
+        - name: run
+          in: path
+          required: true
+          description: "The id of the run"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Run model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Run"
+  /runs/artist/{artist}:
+    patch:
+      tags:
+        - "runs"
+      summary: "Get all the runs for a specified artist"
+      parameters:
+        - name: artist
+          in: path
+          required: true
+          description: "The id of the artist"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Run model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Run"
+  /runs/{run}/waypoints:
+    get:
+      tags:
+        - "runs"
+      summary: "Show the waypoints of this run."
+      parameters:
+        - name: run
+          in: path
+          required: true
+          description: "The id of the run"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Waypoint model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Waypoint"
+                  
+  /runs/{run}/logs:
+    get:
+      tags:
+        - "runs.logs"
+      summary: "Get all log entries for the run"
+      parameters:
+        - name: run
+          in: path
+          required: true
+          description: "The id of the run"
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LogEntry"
+
+    post:
+      tags:
+        - "runs.logs"
+      summary: "Post a log entry for the run"
+      parameters:
+        - name: run
+          in: path
+          required: true
+          description: "The id of the run"
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "Ok"
+  /runs/{run}/logs/{log}:
+    delete:
+      tags:
+        - "runs.logs"
+      summary: "Delete one log entry of the run"
+      parameters:
+        - name: run
+          in: path
+          required: true
+          description: "The id of the run"
+          schema:
+            type: integer
+        - name: log
+          in: path
+          required: true
+          description: "The id of the run log entry"
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Ok"
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "Ok"
+  /runners/{runner}:
+    get:
+      tags:
+        - "runners"
+      summary: "Get specific run subscription by his ID"
+      parameters:
+        - name: runner
+          in: path
+          required: true
+          description: "The id of the run subscription"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Run model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Runner"
+    patch:
+      tags:
+        - "runners"
+      summary: "Update specific run subscription by his ID"
+      parameters:
+        - name: runner
+          in: path
+          required: true
+          description: "The id of the run subscription"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Run model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Runner"
+  /runners/{runner}/driver:
+    patch:
+      tags:
+        - "runners"
+      summary: "Add the current authenticated user to the selected subscription"
+      parameters:
+        - name: runner
+          in: path
+          required: true
+          description: "The id of the run subscription"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                updated_at:
+                  type: string
+                  example: '2019-03-13T11:42:53'
+      responses:
+        '200':    # status code
+          description: "Run model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Run"
+    delete:
+      tags:
+        - "runners"
+      summary: "Remove the current authenticated user to the selected subscription"
+      parameters:
+        - name: runner
+          in: path
+          required: true
+          description: "The id of the run subscription"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: "Run model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Run"
+  /runners/{runner}/car:
+    patch:
+      tags:
+        - "runners"
+      summary: "Add the parameter car to the selected subscription"
+      parameters:
+        - name: runner
+          in: path
+          required: true
+          description: "The id of the run subscription"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                car_id:
+                  type: integer
+                  example: 1
+      responses:
+        '200':    # status code
+          description: "Run model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Run"
+  /cars:
+    get:
+      tags:
+        - "cars"
+      summary: "Get all the cars"
+      responses:
+        '200':    # status code
+          description: "Car model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Car"
+    post:
+      tags:
+        - "cars"
+      summary: "Store a new car"
+      requestBody:
+        description: The datas of our new car
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarRequest'
+      responses:
+        '201':    # status code
+          description: "Car model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Car"
+  /cars/{car}:
+    get:
+      tags:
+        - "cars"
+      summary: "Get specific car by his ID"
+      parameters:
+        - name: car
+          in: path
+          required: true
+          description: "The id of the car"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Car model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Car"
+    patch:
+      tags:
+        - "cars"
+      summary: "Get specific car by his ID"
+      parameters:
+        - name: car
+          in: path
+          required: true
+          description: "The id of the car"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        description: The datas of our new car
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CarRequest"
+      responses:
+        '200':    # status code
+          description: "Car model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref:  "#/components/schemas/Car"
+  /cars/{car}/comments:
+    get:
+      tags:
+        - "cars.comments"
+      summary: "Get all comments for the specified car"
+      parameters:
+        - name: car
+          in: path
+          required: true
+          description: "The id of the car"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Car model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Comment"
+    post:
+      tags:
+        - "cars.comments"
+      summary: "Create new comment for the specified car"
+      parameters:
+        - name: car
+          in: path
+          required: true
+          description: "The id of the car"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        description: The datas of our new comment
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentRequest'
+      responses:
+        '201':    # status code
+          description: "Car model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+  /cars/{car}/use:
+    get:
+      tags:
+        - "cars"
+      summary: "Get all the 'use' run of the car, i.e: the current one and/or the next one. The previous one if there are none of those, and nothing if the car is unused"
+      parameters:
+        - name: car
+          in: path
+          required: true
+          description: "The id of the car"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Run that used this car"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ShortRun"
+  /cars/{car}/comments/{comment}:
+    get:
+      tags:
+        - "cars.comments"
+      summary: "Get a specific car comment by his ID"
+      parameters:
+        - name: car
+          in: path
+          required: true
+          description: "The id of the car"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+        - name: comment
+          in: path
+          required: true
+          description: "The id of the comment"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Comment model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+    patch:
+      tags:
+        - "cars.comments"
+      summary: "Update a specific car comment by his ID"
+      parameters:
+        - name: car
+          in: path
+          required: true
+          description: "The id of the car"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+        - name: comment
+          in: path
+          required: true
+          description: "The id of the comment"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        description: The datas of our new comment
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentRequest'
+      responses:
+        '200':    # status code
+          description: "Comment model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+    delete:
+      tags:
+        - "cars.comments"
+      summary: "Delete specific car comment by his ID"
+      parameters:
+        - name: car
+          in: path
+          required: true
+          description: "The id of the car"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+        - name: comment
+          in: path
+          required: true
+          description: "The id of the comment"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '204':    # status code
+          description: "Comment model serialized to JSON"
+  /cars/{car}/photo:
+    get:
+      tags:
+        - "cars.photo"
+      summary: "Get all photos for the specified car"
+      parameters:
+        - name: car
+          in: path
+          required: true
+          description: "The id of the car"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Car model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Photo"
+    post:
+      tags:
+          - "cars.photo"
+      summary: "Add a new photo to the specified car"
+      parameters:
+        - name: car
+          in: path
+          required: true
+          description: "The id of the car"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        description: The photo
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                photo:
+                  type: object
+      responses:
+        '200':    # status code
+          description: "Car model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: 
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: File successfully uploaded
+                  file:
+                    type: string
+                    example: Dj5bb86btYNtPuMoUMcSBemU2PPeDE5L4HFLZzLb.jpg
+                
+  /groups:
+    get:
+      tags:
+        - "groups"
+      summary: "Get all the groups"
+      responses:
+        '200':    # status code
+          description: "Group model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                type: object
+                allOf:
+                  - $ref: "#/components/schemas/PaginatedResponse"
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Group"
+  /groups/{group}:
+    get:
+      tags:
+        - "groups"
+      summary: "Get specific group by his ID"
+      parameters:
+        - name: group
+          in: path
+          required: true
+          description: "The id of the group"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Group model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Group"
+  /fastDial:
+    get:
+      tags:
+        - "fastDials"
+      summary: "Get all fast dials"
+      responses:
+        '200':    # status code
+          description: "Group model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FastDial"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: base64
+  schemas:
+    PaginatedResponse:
+      type: object
+      properties:
+        links:
+          type: object
+          properties:
+            first:
+              type: string
+            last:
+              type: string
+            prev:
+              type: string
+            next:
+              type: string
+
+        meta:
+          type: object
+          properties:
+            current_page:
+              type: number
+            from:
+              type: number
+            last_page:
+              type: number
+            path:
+              type: string
+            per_page:
+              type: number
+            to:
+              type: number
+            total:
+              type: number
+    User:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        name:
+          type: "string"
+        firstname:
+          type: "string"
+        lastname:
+          type: "string"
+        email:
+          type: "string"
+        phone_number:
+          type: "string"
+        status:
+          type: "string"
+        role:
+          type: "string"
+        image_profile:
+          type: "string"
+          description: "base64-encoded picture for the profile"
+        image_license:
+          type: "string"
+          description: "base64-encoded picture of the driver's license"
+        has_notification_token:
+          type: "string"
+    Run:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        status:
+          type: "string"
+        title:
+          type: "string"
+        begin_at:
+          type: "string"
+        start_at:
+          type: "string"
+        updated_at:
+          type: "string"
+        acknowledged_at:
+          type: "string"
+        pax_tbc:
+          type: "integer"
+        time_tbc:
+          type: "integer"
+        end_at:
+          type: "string"
+        finished_at:
+          type: "string"
+        nb_passenger:
+          type: "string"
+        runinfo:
+          type: "string"
+        name_contact:
+          type: "string"
+        num_contact:
+          type: "string"
+        waypoints:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Waypoint"
+        runners:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Runner"
+        artist_id:
+          type: "integer"
+    ShortRun:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        name:
+          type: "string"
+        planned_at:
+          type: "string"
+        end_planned_at:
+          type: "string"
+        started_at:
+          type: "string"
+        ended_at:
+          type: "string"
+        passengers:
+          type: "integer"
+        status:
+          type: "string"
+        artist_id:
+          type: "string"
+    Waypoint:
+      type: "object"
+      properties:
+        nickname:
+          type: "string"
+        meeting_time:
+          type: "string"
+    Runner:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        user:
+          $ref: "#/components/schemas/User"
+        vehicle_category:
+          $ref: "#/components/schemas/CarType"
+        vehicle:
+          $ref: "#/components/schemas/Car"
+    CarType:
+      type: "object"
+      properties:
+        type:
+          type: "string"
+        description:
+          type: "string"
+    Car:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        name:
+          type: "string"
+        plate_number:
+          type: "string"
+        gas_level:
+          type: "integer"
+        nb_place:
+          type: "integer"
+        status_slug:
+          type: string
+        status_name:
+          type: string
+        nextrun:
+          $ref: "#/components/schemas/ShortRun"
+        user:
+          type: "boolean"
+        type:
+          $ref: "#/components/schemas/CarType"
+        comments:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/Comment"
+    Comment:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        content:
+          type: "string"
+        user:
+          $ref: "#/components/schemas/User"
+        created_at:
+          type: "string"
+    Group:
+      type: "object"
+      properties:
+        color:
+          type: "string"
+        name:
+          type: "string"
+    CarRequest:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          example:
+            "OneCar"
+        plate_number:
+          type: "string"
+          example:
+            "VD 219310"
+        brand:
+          type: "string"
+          example:
+            "Mercedes"
+        model:
+          type: "string"
+          example:
+            "Vito"
+        color:
+          type: "string"
+          example:
+            "red"
+        status_id:
+          type: "integer"
+          example:
+            2
+        type_id:
+          type: "integer"
+          example:
+            1
+    CommentRequest:
+      type: "object"
+      properties:
+        content:
+          type: "string"
+          example:
+            "The guy that created this doc is awesome!"
+    UserRequest:
+      type: "object"
+      properties:
+        username:
+          type: "string"
+          example:
+            "Toto"
+        Password:
+          type: "string"
+          example:
+            "Pa$$w0rd"
+    PhotoRequest:
+      type: "object"
+      properties:
+        image:
+          type: "string"
+          example:
+            "base64Code"
+        description:
+          type: "string"
+          example:
+            "Good looking photo of my Mercedes"
+    PhotoUpdateRequest:
+      type: "object"
+      properties:
+        description:
+          type: "string"
+          example:
+            "Good looking photo of my Mercedes"
+    Photo:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 238
+        path:
+          type: string
+          example: "carpicturesDj5bb86btYNtPuMoUMcSBemU2PPeDE5L4HFLZz.jpg"
+    LogEntry:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 238
+        description:
+          type: string
+          example: "Il y a plein de bouchons sur l'autoroute"
+        user:
+          type: object
+          properties:
+            name:
+              type: string
+              example: "Vincent"
+    FastDial:
+      type: object
+      properties:
+        id:
+          type: integer
+        label:
+          type: string
+        phone_number:
+          type: string
+    Schedule:
+      type: object
+      properties:
+        start_date: 
+          type: string
+        end_date:
+          type: string
+        group:
+          $ref: "#/components/schemas/Group"          
+        
