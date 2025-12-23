@@ -16,45 +16,56 @@ tags:
     description: "Run's log resource"
   - name: "runners"
     description: "Runners resource (subscriptions)"
-  - name: "waypoints"
-    description: "Waypoints resource"
   - name: "cars"
     description: "Cars resource"
   - name: "cars.comments"
     description: "Cars comments"
-  - name: "cars.photo"
-    description: "Cars photos"
-  - name: "groups"
-    description: "Groups resource"
   - name: "fastDials"
     description: "fastDials resource"
 paths:
+  /me/token:
+    post:
+      tags:
+        - "me"
+      summary: "Authenticate user with email and password"
+      description: "Login endpoint that returns a Bearer token and user information"
+      requestBody:
+        description: User credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "user@example.com"
+                password:
+                  type: string
+                  example: "password123"
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: "Bearer token for authentication"
+                  user:
+                    $ref: "#/components/schemas/User"
+        '401':
+          description: Invalid credentials
   /me:
     get:
       tags:
         - "me"
       summary: "Get the current authenticated user"
       description: "Check the bearer authentication, and return the current User model"
-      responses:
-        '200':    # status code
-          description: User model serialized to JSON
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-    post:
-      tags:
-        - "me"
-      summary: "Authenticate user with username and password"
-      description: "Authenticate user with username and password"
-      #Sends username and password as a parameter
-      requestBody:
-        description: The datas of our new car
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserRequest'
+      security:
+        - bearerAuth: []
       responses:
         '200':    # status code
           description: User model serialized to JSON
@@ -67,6 +78,8 @@ paths:
       tags:
         - "me"
       summary: "Get the current authenticated user runs"
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: "OK"
@@ -81,6 +94,8 @@ paths:
       tags:
         - "users"
       summary: "Get all the users"
+      security:
+        - bearerAuth: []
       responses:
         '200':    # status code
           description: "User model serialized to JSON"
@@ -90,98 +105,13 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
-  /users/{user}:
-    get:
-      tags:
-        - "users"
-      summary: "Get specific user by his ID"
-      parameters:
-        - name: user
-          in: path
-          required: true
-          description: "The id of the user"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      responses:
-        '200':    # status code
-          description: "User model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-    patch:
-      tags:
-        - "users"
-      summary: "Update a specific user by his ID"
-      parameters:
-        - name: user
-          in: path
-          required: true
-          description: "The id of the user"
-          example: 2
-          schema:
-            type: integer
-            minimum: 1
-      requestBody:
-        description: The data to change on the user object
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                notification_token:
-                  type: string
-                  example: "testToken"
-                image_license:
-                  type: string
-                  example: "data:image/png;base64,iVBORw0KGgoAA..."
-      responses:
-        '200':    # status code
-          description: "User model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-  /users/{user}/status:
-    patch:
-      tags:
-        - "users"
-      summary: "Update the status of a specific user by his ID"
-      parameters:
-        - name: user
-          in: path
-          required: true
-          description: "The id of the user"
-          example: 2
-          schema:
-            type: integer
-            minimum: 1
-      requestBody:
-        description: The data to change on the user object
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                status_id:
-                  type: integer
-                  example: 6
-      responses:
-        '200':    # status code
-          description: "User model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
   /users/{user}/schedules:
     get:
       tags:
         - "users"
       summary: "Get user's schedules by his ID"
+      security:
+        - bearerAuth: []
       parameters:
         - name: user
           in: path
@@ -205,23 +135,17 @@ paths:
       tags:
         - "runs"
       summary: "Get all the runs"
+      security:
+        - bearerAuth: []
       parameters:
-        - name: finished
+        - name: onlyFromTime
           in: query
           required: false
-          description: "Bolean if you want just finished runs '?finished=true'"
-          example: false
+          description: "Filter runs from a specific date/time (ISO DateTime string)"
+          example: "2019-03-13T11:42:53"
           schema:
             type: string
-            minimum: 1
-        - name: status
-          in: query
-          required: false
-          description: "Name of the status you want to filter the request"
-          example: 'finished'
-          schema:
-            type: string
-            minimum: 1
+            format: date-time
       responses:
         '200':    # status code
           description: "Run model serialized to JSON"
@@ -231,32 +155,13 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Run"
-  /runs/{run}:
-    get:
-      tags:
-        - "runs"
-      summary: "Get specific run by his ID"
-      parameters:
-        - name: run
-          in: path
-          required: true
-          description: "The id of the run"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      responses:
-        '200':    # status code
-          description: "Run model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Run"
   /runs/{run}/start:
     patch:
       tags:
         - "runs"
       summary: "Start a specific run by his ID"
+      security:
+        - bearerAuth: []
       parameters:
         - name: run
           in: path
@@ -278,6 +183,8 @@ paths:
       tags:
         - "runs"
       summary: "Stop a specific run by his ID"
+      security:
+        - bearerAuth: []
       parameters:
         - name: run
           in: path
@@ -287,6 +194,17 @@ paths:
           schema:
             type: integer
             minimum: 1
+      requestBody:
+        description: Gas level after the run
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                gas_level:
+                  type: number
+                  example: 75
       responses:
         '200':    # status code
           description: "Run model serialized to JSON"
@@ -299,6 +217,8 @@ paths:
       tags:
         - "runs"
       summary: "Acknowledge the data of a specific run by his ID"
+      security:
+        - bearerAuth: []
       parameters:
         - name: run
           in: path
@@ -316,10 +236,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Run"
   /runs/artist/{artist}:
-    patch:
+    get:
       tags:
         - "runs"
       summary: "Get all the runs for a specified artist"
+      security:
+        - bearerAuth: []
       parameters:
         - name: artist
           in: path
@@ -338,35 +260,13 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Run"
-  /runs/{run}/waypoints:
-    get:
-      tags:
-        - "runs"
-      summary: "Show the waypoints of this run."
-      parameters:
-        - name: run
-          in: path
-          required: true
-          description: "The id of the run"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      responses:
-        '200':    # status code
-          description: "Waypoint model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Waypoint"
-                  
   /runs/{run}/logs:
     get:
       tags:
         - "runs.logs"
       summary: "Get all log entries for the run"
+      security:
+        - bearerAuth: []
       parameters:
         - name: run
           in: path
@@ -388,6 +288,8 @@ paths:
       tags:
         - "runs.logs"
       summary: "Post a log entry for the run"
+      security:
+        - bearerAuth: []
       parameters:
         - name: run
           in: path
@@ -395,86 +297,31 @@ paths:
           description: "The id of the run"
           schema:
             type: integer
+      requestBody:
+        description: Log entry content
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  example: "Il y a plein de bouchons sur l'autoroute"
       responses:
         '200':
           description: "Ok"
           content:
             application/json:
               schema:
-                type: string
-                example: "Ok"
-  /runs/{run}/logs/{log}:
-    delete:
-      tags:
-        - "runs.logs"
-      summary: "Delete one log entry of the run"
-      parameters:
-        - name: run
-          in: path
-          required: true
-          description: "The id of the run"
-          schema:
-            type: integer
-        - name: log
-          in: path
-          required: true
-          description: "The id of the run log entry"
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: "Ok"
-          content:
-            application/json:
-              schema:
-                type: string
-                example: "Ok"
-  /runners/{runner}:
-    get:
-      tags:
-        - "runners"
-      summary: "Get specific run subscription by his ID"
-      parameters:
-        - name: runner
-          in: path
-          required: true
-          description: "The id of the run subscription"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      responses:
-        '200':    # status code
-          description: "Run model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Runner"
-    patch:
-      tags:
-        - "runners"
-      summary: "Update specific run subscription by his ID"
-      parameters:
-        - name: runner
-          in: path
-          required: true
-          description: "The id of the run subscription"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      responses:
-        '200':    # status code
-          description: "Run model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Runner"
+                $ref: "#/components/schemas/LogEntry"
   /runners/{runner}/driver:
     patch:
       tags:
         - "runners"
       summary: "Add the current authenticated user to the selected subscription"
+      security:
+        - bearerAuth: []
       parameters:
         - name: runner
           in: path
@@ -500,31 +347,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Run"
-    delete:
-      tags:
-        - "runners"
-      summary: "Remove the current authenticated user to the selected subscription"
-      parameters:
-        - name: runner
-          in: path
-          required: true
-          description: "The id of the run subscription"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      responses:
-        '200':
-          description: "Run model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Run"
+        '409':
+          description: "Ce poste est déjà pris par un autre conducteur"
   /runners/{runner}/car:
     patch:
       tags:
         - "runners"
       summary: "Add the parameter car to the selected subscription"
+      security:
+        - bearerAuth: []
       parameters:
         - name: runner
           in: path
@@ -556,6 +387,8 @@ paths:
       tags:
         - "cars"
       summary: "Get all the cars"
+      security:
+        - bearerAuth: []
       responses:
         '200':    # status code
           description: "Car model serialized to JSON"
@@ -565,99 +398,13 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Car"
-    post:
-      tags:
-        - "cars"
-      summary: "Store a new car"
-      requestBody:
-        description: The datas of our new car
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CarRequest'
-      responses:
-        '201':    # status code
-          description: "Car model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Car"
-  /cars/{car}:
-    get:
-      tags:
-        - "cars"
-      summary: "Get specific car by his ID"
-      parameters:
-        - name: car
-          in: path
-          required: true
-          description: "The id of the car"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      responses:
-        '200':    # status code
-          description: "Car model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Car"
-    patch:
-      tags:
-        - "cars"
-      summary: "Get specific car by his ID"
-      parameters:
-        - name: car
-          in: path
-          required: true
-          description: "The id of the car"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      requestBody:
-        description: The datas of our new car
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CarRequest"
-      responses:
-        '200':    # status code
-          description: "Car model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                $ref:  "#/components/schemas/Car"
   /cars/{car}/comments:
-    get:
-      tags:
-        - "cars.comments"
-      summary: "Get all comments for the specified car"
-      parameters:
-        - name: car
-          in: path
-          required: true
-          description: "The id of the car"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      responses:
-        '200':    # status code
-          description: "Car model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Comment"
     post:
       tags:
         - "cars.comments"
       summary: "Create new comment for the specified car"
+      security:
+        - bearerAuth: []
       parameters:
         - name: car
           in: path
@@ -681,226 +428,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Comment"
-  /cars/{car}/use:
-    get:
-      tags:
-        - "cars"
-      summary: "Get all the 'use' run of the car, i.e: the current one and/or the next one. The previous one if there are none of those, and nothing if the car is unused"
-      parameters:
-        - name: car
-          in: path
-          required: true
-          description: "The id of the car"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      responses:
-        '200':    # status code
-          description: "Run that used this car"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ShortRun"
-  /cars/{car}/comments/{comment}:
-    get:
-      tags:
-        - "cars.comments"
-      summary: "Get a specific car comment by his ID"
-      parameters:
-        - name: car
-          in: path
-          required: true
-          description: "The id of the car"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-        - name: comment
-          in: path
-          required: true
-          description: "The id of the comment"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      responses:
-        '200':    # status code
-          description: "Comment model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Comment"
-    patch:
-      tags:
-        - "cars.comments"
-      summary: "Update a specific car comment by his ID"
-      parameters:
-        - name: car
-          in: path
-          required: true
-          description: "The id of the car"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-        - name: comment
-          in: path
-          required: true
-          description: "The id of the comment"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      requestBody:
-        description: The datas of our new comment
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CommentRequest'
-      responses:
-        '200':    # status code
-          description: "Comment model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Comment"
-    delete:
-      tags:
-        - "cars.comments"
-      summary: "Delete specific car comment by his ID"
-      parameters:
-        - name: car
-          in: path
-          required: true
-          description: "The id of the car"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-        - name: comment
-          in: path
-          required: true
-          description: "The id of the comment"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      responses:
-        '204':    # status code
-          description: "Comment model serialized to JSON"
-  /cars/{car}/photo:
-    get:
-      tags:
-        - "cars.photo"
-      summary: "Get all photos for the specified car"
-      parameters:
-        - name: car
-          in: path
-          required: true
-          description: "The id of the car"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      responses:
-        '200':    # status code
-          description: "Car model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Photo"
-    post:
-      tags:
-          - "cars.photo"
-      summary: "Add a new photo to the specified car"
-      parameters:
-        - name: car
-          in: path
-          required: true
-          description: "The id of the car"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      requestBody:
-        description: The photo
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                photo:
-                  type: object
-      responses:
-        '200':    # status code
-          description: "Car model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  success: 
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: File successfully uploaded
-                  file:
-                    type: string
-                    example: Dj5bb86btYNtPuMoUMcSBemU2PPeDE5L4HFLZzLb.jpg
-                
-  /groups:
-    get:
-      tags:
-        - "groups"
-      summary: "Get all the groups"
-      responses:
-        '200':    # status code
-          description: "Group model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                type: object
-                allOf:
-                  - $ref: "#/components/schemas/PaginatedResponse"
-                  - properties:
-                      data:
-                        type: array
-                        items:
-                          $ref: "#/components/schemas/Group"
-  /groups/{group}:
-    get:
-      tags:
-        - "groups"
-      summary: "Get specific group by his ID"
-      parameters:
-        - name: group
-          in: path
-          required: true
-          description: "The id of the group"
-          example: 1
-          schema:
-            type: integer
-            minimum: 1
-      responses:
-        '200':    # status code
-          description: "Group model serialized to JSON"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Group"
   /fastDial:
     get:
       tags:
         - "fastDials"
       summary: "Get all fast dials"
+      security:
+        - bearerAuth: []
       responses:
         '200':    # status code
           description: "Group model serialized to JSON"
@@ -974,6 +508,9 @@ components:
         image_license:
           type: "string"
           description: "base64-encoded picture of the driver's license"
+        picture:
+          type: "string"
+          description: "Filename of the profile picture stored on the server"
         has_notification_token:
           type: "string"
     Run:
@@ -1009,6 +546,8 @@ components:
           type: "string"
         num_contact:
           type: "string"
+        good_for_me:
+          type: "boolean"
         waypoints:
           type: "array"
           items:
@@ -1045,6 +584,8 @@ components:
       properties:
         nickname:
           type: "string"
+        is_meeting:
+          type: "boolean"
         meeting_time:
           type: "string"
     Runner:
@@ -1195,6 +736,13 @@ components:
         description:
           type: string
           example: "Il y a plein de bouchons sur l'autoroute"
+        action:
+          type: string
+          example: "created"
+        updated_at:
+          type: string
+          format: date-time
+          example: "2019-03-13T11:42:53"
         user:
           type: object
           properties:
