@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   description: "This swagger documents the Runeo api."
-  version: "v2.3.0"
+  version: "v3.0.0"
   title: "Runeo"
 tags:
   - name: "me"
