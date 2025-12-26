@@ -3,7 +3,7 @@ import { AuthContainer } from "./Provider.component";
 import { AuthComponent } from "./auth/Auth.component";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ListUsersComponent } from "./users/listUsers.component";
-import { Icon } from "react-native-elements";
+import { FontAwesome } from "@expo/vector-icons";
 import { RunsComponent } from "./runs/Runs.component";
 import { VehiclesComponent } from "./vehicles/Vehicles.components";
 import { ScheduleNavigatorComponent } from "./schedule/ScheduleNavigator.component";
@@ -21,10 +21,10 @@ const INACTIVE_TAB_COLOR = Colors.BLACK;
 
 export function RouterComponent() {
     const authContainer = AuthContainer.useContainer();
-    const tabBarIconGen = (name: string) => {
-        return ({ focused }: { focused: boolean }) => (<Icon
-            type='font-awesome'
+    const tabBarIconGen = (name: React.ComponentProps<typeof FontAwesome>['name']) => {
+        return ({ focused }: { focused: boolean }) => (<FontAwesome
             name={name}
+            size={24}
             color={focused ? ACTIVE_TAB_COLOR : INACTIVE_TAB_COLOR}
         />)
     };
@@ -51,10 +51,13 @@ export function RouterComponent() {
             case "free":
             case "not-present":
                 return (
-                    <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
-                        activeTintColor: ACTIVE_TAB_COLOR,
-                        inactiveTintColor: INACTIVE_TAB_COLOR,
-                    }}>
+                    <Tab.Navigator
+                        initialRouteName={RUNS_TAB}
+                        screenOptions={{
+                            tabBarActiveTintColor: ACTIVE_TAB_COLOR,
+                            tabBarInactiveTintColor: INACTIVE_TAB_COLOR,
+                        }}
+                    >
                         <Tab.Screen
                             name={RUNS_TAB}
                             options={{
