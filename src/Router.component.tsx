@@ -51,9 +51,9 @@ export function RouterComponent() {
             case "free":
             case "not-present":
                 return (
-                    <Tab.Navigator initialRouteName={RUNS_TAB} tabBarOptions={{
-                        activeTintColor: ACTIVE_TAB_COLOR,
-                        inactiveTintColor: INACTIVE_TAB_COLOR,
+                    <Tab.Navigator initialRouteName={RUNS_TAB} screenOptions={{
+                        tabBarActiveTintColor: ACTIVE_TAB_COLOR,
+                        tabBarInactiveTintColor: INACTIVE_TAB_COLOR,
                     }}>
                         <Tab.Screen
                             name={RUNS_TAB}

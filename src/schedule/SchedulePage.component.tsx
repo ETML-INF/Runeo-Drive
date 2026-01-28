@@ -5,11 +5,11 @@
  *   Modified time: 2023-06-02 09:27:26
  *   Description: Main page of the schedules fonctionnality
  */
-import {SafeAreaView, StyleSheet, View, Text} from "react-native";
+import { SafeAreaView, StyleSheet, View, Text } from "react-native";
 import { Icon, Avatar } from "react-native-elements";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Colors } from "../common/utils/Color.utils";
-import { AuthContainer, NetworkContainer} from "../Provider.component";
+import { AuthContainer, NetworkContainer } from "../Provider.component";
 import { ScheduleComponent } from "./Schedule.component";
 import { useSchedulesContainer } from "../common/container/Schedules.container";
 import { localDayOfWeek } from "../common/utils/Date.utils";
@@ -25,10 +25,10 @@ export function SchedulePageComponent() {
     let authContainer = AuthContainer.useContainer();
     let schedulesContainer = useSchedulesContainer();
     let userRunsContainer = useUserRunsContainer();
-    let navigation = useNavigation();
-    let {isInternetReachable} = NetworkContainer.useContainer();
+    let navigation = useNavigation<any>();
+    let { isInternetReachable } = NetworkContainer.useContainer();
     let currentUser = authContainer.authenticatedUser;
-    
+
 
     const [day, setDay] = useState(new Date());
 
@@ -37,76 +37,68 @@ export function SchedulePageComponent() {
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        load((error : string) => {
-            if(error != "")
-            {
+        load((error: string) => {
+            if (error != "") {
                 showToastLong(error, toastType.failed)
             }
             setIsFirstLoading(false);
         });
     }, []);
 
-    useEffect(() =>  {
+    useEffect(() => {
         const unsubscribe = navigation.addListener("focus", (e) => {
             setIsLoading(true);
             load(afterLoad);
         })
     }, [navigation])
 
-    const afterLoad = (error:string) :void => {
-        if(error != "")
-        {
+    const afterLoad = (error: string): void => {
+        if (error != "") {
             showToastLong(error, toastType.failed)
         }
         setIsLoading(false);
     }
 
-    const load = (callback:Function) => {
-        if(isInternetReachable)
-        {
+    const load = (callback: Function) => {
+        if (isInternetReachable) {
             Promise.all([
                 schedulesContainer.refresh(),
                 userRunsContainer.refresh(),
                 authContainer.refreshUserStatus()
-                ]).then(()=>{
-                    callback("");
-                }).catch((e: AxiosError) => {
-                    if(e.response)
-                    {
-                        switch(e.response?.status)
-                        {
-                            case 400:
-                                callback("Nous n'avons pas pu charger vos horaires ou vos runs. Il est possible que si vous n'avez pas de groupe attribué, cette erreur apparaisse. (erreur 400)")
-                                break;
-                            default:
-                                callback("Nous n'avons pas pu charger vos horaires ou vos runs. Contactez un administrateur pour en savoir plus. (erreur " + e.response?.status + ")")
-                                break;
-                        }
+            ]).then(() => {
+                callback("");
+            }).catch((e: AxiosError) => {
+                if (e.response) {
+                    switch (e.response?.status) {
+                        case 400:
+                            callback("Nous n'avons pas pu charger vos horaires ou vos runs. Il est possible que si vous n'avez pas de groupe attribué, cette erreur apparaisse. (erreur 400)")
+                            break;
+                        default:
+                            callback("Nous n'avons pas pu charger vos horaires ou vos runs. Contactez un administrateur pour en savoir plus. (erreur " + e.response?.status + ")")
+                            break;
                     }
-                    else
-                    {
-                        callback("Les données n'ont pas pu être chargées pour le moment, en raison d'un incident technique ou d'une mauvaise connexion. Merci de réessayer plus tard. ")
-                    }
-                    
-                });
+                }
+                else {
+                    callback("Les données n'ont pas pu être chargées pour le moment, en raison d'un incident technique ou d'une mauvaise connexion. Merci de réessayer plus tard. ")
+                }
+
+            });
         }
-        else
-        {
+        else {
             callback("Internet n'est pas disponible. Merci de vérifier vos données mobiles ou de réessayer plus tard.")
         }
     }
 
-    const gotoRun = (run: RunResource) => navigation.navigate("detail", {run: run});
+    const gotoRun = (run: RunResource) => navigation.navigate("detail", { run: run });
 
     //#region Parameters for the profile page
     let group: GroupResource | undefined;
 
-    if(schedulesContainer.items.toArray().length > 0)
-    {
+    if (schedulesContainer.items.toArray().length > 0) {
         group = schedulesContainer.items.get(0)?.group;
     }
 
-    let statusColor = userStatusColor(currentUser.status); 
+    let statusColor = userStatusColor(currentUser.status);
     //#endregion
 
     return (
@@ -127,23 +119,23 @@ export function SchedulePageComponent() {
                         type='font-awesome'
                         name={'refresh'}
                         size={35}
-                        onPress={() =>{
+                        onPress={() => {
                             setIsLoading(true);
                             load(afterLoad);
                         }}
                     />
-                    <Avatar 
-                        rounded size="medium" 
-                        source={{ uri: currentUser?.image_profile}} 
-                        onPress={() =>{navigation.navigate("profile",  {user: currentUser, group: group})}}
-                        containerStyle={[styles.avatar, {borderColor: statusColor}]}
+                    <Avatar
+                        rounded size="medium"
+                        source={{ uri: currentUser?.image_profile }}
+                        onPress={() => { navigation.navigate("profile", { user: currentUser, group: group }) }}
+                        containerStyle={[styles.avatar, { borderColor: statusColor }]}
                     />
                 </View>
             </View>
             {isFirstLoading ?
                 <Text style={styles.loader}>Chargement...</Text>
-            : 
-                <ScheduleComponent 
+                :
+                <ScheduleComponent
                     setCurrentDay={setDay}
                     schedules={schedulesContainer.items}
                     runs={userRunsContainer.items}
@@ -151,7 +143,7 @@ export function SchedulePageComponent() {
                     onRunPress={gotoRun}
                 ></ScheduleComponent>
             }
-            
+
         </SafeAreaView>
     )
 }
@@ -161,7 +153,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         display: "flex",
         height: "100%",
-        
+
     },
     header: {
         height: "8%",
@@ -172,38 +164,38 @@ const styles = StyleSheet.create({
         alignItems: "center",
 
         paddingHorizontal: 15,
-        
+
         borderBottomColor: Colors.GREY,
         borderBottomWidth: 1,
     },
     dayBox: {
-        display: "flex", 
+        display: "flex",
         justifyContent: "center",
         alignItems: "center",
 
-        
+
         width: "25%",
     },
     dayText: {
         fontSize: 18,
         margin: 0
     },
-    dayNumber:{
+    dayNumber: {
         fontSize: 25
     },
-    iconsBox:{
+    iconsBox: {
         flexDirection: "row",
         width: '25%',
         justifyContent: "space-between",
         alignItems: "center",
     },
-    loader:{
+    loader: {
         top: 20,
         width: "100%",
         textAlign: "center",
         height: "100%",
     },
-    avatar:{
+    avatar: {
         //put to three when implementing status
         borderWidth: 3,
     },

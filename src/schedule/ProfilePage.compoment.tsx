@@ -9,8 +9,8 @@
  */
 
 
-import {StyleSheet, View, Text} from "react-native";
-import React, {} from "react";
+import { StyleSheet, View, Text } from "react-native";
+import React, { } from "react";
 import { Colors } from "../common/utils/Color.utils";
 import { UserResource } from "../common/resources/User.resource";
 import { Avatar } from "react-native-elements";
@@ -21,30 +21,28 @@ import Axios from "axios";
 import { getUserStatus, userStatusColor, getUserRole } from "../common/utils/User.utils";
 import { StatusCircleComponent } from "../common/component/StatusCircle.component";
 
-interface ProfilePageProps{
+interface ProfilePageProps {
     user: UserResource,
     group: GroupResource | undefined,
 }
 
-export function ProfilePageComponent(){
+export function ProfilePageComponent() {
 
-    let navigation = useNavigation();
+    let navigation = useNavigation<any>();
     let params = useRoute().params as ProfilePageProps;
 
-    if(params == undefined || params.user == undefined)
-    {
+    if (params == undefined || params.user == undefined) {
         return <View style={styles.mainView}><Text>Aucun utilisateur spécifié à la page. Merci de contacter un administrateur si ce problème apparait.</Text></View>
     }
 
     let user = params.user;
     let group = params.group;
 
-    let baseURL = Axios.defaults. baseURL;
+    let baseURL = Axios.defaults.baseURL;
 
     let uri = "";
 
-    if(baseURL)
-    {
+    if (baseURL) {
         uri = user.image_profile;
     }
 
@@ -54,81 +52,81 @@ export function ProfilePageComponent(){
         <View style={styles.mainView}>
             <View style={styles.viewTop}>
                 {
-                    uri != "" && <Avatar containerStyle={[styles.avatar, {borderColor: statusColor}]} rounded size={200} source={{ uri: uri}}/>
+                    uri != "" && <Avatar containerStyle={[styles.avatar, { borderColor: statusColor }]} rounded size={200} source={{ uri: uri }} />
                 }
                 <Text style={styles.name}>{user.name}</Text>
                 <Text style={styles.role}>{getUserRole(user.role)}</Text>
                 <View style={styles.statusView}>
                     <StatusCircleComponent color={statusColor}></StatusCircleComponent>
-                    <Text style={[styles.statusText, {color: statusColor}]}>{getUserStatus(user.status).toUpperCase()}</Text>
+                    <Text style={[styles.statusText, { color: statusColor }]}>{getUserStatus(user.status).toUpperCase()}</Text>
                 </View>
             </View>
             <View style={styles.viewBottom}>
                 {
-                    group != undefined && <Text style={[styles.group, {backgroundColor: "#" + group.color}]}>{"Groupe " + group.name }</Text>
+                    group != undefined && <Text style={[styles.group, { backgroundColor: "#" + group.color }]}>{"Groupe " + group.name}</Text>
                 }
                 <Text>{user.firstname + " " + user.lastname}</Text>
                 <Text>{user.email}</Text>
                 <Text>{user.phone_number}</Text>
             </View>
-            
-            
+
+
             <Icon
                 type='font-awesome'
                 name={'cog'}
                 size={45}
                 containerStyle={styles.params}
-                onPress={() =>{navigation.navigate("params")}}
+                onPress={() => { navigation.navigate("params") }}
             />
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    mainView:{
+    mainView: {
         flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "center",
         height: "100%",
         backgroundColor: Colors.WHITE,
     },
-    viewTop:{
+    viewTop: {
         flexDirection: "column",
         justifyContent: "space-evenly",
         alignItems: "center",
         height: "60%",
     },
-    viewBottom:{
+    viewBottom: {
         flexDirection: "column",
         justifyContent: "space-evenly",
         alignItems: "center",
         height: "35%",
     },
-    avatar:{
+    avatar: {
         // put to five when implementing the status
         borderWidth: 5,
     },
-    name:{
+    name: {
         fontSize: 24,
     },
-    role:{
-        fontSize:15,
+    role: {
+        fontSize: 15,
     },
-    statusView:{
+    statusView: {
         flexDirection: "row",
         alignItems: "center",
     },
-    statusText:{
+    statusText: {
         fontSize: 18,
         fontWeight: "700",
         marginHorizontal: 7,
     },
-    group:{
+    group: {
         color: Colors.WHITE,
         padding: 5,
         fontSize: 20
     },
-    params:{
+    params: {
         position: "absolute",
         top: 20,
         right: 20,
