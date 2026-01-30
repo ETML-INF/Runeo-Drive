@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {NavigationContainerRef} from '@react-navigation/native';
+import { NavigationContainerRef } from '@react-navigation/native';
 
-export const rootNavigationRef = React.createRef<NavigationContainerRef>();
+export const rootNavigationRef = React.createRef<NavigationContainerRef<any>>();
 export const isRootNavigationReady = React.createRef<boolean>();
 
 // USE THIS AS A LAST RESORT!
