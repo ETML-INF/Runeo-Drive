@@ -46,7 +46,7 @@ async function getSchedulesFromApi(userId: number): Promise<ScheduleResource[]> 
   //Array that contains the schedule of all groups
   const allSchedules: ScheduleResource[] = [];
 
-  //Get the all of all the groups
+  //Get the all the groups
   const groupsRes = await Axios.get("/groups", { timeout: 10000 });
 
   //Return an empty array if there isn't the list of groups

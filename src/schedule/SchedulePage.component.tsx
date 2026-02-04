@@ -20,6 +20,7 @@ import { useUserRunsContainer } from "../common/container/UserRuns.container";
 import { useNavigation } from "@react-navigation/native";
 import { AxiosError } from "axios";
 import { userStatusColor } from "../common/utils/User.utils";
+import { ScheduleDropdownPicker } from "./ScheduleDropdownPicker.component";
 
 export function SchedulePageComponent() {
     let authContainer = AuthContainer.useContainer();
@@ -98,6 +99,9 @@ export function SchedulePageComponent() {
         group = schedulesContainer.items.get(0)?.group;
     }
 
+    const [schedules, setSchedules] = useState(schedulesContainer.items)
+    console.log(schedules)
+
     let statusColor = userStatusColor(currentUser.status);
     //#endregion
 
@@ -108,13 +112,8 @@ export function SchedulePageComponent() {
                     <Text style={styles.dayText}>{localDayOfWeek(day)}</Text>
                     <Text style={styles.dayNumber}>{day.getDate()}</Text>
                 </View>
+                <ScheduleDropdownPicker schedules={schedulesContainer.items} onFilter={(s) => {setSchedules(s); console.log("ADDFVSDFBD: " + JSON.stringify(s))}}></ScheduleDropdownPicker>
                 <View style={styles.iconsBox}>
-                    {/* <Icon
-                        type='font-awesome'
-                        name={'cog'}
-                        size={35}
-                        onPress={() =>{navigation.navigate("params")}}
-                    /> */}
                     <Icon
                         type='font-awesome'
                         name={'refresh'}
