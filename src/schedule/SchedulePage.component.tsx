@@ -99,8 +99,17 @@ export function SchedulePageComponent() {
         group = schedulesContainer.items.get(0)?.group;
     }
 
-    const [schedules, setSchedules] = useState(schedulesContainer.items)
-    console.log(schedules)
+    let schedulesFilter = []
+    const [schedulesToShow, setSchedulesToShow] = useState(schedulesContainer.items.filter(s => schedulesFilter.includes(s.group.name)))
+
+    function FilterSchedules(filter) {
+        schedulesFilter = filter
+
+        if (schedulesFilter) {
+            const filteredSchedules = schedulesContainer.items.filter(s => schedulesFilter.includes(s.group.name))
+            setSchedulesToShow(filteredSchedules)
+        }
+    }    
 
     let statusColor = userStatusColor(currentUser.status);
     //#endregion
@@ -112,7 +121,7 @@ export function SchedulePageComponent() {
                     <Text style={styles.dayText}>{localDayOfWeek(day)}</Text>
                     <Text style={styles.dayNumber}>{day.getDate()}</Text>
                 </View>
-                <ScheduleDropdownPicker schedules={schedulesContainer.items} onFilter={(s) => {setSchedules(s); console.log("ADDFVSDFBD: " + JSON.stringify(s))}}></ScheduleDropdownPicker>
+                <ScheduleDropdownPicker schedules={schedulesContainer.items} onFilter={filter => FilterSchedules(filter)}></ScheduleDropdownPicker>
                 <View style={styles.iconsBox}>
                     <Icon
                         type='font-awesome'
@@ -136,7 +145,7 @@ export function SchedulePageComponent() {
                 :
                 <ScheduleComponent
                     setCurrentDay={setDay}
-                    schedules={schedulesContainer.items}
+                    schedules={schedulesToShow}
                     runs={userRunsContainer.items}
                     loading={isLoading}
                     onRunPress={gotoRun}
@@ -155,7 +164,7 @@ const styles = StyleSheet.create({
 
     },
     header: {
-        height: "8%",
+        height: "auto",//"8%",
 
         display: "flex",
         flexDirection: "row",

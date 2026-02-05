@@ -16,14 +16,12 @@ export interface ScheduleGroupPickerProps {
 }
 
 export function ScheduleGroupPicker(props: ScheduleGroupPickerProps) {
-    const [isDisplayed, setIsDisplayed] = useState(true)
+    const [isDisplayed, setIsDisplayed] = useState(false)
     const toggleSwitch = () => {
         //Invoke the show and hide function - isDisplayed is the previous value, because useState triggers a re-render
         !isDisplayed ? props.onShowGroup(props.group) : props.onHideGroup(props.group)
         setIsDisplayed(isDisplayed => !isDisplayed)
     }
-
-    console.log("ASDF: "+ props.group)
 
     return (
         <View style={styles.line} key={props.group}>

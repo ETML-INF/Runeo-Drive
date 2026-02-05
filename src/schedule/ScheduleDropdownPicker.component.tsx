@@ -6,11 +6,12 @@
  *   Description: A dropdown picker that allow the user to choose which schedules will be displayed
  */
 
-import { Text, Switch, View, StyleSheet, ScrollView } from "react-native"
+import { View, StyleSheet } from "react-native"
 import { ScheduleResource } from "../common/resources/Schedule.resourse";
 import { List } from "immutable";
 import { ScheduleGroupPicker } from "./ScheduleGroupPicker.component";
-import { useState, useReducer } from "react";
+import { useState } from "react";
+import { Button } from "react-native-elements";
 
 export interface ScheduleDropdownPickerProps {
     schedules: List<ScheduleResource>,
@@ -18,40 +19,41 @@ export interface ScheduleDropdownPickerProps {
 }
 
 export function ScheduleDropdownPicker(props: ScheduleDropdownPickerProps) {
-    const orderedGroups = PrepareSchedules(props)
+    const orderedGroups = PrepareSchedules(props) //Get the list of groups
 
-    const [groupsToDisplay, setGroupsToDisplay] = useState(orderedGroups)
+    const [groupsToDisplay, setGroupsToDisplay] = useState(orderedGroups);
+    const [isDisplayed, setIsDisplayed] = useState(false)
 
     function HideGroupSchedules(name: string) {
-        //Remove the key from the object
-        setGroupsToDisplay(Object.keys(groupsToDisplay).filter(key => key != name).reduce((acc, key) => {
-            acc[key] = groupsToDisplay[key];
-            return acc;
-        }, {}))
+        setGroupsToDisplay(prev => {
+            const updatedGroups = prev.filter(group => group !== name);
+            props.onFilter(updatedGroups); // Call the prop function after updating state
+            return updatedGroups;
+        });
     }
 
     function ShowGroupSchedules(name: string) {
-        console.log("asdfadfIUFHf " + JSON.stringify(groupsToDisplay))
-        groupsToDisplay.push(name)
-        groupsToDisplay.sort()
-        setGroupsToDisplay(groupsToDisplay)
+        setGroupsToDisplay(prev => {
+            const updatedGroups = [...prev, name].sort();
+            props.onFilter(updatedGroups); // Call the prop function after updating state
+            return updatedGroups;
+        });
     }
 
-    console.log("@#@#@#@#@_--_: " + JSON.stringify(groupsToDisplay))
-    console.log("@#@DFOSIDJf__D: " + JSON.stringify(orderedGroups))
-    props.onFilter(JSON.stringify(groupsToDisplay));
-
     return (
-        <ScrollView>
+        <View>
+            <Button onPress={() => setIsDisplayed(!isDisplayed)} title={!isDisplayed ? "Groupes" : "Cacher"}></Button>
             {orderedGroups.map((item) => (
-                <ScheduleGroupPicker group={item} onShowGroup={ShowGroupSchedules} onHideGroup={HideGroupSchedules}></ScheduleGroupPicker>
+                <View style={isDisplayed ? styles.shown : styles.hidden}>
+                    <ScheduleGroupPicker group={item} onShowGroup={ShowGroupSchedules} onHideGroup={HideGroupSchedules} key={item}></ScheduleGroupPicker>
+                </View>
             ))}
-        </ScrollView>
+        </View>
     )
 }
 
-//Group, order and clean a schedule list
-function PrepareSchedules(props: ScheduleDropdownPickerProps) {
+//Group, order and clean a schedule list. Return an array of groupe name
+function PrepareSchedules(props: ScheduleDropdownPickerProps): Array<String> {
     //We group the schedules by groups
     const groupedSchedules = props.schedules.groupBy(s => s.group.name)
 
@@ -62,8 +64,14 @@ function PrepareSchedules(props: ScheduleDropdownPickerProps) {
     //We order the keys alphabetically so it looks good in the dropdown
     const orderedGroups = Object.keys(cleanObject).sort() // Sort the keys alphabetically
 
-    console.log("XYZ: " + JSON.stringify(Object.keys(cleanObject).sort()))
-
     return orderedGroups
-
 }
+
+const styles = StyleSheet.create({
+    hidden: {
+        display: "none"
+    },
+    shown: {
+        display: "flex"
+    }
+})
