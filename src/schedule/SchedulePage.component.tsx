@@ -1,10 +1,11 @@
 /**
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
- *   Modified by: Clément Sartoni
- *   Modified time: 2023-06-02 09:27:26
+ *   Modified by: Alban Segalen
+ *   Modified time: 2026-02-05 15:18:27
  *   Description: Main page of the schedules fonctionnality
  */
+
 import { SafeAreaView, StyleSheet, View, Text } from "react-native";
 import { Icon, Avatar } from "react-native-elements";
 import React, { useEffect, useState } from "react";
@@ -30,9 +31,7 @@ export function SchedulePageComponent() {
     let { isInternetReachable } = NetworkContainer.useContainer();
     let currentUser = authContainer.authenticatedUser;
 
-
     const [day, setDay] = useState(new Date());
-
     const [isFirstLoading, setIsFirstLoading] = useState<boolean>(true);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -97,22 +96,25 @@ export function SchedulePageComponent() {
 
     if (schedulesContainer.items.toArray().length > 0) {
         group = schedulesContainer.items.get(0)?.group;
-    }
+    } 
 
-    let schedulesFilter = []
-    const [schedulesToShow, setSchedulesToShow] = useState(schedulesContainer.items.filter(s => schedulesFilter.includes(s.group.name)))
+    let statusColor = userStatusColor(currentUser.status);
+    //#endregion
 
-    function FilterSchedules(filter) {
+    let schedulesFilter: Array<string> = [] //The array that holds the list of groups to show
+
+    //The list of schedules to show
+    const [schedulesToShow, setSchedulesToShow] = useState(schedulesContainer.items)
+
+    //Only keeps schedule that match the filter array
+    function FilterSchedules(filter: Array<string>) {
         schedulesFilter = filter
 
         if (schedulesFilter) {
             const filteredSchedules = schedulesContainer.items.filter(s => schedulesFilter.includes(s.group.name))
             setSchedulesToShow(filteredSchedules)
         }
-    }    
-
-    let statusColor = userStatusColor(currentUser.status);
-    //#endregion
+    }   
 
     return (
         <SafeAreaView style={styles.body}>
@@ -164,7 +166,7 @@ const styles = StyleSheet.create({
 
     },
     header: {
-        height: "auto",//"8%",
+        height: "auto",
 
         display: "flex",
         flexDirection: "row",

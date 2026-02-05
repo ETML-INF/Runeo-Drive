@@ -2,7 +2,7 @@
  *   Author: Alban Segalen
  *   Create Time: 2026-02-04
  *   Modified by: Alban Segalen
- *   Modified time: 2026-02-04 08:24:04
+ *   Modified time: 2026-02-05 15:30:32
  *   Description: A dropdown picker that allow the user to choose which schedules will be displayed
  */
 
@@ -21,9 +21,10 @@ export interface ScheduleDropdownPickerProps {
 export function ScheduleDropdownPicker(props: ScheduleDropdownPickerProps) {
     const orderedGroups = PrepareSchedules(props) //Get the list of groups
 
-    const [groupsToDisplay, setGroupsToDisplay] = useState(orderedGroups);
-    const [isDisplayed, setIsDisplayed] = useState(false)
+    const [groupsToDisplay, setGroupsToDisplay] = useState(orderedGroups); //Hold the array of groups to display
+    const [isDisplayed, setIsDisplayed] = useState(false) //Wether the dropdown is collapsed
 
+    //Remove a group from the groupsToDisplay list and return it to the parent component
     function HideGroupSchedules(name: string) {
         setGroupsToDisplay(prev => {
             const updatedGroups = prev.filter(group => group !== name);
@@ -32,6 +33,7 @@ export function ScheduleDropdownPicker(props: ScheduleDropdownPickerProps) {
         });
     }
 
+    //Add a group from the groupsToDisplay list and return it to the parent component
     function ShowGroupSchedules(name: string) {
         setGroupsToDisplay(prev => {
             const updatedGroups = [...prev, name].sort();
@@ -44,8 +46,9 @@ export function ScheduleDropdownPicker(props: ScheduleDropdownPickerProps) {
         <View>
             <Button onPress={() => setIsDisplayed(!isDisplayed)} title={!isDisplayed ? "Groupes" : "Cacher"}></Button>
             {orderedGroups.map((item) => (
-                <View style={isDisplayed ? styles.shown : styles.hidden}>
-                    <ScheduleGroupPicker group={item} onShowGroup={ShowGroupSchedules} onHideGroup={HideGroupSchedules} key={item}></ScheduleGroupPicker>
+                //We hide it instead of removing it so you keep the info of which switch is activated
+                <View style={isDisplayed ? styles.shown : styles.hidden} key={item.toString()}>
+                    <ScheduleGroupPicker group={item.toString()} onShowGroup={ShowGroupSchedules} onHideGroup={HideGroupSchedules}></ScheduleGroupPicker>
                 </View>
             ))}
         </View>

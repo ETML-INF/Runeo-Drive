@@ -2,11 +2,11 @@
  *   Author: Alban Segalen
  *   Create Time: 2026-02-04
  *   Modified by: Alban Segalen
- *   Modified time: 2026-02-04 10:54:55
+ *   Modified time: 2026-02-05 15:19:03
  *   Description: The picker that represent a group
  */
 
-import { Text, Switch, View, StyleSheet, ScrollView } from "react-native"
+import { Text, Switch, View, StyleSheet } from "react-native"
 import { useState } from "react";
 
 export interface ScheduleGroupPickerProps {
@@ -17,6 +17,7 @@ export interface ScheduleGroupPickerProps {
 
 export function ScheduleGroupPicker(props: ScheduleGroupPickerProps) {
     const [isDisplayed, setIsDisplayed] = useState(false)
+
     const toggleSwitch = () => {
         //Invoke the show and hide function - isDisplayed is the previous value, because useState triggers a re-render
         !isDisplayed ? props.onShowGroup(props.group) : props.onHideGroup(props.group)
@@ -30,7 +31,6 @@ export function ScheduleGroupPicker(props: ScheduleGroupPickerProps) {
         </View>
     )
 }
-
 
 const styles = StyleSheet.create({
     line: {
