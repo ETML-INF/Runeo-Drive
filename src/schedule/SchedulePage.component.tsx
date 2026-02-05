@@ -142,6 +142,9 @@ export function SchedulePageComponent() {
                     />
                 </View>
             </View>
+            {schedulesToShow.count() === 0 && 
+                <Text style={styles.noGroups}>Merci de choisir un groupe pour afficher l'horaire</Text>
+            }
             {isFirstLoading ?
                 <Text style={styles.loader}>Chargement...</Text>
                 :
@@ -182,8 +185,6 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-
-
         width: "25%",
     },
     dayText: {
@@ -209,4 +210,8 @@ const styles = StyleSheet.create({
         //put to three when implementing status
         borderWidth: 3,
     },
+    noGroups: {
+        alignSelf: "center",
+        color: "red"
+    }
 })
