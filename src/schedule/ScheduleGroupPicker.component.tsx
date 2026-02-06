@@ -11,12 +11,13 @@ import { useState } from "react";
 
 export interface ScheduleGroupPickerProps {
     group: string,
+    defaultActive: boolean,
     onShowGroup: Function,
     onHideGroup: Function
 }
 
 export function ScheduleGroupPicker(props: ScheduleGroupPickerProps) {
-    const [isDisplayed, setIsDisplayed] = useState(false)
+    const [isDisplayed, setIsDisplayed] = useState(/*props.defaultActive*/false)
 
     const toggleSwitch = () => {
         //Invoke the show and hide function - isDisplayed is the previous value, because useState triggers a re-render
@@ -36,5 +37,6 @@ const styles = StyleSheet.create({
     line: {
         display: "flex",
         flexDirection: "row",
+        marginTop: 3,
     }
 })

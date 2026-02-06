@@ -10,19 +10,32 @@ import { View, StyleSheet } from "react-native"
 import { ScheduleResource } from "../common/resources/Schedule.resourse";
 import { List } from "immutable";
 import { ScheduleGroupPicker } from "./ScheduleGroupPicker.component";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "react-native-elements";
 
 export interface ScheduleDropdownPickerProps {
     schedules: List<ScheduleResource>,
+    activefilter: Array<string>,
     onFilter: Function
 }
 
 export function ScheduleDropdownPicker(props: ScheduleDropdownPickerProps) {
     const orderedGroups = PrepareSchedules(props) //Get the list of groups
 
+    //const isFirstLoading = useRef(true)
     const [groupsToDisplay, setGroupsToDisplay] = useState(orderedGroups); //Hold the array of groups to display
     const [isDisplayed, setIsDisplayed] = useState(false) //Wether the dropdown is collapsed
+
+    /*if (isFirstLoading.current) {
+        isFirstLoading.current = false
+        console.log("XA: " + groupsToDisplay)
+        console.log("XB: " + props.activefilter)
+        setGroupsToDisplay(prev => {
+            const updatedGroups = prev.filter(group => props.activefilter.includes(group.toString()));
+            props.onFilter(updatedGroups); // Call the prop function after updating state
+            return updatedGroups;
+        });
+    }*/
 
     //Remove a group from the groupsToDisplay list and return it to the parent component
     function HideGroupSchedules(name: string) {
@@ -48,7 +61,7 @@ export function ScheduleDropdownPicker(props: ScheduleDropdownPickerProps) {
             {orderedGroups.map((item) => (
                 //We hide it instead of removing it so you keep the info of which switch is activated
                 <View style={isDisplayed ? styles.shown : styles.hidden} key={item.toString()}>
-                    <ScheduleGroupPicker group={item.toString()} onShowGroup={ShowGroupSchedules} onHideGroup={HideGroupSchedules}></ScheduleGroupPicker>
+                    <ScheduleGroupPicker defaultActive={props.activefilter.includes(item.toString()) ? true : false} group={item.toString()} onShowGroup={ShowGroupSchedules} onHideGroup={HideGroupSchedules}></ScheduleGroupPicker>
                 </View>
             ))}
         </View>

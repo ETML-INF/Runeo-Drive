@@ -2,13 +2,13 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Alban Segalen
- *   Modified time: 2026-02-05 15:18:27
+ *   Modified time: 2026-02-05 15:46:07
  *   Description: Main page of the schedules fonctionnality
  */
 
 import { SafeAreaView, StyleSheet, View, Text } from "react-native";
 import { Icon, Avatar } from "react-native-elements";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Colors } from "../common/utils/Color.utils";
 import { AuthContainer, NetworkContainer } from "../Provider.component";
 import { ScheduleComponent } from "./Schedule.component";
@@ -22,6 +22,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AxiosError } from "axios";
 import { userStatusColor } from "../common/utils/User.utils";
 import { ScheduleDropdownPicker } from "./ScheduleDropdownPicker.component";
+import { isEmptyArray } from "formik";
 
 export function SchedulePageComponent() {
     let authContainer = AuthContainer.useContainer();
@@ -101,20 +102,31 @@ export function SchedulePageComponent() {
     let statusColor = userStatusColor(currentUser.status);
     //#endregion
 
-    let schedulesFilter: Array<string> = [] //The array that holds the list of groups to show
+    const schedulesFilter = useRef([]) //The array that holds the list of groups to show
 
     //The list of schedules to show
     const [schedulesToShow, setSchedulesToShow] = useState(schedulesContainer.items)
 
     //Only keeps schedule that match the filter array
     function FilterSchedules(filter: Array<string>) {
-        schedulesFilter = filter
+        console.log("A: " + schedulesFilter.current)
+        console.log("B: " + filter)
+        if (schedulesFilter.current !== filter) {
+            schedulesFilter.current = filter
+            console.log("C: " + schedulesFilter.current)
+            console.log("D: " + filter)
 
-        if (schedulesFilter) {
-            const filteredSchedules = schedulesContainer.items.filter(s => schedulesFilter.includes(s.group.name))
-            setSchedulesToShow(filteredSchedules)
+            if (schedulesFilter) {
+                const filteredSchedules = schedulesContainer.items.filter(s => schedulesFilter.current.includes(s.group.name))
+                setSchedulesToShow(filteredSchedules)
+            }
         }
     }   
+
+    if (!schedulesFilter.current || isEmptyArray(schedulesFilter.current)) {
+        FilterSchedules(group?.name);
+    }
+    
 
     return (
         <SafeAreaView style={styles.body}>
@@ -123,7 +135,7 @@ export function SchedulePageComponent() {
                     <Text style={styles.dayText}>{localDayOfWeek(day)}</Text>
                     <Text style={styles.dayNumber}>{day.getDate()}</Text>
                 </View>
-                <ScheduleDropdownPicker schedules={schedulesContainer.items} onFilter={filter => FilterSchedules(filter)}></ScheduleDropdownPicker>
+                <ScheduleDropdownPicker activefilter={schedulesFilter.current} schedules={schedulesContainer.items} onFilter={filter => FilterSchedules(filter)}></ScheduleDropdownPicker>
                 <View style={styles.iconsBox}>
                     <Icon
                         type='font-awesome'
