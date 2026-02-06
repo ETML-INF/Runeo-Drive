@@ -2,7 +2,7 @@
  *   Author: Alban Segalen
  *   Create Time: 2026-02-04
  *   Modified by: Alban Segalen
- *   Modified time: 2026-02-05 15:19:03
+ *   Modified time: 2026-02-06 10:22:13
  *   Description: The picker that represent a group
  */
 
@@ -11,13 +11,12 @@ import { useState } from "react";
 
 export interface ScheduleGroupPickerProps {
     group: string,
-    defaultActive: boolean,
     onShowGroup: Function,
     onHideGroup: Function
 }
 
 export function ScheduleGroupPicker(props: ScheduleGroupPickerProps) {
-    const [isDisplayed, setIsDisplayed] = useState(/*props.defaultActive*/false)
+    const [isDisplayed, setIsDisplayed] = useState(false)
 
     const toggleSwitch = () => {
         //Invoke the show and hide function - isDisplayed is the previous value, because useState triggers a re-render

@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Alban Segalen
- *   Modified time: 2026-02-05 15:46:07
+ *   Modified time: 2026-02-06 10:25:54
  *   Description: Main page of the schedules fonctionnality
  */
 
@@ -109,12 +109,8 @@ export function SchedulePageComponent() {
 
     //Only keeps schedule that match the filter array
     function FilterSchedules(filter: Array<string>) {
-        console.log("A: " + schedulesFilter.current)
-        console.log("B: " + filter)
         if (schedulesFilter.current !== filter) {
             schedulesFilter.current = filter
-            console.log("C: " + schedulesFilter.current)
-            console.log("D: " + filter)
 
             if (schedulesFilter) {
                 const filteredSchedules = schedulesContainer.items.filter(s => schedulesFilter.current.includes(s.group.name))
@@ -123,6 +119,7 @@ export function SchedulePageComponent() {
         }
     }   
 
+    //If there is no filter, show the schedule of the user's group
     if (!schedulesFilter.current || isEmptyArray(schedulesFilter.current)) {
         FilterSchedules(group?.name);
     }
@@ -135,7 +132,7 @@ export function SchedulePageComponent() {
                     <Text style={styles.dayText}>{localDayOfWeek(day)}</Text>
                     <Text style={styles.dayNumber}>{day.getDate()}</Text>
                 </View>
-                <ScheduleDropdownPicker activefilter={schedulesFilter.current} schedules={schedulesContainer.items} onFilter={filter => FilterSchedules(filter)}></ScheduleDropdownPicker>
+                <ScheduleDropdownPicker schedules={schedulesContainer.items} onFilter={filter => FilterSchedules(filter)}></ScheduleDropdownPicker>
                 <View style={styles.iconsBox}>
                     <Icon
                         type='font-awesome'
