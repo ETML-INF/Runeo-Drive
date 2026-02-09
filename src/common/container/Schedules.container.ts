@@ -2,18 +2,18 @@
  * @ Author: Clément Sartoni
  * @ Create Time: 2023-05-08
  * @ Modified by: Alban Segalen
- * @ Modified time: 2026-01-30 14:15:52
+ * @ Modified time: 2026-02-09 11:08:25
  * @ Description: Container used to get the schedules of the user from the API
  */
 
-
 import { ScheduleResource } from "../resources/Schedule.resourse";
-import { GroupResource } from "../resources/Group.resource";
 import Axios from "axios";
 import { List } from "immutable";
 import { useCacheHelper } from "../utils/CacheHelper.utils";
 import { DataContainerInterface } from "./DataContainer.interface";
 import { AuthContainer } from "../../Provider.component";
+
+let userGroup: string = "";
 
 export function useSchedulesContainer(): DataContainerInterface<ScheduleResource> {
   const cacheHelper = useCacheHelper<ScheduleResource>(
@@ -35,6 +35,7 @@ export function useSchedulesContainer(): DataContainerInterface<ScheduleResource
 
   return {
     items: cacheHelper.items,
+    userGroup: userGroup,
     readFromCache: cacheHelper.readFromCache,
     refresh,
     empty: cacheHelper.empty,
@@ -51,6 +52,18 @@ async function getSchedulesFromApi(userId: number): Promise<ScheduleResource[]> 
 
   //Return an empty array if there isn't the list of groups
   const groupList = groupsRes.data?.data ?? [];
+
+  //let userGroup;
+
+  //Get the user group
+  for (const group of groupList) {
+    const hasGroup = group.members.some(m => m.id === userId)
+    
+    if (hasGroup) {
+      userGroup = group.name
+      break;
+    }
+  }
 
   //As of 30.01.2026, it isn't possible to get the schedule of a group:
   //You can only get the schedule of an user

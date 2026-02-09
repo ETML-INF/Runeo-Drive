@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Alban Segalen
- *   Modified time: 2026-02-06 10:25:54
+ *   Modified time: 2026-02-09 11:06:57
  *   Description: Main page of the schedules fonctionnality
  */
 
@@ -93,11 +93,12 @@ export function SchedulePageComponent() {
     const gotoRun = (run: RunResource) => navigation.navigate("detail", { run: run });
 
     //#region Parameters for the profile page
-    let group: GroupResource | undefined;
+    let group: string;
 
+    //Set the user group once the schedules have been loaded
     if (schedulesContainer.items.toArray().length > 0) {
-        group = schedulesContainer.items.get(0)?.group;
-    } 
+        group = schedulesContainer.userGroup;
+    }
 
     let statusColor = userStatusColor(currentUser.status);
     //#endregion
@@ -109,19 +110,21 @@ export function SchedulePageComponent() {
 
     //Only keeps schedule that match the filter array
     function FilterSchedules(filter: Array<string>) {
-        if (schedulesFilter.current !== filter) {
+        if (JSON.stringify(schedulesFilter.current) !== JSON.stringify(filter)) {
             schedulesFilter.current = filter
 
-            if (schedulesFilter) {
-                const filteredSchedules = schedulesContainer.items.filter(s => schedulesFilter.current.includes(s.group.name))
-                setSchedulesToShow(filteredSchedules)
+            if (!schedulesFilter.current) {
+                schedulesFilter.current = [group]
             }
+
+            const filteredSchedules = schedulesContainer.items.filter(s => schedulesFilter.current.includes(s.group.name))
+            setSchedulesToShow(filteredSchedules)
         }
-    }   
+    }       
 
     //If there is no filter, show the schedule of the user's group
-    if (!schedulesFilter.current || isEmptyArray(schedulesFilter.current)) {
-        FilterSchedules(group?.name);
+    if ((!schedulesFilter.current || isEmptyArray(schedulesFilter.current)) && group) {
+        FilterSchedules([group])
     }
     
 
@@ -151,9 +154,6 @@ export function SchedulePageComponent() {
                     />
                 </View>
             </View>
-            {schedulesToShow.count() === 0 && 
-                <Text style={styles.noGroups}>Merci de choisir un groupe pour afficher l'horaire</Text>
-            }
             {isFirstLoading ?
                 <Text style={styles.loader}>Chargement...</Text>
                 :
@@ -218,9 +218,5 @@ const styles = StyleSheet.create({
     avatar: {
         //put to three when implementing status
         borderWidth: 3,
-    },
-    noGroups: {
-        alignSelf: "center",
-        color: "red"
     }
 })
