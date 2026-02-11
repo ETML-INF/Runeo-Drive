@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "owner": "etml-inf-dev",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -19,18 +19,24 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "etml.inf.dev.runeo",
-      "buildNumber": "2025.1.1"
+      "bundleIdentifier": "etml.inf.dev.runeodrive",
+      "buildNumber": "2025.1.1",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "plugins": [
       [
         "expo-build-properties",
         {
           "android": {
-            "usesCleartextTraffic": true
+            "usesCleartextTraffic": true,
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 34
           }
         }
-      ]
+      ],
+      "./plugins/withAndroidxCoreFix"
     ],
     "android": {
       "permissions": ["INTERNET", "ACCESS_NETWORK_STATE"],
