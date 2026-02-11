@@ -2,7 +2,7 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Alban Segalen
- *   Modified time: 2026-02-09 11:06:57
+ *   Modified time: 2026-02-11 16:04:47
  *   Description: Main page of the schedules fonctionnality
  */
 
@@ -15,7 +15,6 @@ import { ScheduleComponent } from "./Schedule.component";
 import { useSchedulesContainer } from "../common/container/Schedules.container";
 import { localDayOfWeek } from "../common/utils/Date.utils";
 import { RunResource } from "../common/resources/Run.resource";
-import { GroupResource } from "../common/resources/Group.resource";
 import { showToastLong, toastType } from "../notifications/ToastNotification";
 import { useUserRunsContainer } from "../common/container/UserRuns.container";
 import { useNavigation } from "@react-navigation/native";

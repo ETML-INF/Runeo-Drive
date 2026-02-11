@@ -2,14 +2,13 @@
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
  *   Modified by: Alban Segalen
- *   Modified time: 2026-02-11 11:27:21
+ *   Modified time: 2026-02-11 16:04:36
  *   Description: Specific component dedicated to display the schedule. Uses a scale property that is then used to display hour
  *      (ScheduleHour) and to convert Moments Objects (equivalent to Date) to scroll.
  */
 
-import {SafeAreaView, StyleSheet, View, Text, NativeSyntheticEvent, NativeScrollEvent, Animated} from "react-native";
-import React, {Dispatch, SetStateAction, useEffect, useState, useRef} from "react";
-import { Colors } from "../common/utils/Color.utils";
+import {StyleSheet, View, Text, NativeSyntheticEvent, NativeScrollEvent} from "react-native";
+import React, {Dispatch, SetStateAction} from "react";
 import moment, { Moment } from "moment";
 import { ScrollView } from "react-native-gesture-handler";
 import { ScheduleHour } from "./ScheduleHour.component";
@@ -18,7 +17,6 @@ import { ScheduleResource } from "../common/resources/Schedule.resourse";
 import { RunResource } from "../common/resources/Run.resource";
 import { List } from "immutable";
 import { ScheduleRunComponent } from "./ScheduleRun.component";
-import { DateTime } from "luxon";
 
 export interface ScheduleComponentProps {
     setCurrentDay : Dispatch<SetStateAction<Date>>,
