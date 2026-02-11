@@ -1,8 +1,8 @@
 /**
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
- *   Modified by: Clément Sartoni
- *   Modified time: 2023-06-02 10:43:03
+ *   Modified by: Alban Segalen
+ *   Modified time: 2026-02-11 11:27:21
  *   Description: Specific component dedicated to display the schedule. Uses a scale property that is then used to display hour
  *      (ScheduleHour) and to convert Moments Objects (equivalent to Date) to scroll.
  */
@@ -51,8 +51,15 @@ export class ScheduleComponent extends React.Component {
 
             this.startDate = moment(data[0].start_time).startOf("day");
 
+            //Set the end date of the schedules. It's either:
+            // - the end time of the groups schedules
+            // - today date if it is after every schedule (for instance, the festival has ended)
+            const endDate = new Date() > data[data.length-1].end_time ? new Date() : data[data.length-1].end_time
+
+            console.log(endDate)
+
             // the +1 is there because we want to display the whole days and not just the difference between them.
-            numberOfDays = moment(data[data.length-1].end_time).startOf("day").diff(moment(this.startDate), 'days') + 1 ;
+            numberOfDays = moment(endDate).startOf("day").diff(moment(this.startDate), 'days') + 1 ;
         }
         else
         {
