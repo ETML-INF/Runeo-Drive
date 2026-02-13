@@ -48,7 +48,7 @@ Flux Android
     npx eas build -p ios
     ```
 - EAS Submit (envoi vers Apple & Google)
-  ```
-  npx eas submit -p ios
-  npx eas submit -p android
-  ```
+    ```
+    npx eas submit -p ios
+    npx eas submit -p android
+    ```
