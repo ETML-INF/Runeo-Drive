@@ -2,7 +2,7 @@
   "expo": {
     "name": "Runeo-Drive",
     "slug": "runeo-drive",
-    "version": "2025.1.1",
+    "version": "2026.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "owner": "etml-inf-dev",
@@ -19,8 +19,8 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "etml.inf.dev.runeodrive",
-      "buildNumber": "2025.1.1",
+      "bundleIdentifier": "etml.inf.dev.runeo",
+      "buildNumber": "2026.1.0",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -45,7 +45,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "etml.inf.dev.runeo",
-      "versionCode": 202511,
+      "versionCode": 202610,
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
