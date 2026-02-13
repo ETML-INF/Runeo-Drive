@@ -2,7 +2,7 @@
 
 ## iOS
 
-- [Apple Developer Program](https://developer.apple.com/account) (Abonnement annuel) ➡ personnel XCL
+- [Apple Developer Program](https://developer.apple.com/account) (Abonnement annuel) ➡ personnel XCL (adresse pro @gmail)
   - Signer les apps iOS
   - Distribuer sur l’App Store
   - Gérer certificats et profils de provisioning
@@ -21,7 +21,7 @@ Flux iOS
 
 ## Android
 
-- Compte développeur Android (Google Play Developers) ➡ [personnel XCL](https://play.google.com/console/u/0/developers/5143652919026592760/account)
+- Compte développeur Android (Google Play Developers) ➡ [personnel "pro" XCL](https://play.google.com/console/u/0/developers/5143652919026592760/account)
   - Publier sur le Play Store.
   - Inclus dans Play Console
 

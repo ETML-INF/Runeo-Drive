@@ -2,12 +2,12 @@
   "expo": {
     "name": "Runeo-Drive",
     "slug": "runeo-drive",
-    "version": "2025.1.1",
+    "version": "2026.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "owner": "etml-inf-dev",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -20,17 +20,23 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "etml.inf.dev.runeo",
-      "buildNumber": "2025.1.1"
+      "buildNumber": "2026.1.0",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "plugins": [
       [
         "expo-build-properties",
         {
           "android": {
-            "usesCleartextTraffic": true
+            "usesCleartextTraffic": true,
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 34
           }
         }
-      ]
+      ],
+      "./plugins/withAndroidxCoreFix"
     ],
     "android": {
       "permissions": ["INTERNET", "ACCESS_NETWORK_STATE"],
@@ -39,7 +45,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "etml.inf.dev.runeo",
-      "versionCode": 202511,
+      "versionCode": 202610,
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },

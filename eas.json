@@ -13,14 +13,15 @@
         "buildType": "apk"
       },
       "ios": {
-        "cocoapods": "1.15.2"
+        "cocoapods": "1.15.2",
+        "image": "macos-sonoma-14.4-xcode-15.3"
       }
     },
     "production": {
       "distribution": "store",
       "ios": {
         "cocoapods": "1.15.2",
-        "image": "latest",
+        "image": "macos-sonoma-14.4-xcode-15.3",
         "resourceClass": "m-medium"
       },
       "android": {
@@ -34,7 +35,7 @@
         "serviceAccountKeyPath": "/Users/Xavier/Github/Runeo-Drive/publicationkey.json"
       },
       "ios": {
-        "appleId": "xavier.carrel.perso@gmail.com",
+        "appleId": "xavier.carrel.pro@gmail.com",
         "ascAppId": "6450534619",
         "appleTeamId": "9NQ69T686N"
       }
