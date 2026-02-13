@@ -40,15 +40,11 @@ Flux Android
 ## Expo
 
 - [Compte Expo](https://expo.dev/settings) ➡ compte ETML-inf
-- EAS Build (cloud build iOS / Android)  
-  Dans un terminal:
-    ```
-    npx expo install eas-cli
-    npx eas build -p android --profile preview
-    npx eas build -p ios
-    ```
-- EAS Submit (envoi vers Apple & Google)
-    ```
-    npx eas submit -p ios
-    npx eas submit -p android
-    ```
+  - EAS Build (cloud build iOS / Android)
+  - EAS Submit (envoi vers Apple & Google)
+- Dans un terminal:
+  ```
+  npx expo install eas-cli
+  npx eas build -p android --profile preview
+  npx eas build -p ios
+  ```
