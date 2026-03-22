@@ -1,34 +1,36 @@
 openapi: 3.0.0
 info:
-  description: "This swagger documents the Runeo api."
-  version: "v3.0.0"
-  title: "Runeo"
+  description: 'This swagger documents the Runeo api.'
+  version: 'v3.0.0'
+  title: 'Runeo'
 tags:
-  - name: "me"
-    description: "Routes related to the authenticated user"
-  - name: "users"
-    description: "Users resource"
-  - name: "schedules"
-    description: "Schedules resource"
-  - name: "runs"
-    description: "Runs resource"
-  - name: "runs.logs"
+  - name: 'me'
+    description: 'Routes related to the authenticated user'
+  - name: 'users'
+    description: 'Users resource'
+  - name: 'schedule'
+    description: 'Schedule resource'
+  - name: 'runs'
+    description: 'Runs resource'
+  - name: 'runs.logs'
     description: "Run's log resource"
-  - name: "runners"
-    description: "Runners resource (subscriptions)"
-  - name: "cars"
-    description: "Cars resource"
-  - name: "cars.comments"
-    description: "Cars comments"
-  - name: "fastDials"
-    description: "fastDials resource"
+  - name: 'runners'
+    description: 'Runners resource (subscriptions)'
+  - name: 'cars'
+    description: 'Cars resource'
+  - name: 'cars.comments'
+    description: 'Cars comments'
+  - name: 'fastDials'
+    description: 'fastDials resource'
+  - name: 'tracks'
+    description: 'Tracks resource (optimisation)'
 paths:
   /me/token:
     post:
       tags:
-        - "me"
-      summary: "Authenticate user with email and password"
-      description: "Login endpoint that returns a Bearer token and user information"
+        - 'me'
+      summary: 'Authenticate user with email and password'
+      description: 'Login endpoint that returns a Bearer token and user information'
       requestBody:
         description: User credentials
         required: true
@@ -39,10 +41,10 @@ paths:
               properties:
                 email:
                   type: string
-                  example: "user@example.com"
+                  example: 'user@example.com'
                 password:
                   type: string
-                  example: "password123"
+                  example: 'password123'
       responses:
         '200':
           description: Successful authentication
@@ -53,143 +55,158 @@ paths:
                 properties:
                   token:
                     type: string
-                    description: "Bearer token for authentication"
+                    description: 'Bearer token for authentication'
                   user:
-                    $ref: "#/components/schemas/User"
+                    $ref: '#/components/schemas/User'
         '401':
           description: Invalid credentials
   /me:
     get:
       tags:
-        - "me"
-      summary: "Get the current authenticated user"
-      description: "Check the bearer authentication, and return the current User model"
+        - 'me'
+      summary: 'Get the current authenticated user'
+      description: 'Check the bearer authentication, and return the current User model'
       security:
         - bearerAuth: []
       responses:
-        '200':    # status code
+        '200': # status code
           description: User model serialized to JSON
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: '#/components/schemas/User'
   /me/runs:
     get:
       tags:
-        - "me"
-      summary: "Get the current authenticated user runs"
+        - 'me'
+      summary: 'Get the current authenticated user runs'
       security:
         - bearerAuth: []
       responses:
         '200':
-          description: "OK"
+          description: 'OK'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Run"
+                  $ref: '#/components/schemas/Run'
   /users:
     get:
       tags:
-        - "users"
-      summary: "Get all the users"
+        - 'users'
+      summary: 'Get all the users'
       security:
         - bearerAuth: []
       responses:
-        '200':    # status code
-          description: "User model serialized to JSON"
+        '200': # status code
+          description: 'User model serialized to JSON'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/User"
-  /users/{user}/schedules:
+                  $ref: '#/components/schemas/User'
+  /users/{user}/schedule:
     get:
       tags:
-        - "users"
-      summary: "Get user's schedules by his ID"
+        - 'users'
+      summary: "Get user's schedule by his ID"
       security:
         - bearerAuth: []
       parameters:
         - name: user
           in: path
           required: true
-          description: "The id of the user"
+          description: 'The id of the user'
           example: 1
           schema:
             type: integer
             minimum: 1
       responses:
-        '200':    # status code
-          description: "User's schedules serialized to JSON"
+        '200': # status code
+          description: "User's schedule serialized to JSON"
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Schedule"
+                $ref: '#/components/schemas/Schedule'
+
   /runs:
     get:
       tags:
-        - "runs"
-      summary: "Get all the runs"
+        - 'runs'
+      summary: 'Get all the runs'
       security:
         - bearerAuth: []
       parameters:
         - name: onlyFromTime
           in: query
           required: false
-          description: "Filter runs from a specific date/time (ISO DateTime string)"
-          example: "2019-03-13T11:42:53"
+          description: 'Filter runs from a specific date/time (ISO DateTime string)'
+          example: '2019-03-13T11:42:53'
           schema:
             type: string
             format: date-time
       responses:
-        '200':    # status code
-          description: "Run model serialized to JSON"
+        '200': # status code
+          description: 'Run model serialized to JSON'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Run"
+                  $ref: '#/components/schemas/Run'
+  /tracks:
+    get:
+      tags:
+        - 'tracks'
+      summary: 'Get all the runs, in track format for optimisation research'
+      security:
+        - bearerAuth: []
+      responses:
+        '200': # status code
+          description: 'Run track serialized to JSON'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Track'
   /runs/{run}/start:
     patch:
       tags:
-        - "runs"
-      summary: "Start a specific run by his ID"
+        - 'runs'
+      summary: 'Start a specific run by his ID'
       security:
         - bearerAuth: []
       parameters:
         - name: run
           in: path
           required: true
-          description: "The id of the run"
+          description: 'The id of the run'
           example: 1
           schema:
             type: integer
             minimum: 1
       responses:
-        '200':    # status code
-          description: "Run model serialized to JSON"
+        '200': # status code
+          description: 'Run model serialized to JSON'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Run"
+                $ref: '#/components/schemas/Run'
   /runs/{run}/stop:
     patch:
       tags:
-        - "runs"
-      summary: "Stop a specific run by his ID"
+        - 'runs'
+      summary: 'Stop a specific run by his ID'
       security:
         - bearerAuth: []
       parameters:
         - name: run
           in: path
           required: true
-          description: "The id of the run"
+          description: 'The id of the run'
           example: 1
           schema:
             type: integer
@@ -206,95 +223,95 @@ paths:
                   type: number
                   example: 75
       responses:
-        '200':    # status code
-          description: "Run model serialized to JSON"
+        '200': # status code
+          description: 'Run model serialized to JSON'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Run"
+                $ref: '#/components/schemas/Run'
   /runs/{run}/acknowledge:
     patch:
       tags:
-        - "runs"
-      summary: "Acknowledge the data of a specific run by his ID"
+        - 'runs'
+      summary: 'Acknowledge the data of a specific run by his ID'
       security:
         - bearerAuth: []
       parameters:
         - name: run
           in: path
           required: true
-          description: "The id of the run"
+          description: 'The id of the run'
           example: 1
           schema:
             type: integer
             minimum: 1
       responses:
-        '200':    # status code
-          description: "Run model serialized to JSON"
+        '200': # status code
+          description: 'Run model serialized to JSON'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Run"
+                $ref: '#/components/schemas/Run'
   /runs/artist/{artist}:
     get:
       tags:
-        - "runs"
-      summary: "Get all the runs for a specified artist"
+        - 'runs'
+      summary: 'Get all the runs for a specified artist'
       security:
         - bearerAuth: []
       parameters:
         - name: artist
           in: path
           required: true
-          description: "The id of the artist"
+          description: 'The id of the artist'
           example: 1
           schema:
             type: integer
             minimum: 1
       responses:
-        '200':    # status code
-          description: "Run model serialized to JSON"
+        '200': # status code
+          description: 'Run model serialized to JSON'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Run"
+                  $ref: '#/components/schemas/Run'
   /runs/{run}/logs:
     get:
       tags:
-        - "runs.logs"
-      summary: "Get all log entries for the run"
+        - 'runs.logs'
+      summary: 'Get all log entries for the run'
       security:
         - bearerAuth: []
       parameters:
         - name: run
           in: path
           required: true
-          description: "The id of the run"
+          description: 'The id of the run'
           schema:
             type: integer
       responses:
         '200':
-          description: "Ok"
+          description: 'Ok'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/LogEntry"
+                  $ref: '#/components/schemas/LogEntry'
 
     post:
       tags:
-        - "runs.logs"
-      summary: "Post a log entry for the run"
+        - 'runs.logs'
+      summary: 'Post a log entry for the run'
       security:
         - bearerAuth: []
       parameters:
         - name: run
           in: path
           required: true
-          description: "The id of the run"
+          description: 'The id of the run'
           schema:
             type: integer
       requestBody:
@@ -310,23 +327,23 @@ paths:
                   example: "Il y a plein de bouchons sur l'autoroute"
       responses:
         '200':
-          description: "Ok"
+          description: 'Ok'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/LogEntry"
+                $ref: '#/components/schemas/LogEntry'
   /runners/{runner}/driver:
     patch:
       tags:
-        - "runners"
-      summary: "Add the current authenticated user to the selected subscription"
+        - 'runners'
+      summary: 'Add the current authenticated user to the selected subscription'
       security:
         - bearerAuth: []
       parameters:
         - name: runner
           in: path
           required: true
-          description: "The id of the run subscription"
+          description: 'The id of the run subscription'
           example: 1
           schema:
             type: integer
@@ -341,26 +358,26 @@ paths:
                   type: string
                   example: '2019-03-13T11:42:53'
       responses:
-        '200':    # status code
-          description: "Run model serialized to JSON"
+        '200': # status code
+          description: 'Run model serialized to JSON'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Run"
+                $ref: '#/components/schemas/Run'
         '409':
-          description: "Ce poste est déjà pris par un autre conducteur"
+          description: 'Ce poste est déjà pris par un autre conducteur'
   /runners/{runner}/car:
     patch:
       tags:
-        - "runners"
-      summary: "Add the parameter car to the selected subscription"
+        - 'runners'
+      summary: 'Add the parameter car to the selected subscription'
       security:
         - bearerAuth: []
       parameters:
         - name: runner
           in: path
           required: true
-          description: "The id of the run subscription"
+          description: 'The id of the run subscription'
           example: 1
           schema:
             type: integer
@@ -376,40 +393,40 @@ paths:
                   type: integer
                   example: 1
       responses:
-        '200':    # status code
-          description: "Run model serialized to JSON"
+        '200': # status code
+          description: 'Run model serialized to JSON'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Run"
+                $ref: '#/components/schemas/Run'
   /cars:
     get:
       tags:
-        - "cars"
-      summary: "Get all the cars"
+        - 'cars'
+      summary: 'Get all the cars'
       security:
         - bearerAuth: []
       responses:
-        '200':    # status code
-          description: "Car model serialized to JSON"
+        '200': # status code
+          description: 'Car model serialized to JSON'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Car"
+                  $ref: '#/components/schemas/Car'
   /cars/{car}/comments:
     post:
       tags:
-        - "cars.comments"
-      summary: "Create new comment for the specified car"
+        - 'cars.comments'
+      summary: 'Create new comment for the specified car'
       security:
         - bearerAuth: []
       parameters:
         - name: car
           in: path
           required: true
-          description: "The id of the car"
+          description: 'The id of the car'
           example: 1
           schema:
             type: integer
@@ -422,28 +439,171 @@ paths:
             schema:
               $ref: '#/components/schemas/CommentRequest'
       responses:
-        '201':    # status code
-          description: "Car model serialized to JSON"
+        '201': # status code
+          description: 'Car model serialized to JSON'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Comment"
-  /fastDial:
+                $ref: '#/components/schemas/Comment'
+  /schedule:
     get:
       tags:
-        - "fastDials"
-      summary: "Get all fast dials"
+        - 'schedule'
+      summary: 'Get all the schedules'
       security:
         - bearerAuth: []
       responses:
-        '200':    # status code
-          description: "Group model serialized to JSON"
+        '200':
+          description: 'Schedule model serialized to JSON'
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/FastDial"
+                  $ref: '#/components/schemas/Schedule'
+    post:
+      tags:
+        - 'schedule'
+      summary: 'Create a new schedule'
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: The data to create the schedule
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+      responses:
+        '201':
+          description: 'Schedule model serialized to JSON'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+  /schedule/create:
+    get:
+      tags:
+        - 'schedule'
+      summary: 'Get the data needed to create a schedule'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 'Schedule model serialized to JSON'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+  /schedule/{id}:
+    get:
+      tags:
+        - 'schedule'
+      summary: 'Get a schedule by its ID'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 'The id of the schedule'
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: 'Schedule model serialized to JSON'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+    post:
+      tags:
+        - 'schedule'
+      summary: 'Update a schedule by its ID'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 'The id of the schedule'
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        description: The data to update the schedule
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+      responses:
+        '200':
+          description: 'Schedule model serialized to JSON'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+    delete:
+      tags:
+        - 'schedule'
+      summary: 'Delete a schedule by its ID'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 'The id of the schedule'
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '204':
+          description: 'No content'
+  /schedule/{id}/edit:
+    get:
+      tags:
+        - 'schedule'
+      summary: 'Get the data to edit a schedule by its ID'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: 'The id of the schedule'
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: 'Schedule model serialized to JSON'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+  /fastDial:
+    get:
+      tags:
+        - 'fastDials'
+      summary: 'Get all fast dials'
+      security:
+        - bearerAuth: []
+      responses:
+        '200': # status code
+          description: 'Group model serialized to JSON'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FastDial'
 components:
   securitySchemes:
     bearerAuth:
@@ -484,240 +644,245 @@ components:
             total:
               type: number
     User:
-      type: "object"
+      type: 'object'
       properties:
         id:
-          type: "integer"
+          type: 'integer'
         name:
-          type: "string"
+          type: 'string'
         firstname:
-          type: "string"
+          type: 'string'
         lastname:
-          type: "string"
+          type: 'string'
         email:
-          type: "string"
+          type: 'string'
         phone_number:
-          type: "string"
+          type: 'string'
         status:
-          type: "string"
+          type: 'string'
         role:
-          type: "string"
+          type: 'string'
         image_profile:
-          type: "string"
-          description: "base64-encoded picture for the profile"
+          type: 'string'
+          description: 'base64-encoded picture for the profile'
         image_license:
-          type: "string"
+          type: 'string'
           description: "base64-encoded picture of the driver's license"
         picture:
-          type: "string"
-          description: "Filename of the profile picture stored on the server"
+          type: 'string'
+          description: 'Filename of the profile picture stored on the server'
         has_notification_token:
-          type: "string"
+          type: 'string'
     Run:
-      type: "object"
+      type: 'object'
       properties:
         id:
-          type: "integer"
+          type: 'integer'
         status:
-          type: "string"
+          type: 'string'
         title:
-          type: "string"
+          type: 'string'
         begin_at:
-          type: "string"
+          type: 'string'
         start_at:
-          type: "string"
+          type: 'string'
         updated_at:
-          type: "string"
+          type: 'string'
         acknowledged_at:
-          type: "string"
+          type: 'string'
         pax_tbc:
-          type: "integer"
-        time_tbc:
-          type: "integer"
+          type: 'integer'
         end_at:
-          type: "string"
+          type: 'string'
         finished_at:
-          type: "string"
+          type: 'string'
         nb_passenger:
-          type: "string"
+          type: 'string'
         runinfo:
-          type: "string"
+          type: 'string'
         name_contact:
-          type: "string"
+          type: 'string'
         num_contact:
-          type: "string"
+          type: 'string'
         good_for_me:
-          type: "boolean"
+          type: 'boolean'
         waypoints:
-          type: "array"
+          type: 'array'
           items:
-            $ref: "#/components/schemas/Waypoint"
+            $ref: '#/components/schemas/Waypoint'
         runners:
-          type: "array"
+          type: 'array'
           items:
-            $ref: "#/components/schemas/Runner"
+            $ref: '#/components/schemas/Runner'
         artist_id:
-          type: "integer"
-    ShortRun:
-      type: "object"
+          type: 'integer'
+    Track:
+      type: 'object'
       properties:
         id:
-          type: "integer"
-        name:
-          type: "string"
-        planned_at:
-          type: "string"
-        end_planned_at:
-          type: "string"
-        started_at:
-          type: "string"
-        ended_at:
-          type: "string"
-        passengers:
-          type: "integer"
+          type: 'integer'
         status:
-          type: "string"
+          type: 'string'
+        trackpoints:
+          type: 'array'
+          items:
+            $ref: '#/components/schemas/Trackpoint'
+    ShortRun:
+      type: 'object'
+      properties:
+        id:
+          type: 'integer'
+        name:
+          type: 'string'
+        planned_at:
+          type: 'string'
+        end_planned_at:
+          type: 'string'
+        started_at:
+          type: 'string'
+        ended_at:
+          type: 'string'
+        passengers:
+          type: 'integer'
+        status:
+          type: 'string'
         artist_id:
-          type: "string"
+          type: 'string'
     Waypoint:
-      type: "object"
+      type: 'object'
       properties:
         nickname:
-          type: "string"
+          type: 'string'
         is_meeting:
-          type: "boolean"
-        meeting_time:
-          type: "string"
+          type: 'boolean'
+        passing_time:
+          type: 'string'
+    Trackpoint:
+      type: 'object'
+      properties:
+        passing_time:
+          type: 'string'
+        latitude:
+          type: 'number'
+        longitude:
+          type: 'number'
     Runner:
-      type: "object"
+      type: 'object'
       properties:
         id:
-          type: "integer"
+          type: 'integer'
         user:
-          $ref: "#/components/schemas/User"
+          $ref: '#/components/schemas/User'
         vehicle_category:
-          $ref: "#/components/schemas/CarType"
+          $ref: '#/components/schemas/CarType'
         vehicle:
-          $ref: "#/components/schemas/Car"
+          $ref: '#/components/schemas/Car'
     CarType:
-      type: "object"
+      type: 'object'
       properties:
         type:
-          type: "string"
+          type: 'string'
         description:
-          type: "string"
+          type: 'string'
     Car:
-      type: "object"
+      type: 'object'
       properties:
         id:
-          type: "integer"
+          type: 'integer'
         name:
-          type: "string"
+          type: 'string'
         plate_number:
-          type: "string"
+          type: 'string'
         gas_level:
-          type: "integer"
+          type: 'integer'
         nb_place:
-          type: "integer"
+          type: 'integer'
         status_slug:
           type: string
         status_name:
           type: string
         nextrun:
-          $ref: "#/components/schemas/ShortRun"
+          $ref: '#/components/schemas/ShortRun'
         user:
-          type: "boolean"
+          type: 'boolean'
         type:
-          $ref: "#/components/schemas/CarType"
+          $ref: '#/components/schemas/CarType'
         comments:
-          type: "array"
+          type: 'array'
           items:
-            $ref: "#/components/schemas/Comment"
+            $ref: '#/components/schemas/Comment'
     Comment:
-      type: "object"
+      type: 'object'
       properties:
         id:
-          type: "integer"
+          type: 'integer'
         content:
-          type: "string"
+          type: 'string'
         user:
-          $ref: "#/components/schemas/User"
+          $ref: '#/components/schemas/User'
         created_at:
-          type: "string"
+          type: 'string'
     Group:
-      type: "object"
+      type: 'object'
       properties:
         color:
-          type: "string"
+          type: 'string'
         name:
-          type: "string"
+          type: 'string'
     CarRequest:
-      type: "object"
+      type: 'object'
       properties:
         name:
-          type: "string"
-          example:
-            "OneCar"
+          type: 'string'
+          example: 'OneCar'
         plate_number:
-          type: "string"
-          example:
-            "VD 219310"
+          type: 'string'
+          example: 'VD 219310'
         brand:
-          type: "string"
-          example:
-            "Mercedes"
+          type: 'string'
+          example: 'Mercedes'
         model:
-          type: "string"
-          example:
-            "Vito"
+          type: 'string'
+          example: 'Vito'
         color:
-          type: "string"
-          example:
-            "red"
+          type: 'string'
+          example: 'red'
         status_id:
-          type: "integer"
-          example:
-            2
+          type: 'integer'
+          example: 2
         type_id:
-          type: "integer"
-          example:
-            1
+          type: 'integer'
+          example: 1
     CommentRequest:
-      type: "object"
+      type: 'object'
       properties:
         content:
-          type: "string"
-          example:
-            "The guy that created this doc is awesome!"
+          type: 'string'
+          example: 'The guy that created this doc is awesome!'
     UserRequest:
-      type: "object"
+      type: 'object'
       properties:
         username:
-          type: "string"
-          example:
-            "Toto"
+          type: 'string'
+          example: 'Toto'
         Password:
-          type: "string"
-          example:
-            "Pa$$w0rd"
+          type: 'string'
+          example: 'Pa$$w0rd'
     PhotoRequest:
-      type: "object"
+      type: 'object'
       properties:
         image:
-          type: "string"
-          example:
-            "base64Code"
+          type: 'string'
+          example: 'base64Code'
         description:
-          type: "string"
-          example:
-            "Good looking photo of my Mercedes"
+          type: 'string'
+          example: 'Good looking photo of my Mercedes'
     PhotoUpdateRequest:
-      type: "object"
+      type: 'object'
       properties:
         description:
-          type: "string"
-          example:
-            "Good looking photo of my Mercedes"
+          type: 'string'
+          example: 'Good looking photo of my Mercedes'
     Photo:
       type: object
       properties:
@@ -726,7 +891,7 @@ components:
           example: 238
         path:
           type: string
-          example: "carpicturesDj5bb86btYNtPuMoUMcSBemU2PPeDE5L4HFLZz.jpg"
+          example: 'carpicturesDj5bb86btYNtPuMoUMcSBemU2PPeDE5L4HFLZz.jpg'
     LogEntry:
       type: object
       properties:
@@ -738,17 +903,17 @@ components:
           example: "Il y a plein de bouchons sur l'autoroute"
         action:
           type: string
-          example: "created"
+          example: 'created'
         updated_at:
           type: string
           format: date-time
-          example: "2019-03-13T11:42:53"
+          example: '2019-03-13T11:42:53'
         user:
           type: object
           properties:
             name:
               type: string
-              example: "Vincent"
+              example: 'Vincent'
     FastDial:
       type: object
       properties:
@@ -761,10 +926,9 @@ components:
     Schedule:
       type: object
       properties:
-        start_date: 
+        start_date:
           type: string
         end_date:
           type: string
         group:
-          $ref: "#/components/schemas/Group"          
-        
+          $ref: '#/components/schemas/Group'

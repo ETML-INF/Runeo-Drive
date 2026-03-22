@@ -45,14 +45,14 @@ export class ScheduleComponent extends React.Component {
         //si l'utilisateur n'a pas d'horaires, on affiche un horaire englobant quelques jours avant et après et on l'avertit.
         if(data.length > 0)
         {
-            data = data.sort((a:ScheduleResource, b:ScheduleResource) => {return a.start_time.valueOf() - b.start_time.valueOf()})
+            data = data.sort((a:ScheduleResource, b:ScheduleResource) => {return a.start_date.valueOf() - b.start_date.valueOf()})
 
-            this.startDate = moment(data[0].start_time).startOf("day");
+            this.startDate = moment(data[0].start_date).startOf("day");
 
             //Set the end date of the schedules. It's either:
             // - the end time of the groups schedules
             // - today date if it is after every schedule (for instance, the festival has ended)
-            const endDate = new Date() > data[data.length-1].end_time ? new Date() : data[data.length-1].end_time
+            const endDate = new Date() > data[data.length-1].end_date ? new Date() : data[data.length-1].end_date
 
             console.log(endDate)
 
@@ -109,8 +109,8 @@ export class ScheduleComponent extends React.Component {
         _schedules = this.props.schedules.toArray().map((schedule: ScheduleResource)=>
             <ScheduleScheduleComponent
                 key={schedule.id}
-                y={this.parseDateToScroll(moment(schedule.start_time))}
-                height={moment(schedule.end_time).diff(moment(schedule.start_time), "hours") * 2 * this.scale}
+                y={this.parseDateToScroll(moment(schedule.start_date))}
+                height={moment(schedule.end_date).diff(moment(schedule.start_date), "hours") * 2 * this.scale}
                 text={"Groupe " + schedule.group.name}
                 color={schedule.group.color}
             ></ScheduleScheduleComponent>);

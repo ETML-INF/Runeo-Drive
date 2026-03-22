@@ -6,7 +6,7 @@
  * @ Description: Container used to get the schedules of the user from the API
  */
 
-import { ScheduleResource } from "../resources/Schedule.resourse";
+import { ScheduleResource } from "../resources/Schedule.resource";
 import Axios from "axios";
 import { List } from "immutable";
 import { useCacheHelper } from "../utils/CacheHelper.utils";
@@ -77,7 +77,7 @@ async function getSchedulesFromApi(userId: number): Promise<ScheduleResource[]> 
       const memberId = g.members[0].id;
 
       //We get the schedule of the first member of the group
-      return Axios.get(`/users/${memberId}/schedules`, { timeout: 10000 })
+      return Axios.get(`/users/${memberId}/schedule`, { timeout: 10000 })
         .then((res) => {
           //res.data is an array of schedule
           return (res.data ?? []).map(parseSchedule);
@@ -100,8 +100,8 @@ async function getSchedulesFromApi(userId: number): Promise<ScheduleResource[]> 
   function parseSchedule(rawSchedule: any): ScheduleResource {
     return {
       id: rawSchedule.id,
-      start_time: new Date(rawSchedule.start_time),
-      end_time: new Date(rawSchedule.end_time),
+      start_date: new Date(rawSchedule.start_date),
+      end_date: new Date(rawSchedule.end_date),
       group: {
         id: rawSchedule.group.id,
         color: rawSchedule.group.color,

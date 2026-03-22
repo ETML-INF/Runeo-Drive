@@ -30,7 +30,7 @@ export function DetailRunsCourseComponent({currentRun}: CourseDetailRunsComponen
                     <WayPointTextComponent 
                         key={idx} 
                         place={waypoint.nickname} 
-                        time={moment(moment().format("YYYY-MM-DD ")+waypoint.meeting_time).format("H:mm")} 
+                        time={moment(moment().format("YYYY-MM-DD ")+waypoint.passing_time).format("H:mm")} 
                         isMeeting={waypoint.is_meeting == 1}
                     />))}
             </View>

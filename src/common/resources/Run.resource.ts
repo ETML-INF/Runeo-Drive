@@ -22,8 +22,7 @@ export interface RunResource extends CommonResource {
     start_at: DateTime,
     updated_at: DateTime,
     acknowledged_at: DateTime,
-    pax_tbc: boolean,
-    time_tbc: boolean,
+    pax_tbc: number,
     end_at: DateTime,
     finished_at: DateTime,
     nb_passenger: number,
@@ -39,5 +38,5 @@ export interface RunResource extends CommonResource {
 export interface Waypoint {
     nickname: string,
     is_meeting: number,
-    meeting_time: string,
+    passing_time: string,
 }
