@@ -16,20 +16,18 @@ import { AuthContainer } from "../../Provider.component";
 let userGroup: string = "";
 
 export function useSchedulesContainer(): DataContainerInterface<ScheduleResource> {
-  const cacheHelper = useCacheHelper<ScheduleResource>(
-    "SCHEDULE",
-    parseSchedule
-  );
+  const cacheHelper = useCacheHelper<ScheduleResource>("SCHEDULE", parseSchedule);
 
-  const userId = AuthContainer.useContainer().authenticatedUser?.id
+  const userId = AuthContainer.useContainer().authenticatedUser?.id;
 
   const refresh = (): Promise<void> =>
     getSchedulesFromApi(userId)
       .then((fetchedSchedules) => {
         if (fetchedSchedules.length > 0) {
-          return cacheHelper.insertItems(List(fetchedSchedules))
+          return cacheHelper.insertItems(List(fetchedSchedules));
         }
-      }).catch((error) => {
+      })
+      .catch((error) => {
         throw error;
       });
 
@@ -38,74 +36,36 @@ export function useSchedulesContainer(): DataContainerInterface<ScheduleResource
     userGroup: userGroup,
     readFromCache: cacheHelper.readFromCache,
     refresh,
-    empty: cacheHelper.empty,
+    empty: cacheHelper.empty
   };
 }
 
-
 async function getSchedulesFromApi(userId: number): Promise<ScheduleResource[]> {
-  //Array that contains the schedule of all groups
-  const allSchedules: ScheduleResource[] = [];
+  //Get all schedules and the current user's own schedule in parallel
+  const [allSchedulesRes, userScheduleRes] = await Promise.all([
+    Axios.get("/schedule", { timeout: 10000 }),
+    Axios.get(`/users/${userId}/schedule`, { timeout: 10000 }).catch(() => ({ data: [] })),
+  ]);
 
-  //Get the all the groups
-  const groupsRes = await Axios.get("/groups", { timeout: 10000 });
+  //Determine the user's group from their own schedule
+  const userSchedules: any[] = userScheduleRes.data ?? [];
+  if (userSchedules.length > 0 && userSchedules[0]?.group?.name) {
+    userGroup = userSchedules[0].group.name;
+  }
 
-  //Return an empty array if there isn't the list of groups
-  const groupList = groupsRes.data?.data ?? [];
+  const rawSchedules: any[] = allSchedulesRes.data ?? [];
+  return rawSchedules.map(parseSchedule);
+}
 
-  //let userGroup;
-
-  //Get the user group
-  for (const group of groupList) {
-    const hasGroup = group.members.some(m => m.id === userId)
-    
-    if (hasGroup) {
-      userGroup = group.name
-      break;
+function parseSchedule(rawSchedule: any): ScheduleResource {
+  return {
+    id: rawSchedule.id ?? rawSchedule.group?.name + "_" + rawSchedule.start_date,
+    start_date: new Date(rawSchedule.start_date),
+    end_date: new Date(rawSchedule.end_date),
+    group: {
+      id: rawSchedule.group?.id ?? rawSchedule.group?.name,
+      color: rawSchedule.group?.color,
+      name: rawSchedule.group?.name
     }
-  }
-
-  //As of 30.01.2026, it isn't possible to get the schedule of a group:
-  //You can only get the schedule of an user
-  //To get the schedule of all groups, we simply get the schedule of the first member of the group
-  //It can only show the groups that have at least one user
-
-  //We create an array of promises
-  const schedulePromises = groupList
-    .filter((g: any) => g?.id && Array.isArray(g.members) && g.members.length > 0)
-    .map((g: any) => {
-      const memberId = g.members[0].id;
-
-      //We get the schedule of the first member of the group
-      return Axios.get(`/users/${memberId}/schedule`, { timeout: 10000 })
-        .then((res) => {
-          //res.data is an array of schedule
-          return (res.data ?? []).map(parseSchedule);
-        })
-        .catch((err) => {
-          console.error(`Failed to load schedules for member ${memberId}:`, err);
-          return [] as ScheduleResource[]; // don't fail whole operation for one group
-        });
-    });
-
-  //We wait for all the promises to resolve and merge all the group schedule into one
-  const schedulesArrays = await Promise.all(schedulePromises);
-  for (const arr of schedulesArrays) {
-    allSchedules.push(...arr);
-  }
-
-  return allSchedules;
-  }
-
-  function parseSchedule(rawSchedule: any): ScheduleResource {
-    return {
-      id: rawSchedule.id,
-      start_date: new Date(rawSchedule.start_date),
-      end_date: new Date(rawSchedule.end_date),
-      group: {
-        id: rawSchedule.group.id,
-        color: rawSchedule.group.color,
-        name: rawSchedule.group.name,
-      }
-    }
-  }
+  };
+}

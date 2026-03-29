@@ -27,51 +27,42 @@ export interface ScheduleComponentProps {
 }
 
 //TODO: little detail : it would be better to transform this class compoment in a function compoment to maintain coherence.
-export class ScheduleComponent extends React.Component {
-    
-    // - class variables - 
-    hours = Array();
+export class ScheduleComponent extends React.Component<ScheduleComponentProps> {
+
+    // - class variables -
+    startDate: Moment = moment();
     //amount of pixels for 30 minutes
     scale = 25;
     scrollViewRef = null;
     
     constructor(props: ScheduleComponentProps){
         super(props);
+    }
 
-        let data = Array();
+    computeDateRange() {
+        const data = this.props.schedules.toArray()
+            .sort((a: ScheduleResource, b: ScheduleResource) => a.start_date.valueOf() - b.start_date.valueOf());
+
+        let startDate: Moment;
         let numberOfDays = 8;
-        data = this.props.schedules.toArray();
 
-        //si l'utilisateur n'a pas d'horaires, on affiche un horaire englobant quelques jours avant et après et on l'avertit.
-        if(data.length > 0)
-        {
-            data = data.sort((a:ScheduleResource, b:ScheduleResource) => {return a.start_date.valueOf() - b.start_date.valueOf()})
-
-            this.startDate = moment(data[0].start_date).startOf("day");
-
-            //Set the end date of the schedules. It's either:
-            // - the end time of the groups schedules
-            // - today date if it is after every schedule (for instance, the festival has ended)
-            const endDate = new Date() > data[data.length-1].end_date ? new Date() : data[data.length-1].end_date
-
-            console.log(endDate)
-
-            // the +1 is there because we want to display the whole days and not just the difference between them.
-            numberOfDays = moment(endDate).startOf("day").diff(moment(this.startDate), 'days') + 1 ;
-        }
-        else
-        {
-            this.startDate = moment().subtract(4,"days").startOf("day");
-            console.log("Horaires non récupérés, donc dates de l'horaire estimées à 4 jours avant et après aujourd'hui.")
+        if (data.length > 0) {
+            startDate = moment(data[0].start_date).startOf("day");
+            const endDate = data[data.length - 1].end_date;
+            numberOfDays = moment(endDate).startOf("day").diff(startDate, 'days') + 1;
+        } else {
+            startDate = moment().subtract(4, "days").startOf("day");
         }
 
-        for(let i = 0; i < numberOfDays; i++){
-            for(let h= 0; h < 24; h++)
-            {
-                this.hours.push(<ScheduleHour key={i.toString() + h.toString()} hour={(h>=10?'':'0') + h + ":00"} scale={this.scale}></ScheduleHour>);
+        const hours = [];
+        for (let i = 0; i < numberOfDays; i++) {
+            for (let h = 0; h < 24; h++) {
+                hours.push(<ScheduleHour key={i.toString() + h.toString()} hour={(h >= 10 ? '' : '0') + h + ":00"} scale={this.scale}></ScheduleHour>);
             }
         }
-        
+
+        this.startDate = startDate;
+        return hours;
     }
     
     
@@ -104,6 +95,7 @@ export class ScheduleComponent extends React.Component {
     }
     
     render(){
+        const hours = this.computeDateRange();
         let _schedules;
         let _runs;
         _schedules = this.props.schedules.toArray().map((schedule: ScheduleResource)=>
@@ -160,8 +152,8 @@ export class ScheduleComponent extends React.Component {
 
         return (
             <View style={styles.container}>
-                <ScrollView ref= {scrollView => this.scrollViewRef = scrollView} onScroll={this.onScroll} style={styles.scrollView}>
-                    {this.hours}                
+                <ScrollView ref= {scrollView => this.scrollViewRef = scrollView} onScroll={this.onScroll} scrollEventThrottle={16} style={styles.scrollView}>
+                    {hours}                
                     {_schedules}
                     <View  style={[styles.currentTimeLine, {top: this.parseDateToScroll(moment().startOf('minute')), left: "15%"}]}>
                         <View style={styles.currentTimeBall}></View>

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Runeo-Drive",
-    "slug": "runeo-drive",
+    "slug": "runeodrive",
     "version": "2026.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -32,7 +32,7 @@
           "android": {
             "usesCleartextTraffic": true,
             "compileSdkVersion": 35,
-            "targetSdkVersion": 34
+            "targetSdkVersion": 35
           }
         }
       ],
@@ -44,7 +44,7 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "etml.inf.dev.runeo",
+      "package": "ch.mosiby.runeo",
       "versionCode": 202610,
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
@@ -55,7 +55,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "df624953-600d-44b4-8de0-553244a93199"
+        "projectId": "c9fa705a-ca31-4885-94b2-29a88407d1b8"
       }
     }
   }

@@ -26,20 +26,16 @@ export function ScheduleDropdownPicker(props: ScheduleDropdownPickerProps) {
 
     //Remove a group from the groupsToDisplay list and return it to the parent component
     function HideGroupSchedules(name: string) {
-        setGroupsToDisplay(prev => {
-            const updatedGroups = prev.filter(group => group !== name);
-            props.onFilter(updatedGroups);
-            return updatedGroups;
-        });
+        const updatedGroups = groupsToDisplay.filter(group => group !== name);
+        setGroupsToDisplay(updatedGroups);
+        props.onFilter(updatedGroups);
     }
 
     //Add a group from the groupsToDisplay list and return it to the parent component
     function ShowGroupSchedules(name: string) {
-        setGroupsToDisplay(prev => {
-            const updatedGroups = [...prev, name].sort();
-            props.onFilter(updatedGroups);
-            return updatedGroups;
-        });
+        const updatedGroups = [...groupsToDisplay, name].sort();
+        setGroupsToDisplay(updatedGroups);
+        props.onFilter(updatedGroups);
     }
 
     return (

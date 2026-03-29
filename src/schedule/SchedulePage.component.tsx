@@ -91,40 +91,30 @@ export function SchedulePageComponent() {
 
     const gotoRun = (run: RunResource) => navigation.navigate("detail", { run: run });
 
-    //#region Parameters for the profile page
-    let group: string;
-
-    //Set the user group once the schedules have been loaded
-    if (schedulesContainer.items.toArray().length > 0) {
-        group = schedulesContainer.userGroup;
-    }
+    const group = schedulesContainer.items.toArray().length > 0 ? schedulesContainer.userGroup : null;
 
     let statusColor = userStatusColor(currentUser.status);
-    //#endregion
 
-    const schedulesFilter = useRef([]) //The array that holds the list of groups to show
+    const schedulesFilter = useRef<string[]>([]) //The array that holds the list of groups to show
 
     //The list of schedules to show
     const [schedulesToShow, setSchedulesToShow] = useState(schedulesContainer.items)
 
     //Only keeps schedule that match the filter array
-    function FilterSchedules(filter: Array<string>) {
+    function FilterSchedules(filter: string[]) {
         if (JSON.stringify(schedulesFilter.current) !== JSON.stringify(filter)) {
             schedulesFilter.current = filter
-
-            if (!schedulesFilter.current) {
-                schedulesFilter.current = [group]
-            }
-
             const filteredSchedules = schedulesContainer.items.filter(s => schedulesFilter.current.includes(s.group.name))
             setSchedulesToShow(filteredSchedules)
         }
-    }       
-
-    //If there is no filter, show the schedule of the user's group
-    if ((!schedulesFilter.current || isEmptyArray(schedulesFilter.current)) && group) {
-        FilterSchedules([group])
     }
+
+    //Once the user's group is known, apply it as the default filter
+    useEffect(() => {
+        if (isEmptyArray(schedulesFilter.current) && group) {
+            FilterSchedules([group])
+        }
+    }, [group])
     
 
     return (

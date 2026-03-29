@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   description: 'This swagger documents the Runeo api.'
-  version: 'v3.0.0'
+  version: 'v3.1.1'
   title: 'Runeo'
 tags:
   - name: 'me'
@@ -20,6 +20,8 @@ tags:
     description: 'Cars resource'
   - name: 'cars.comments'
     description: 'Cars comments'
+  - name: "groups"
+    description: "Groups resource"
   - name: 'fastDials'
     description: 'fastDials resource'
   - name: 'tracks'
@@ -588,6 +590,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Schedule'
+  /groups:
+    get:
+      tags:
+        - "groups"
+      summary: "Get all the groups"
+      responses:
+        '200':    # status code
+          description: "Group model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Group"
+  /groups/{group}:
+    get:
+      tags:
+        - "groups"
+      summary: "Get specific group by his ID"
+      parameters:
+        - name: group
+          in: path
+          required: true
+          description: "The id of the group"
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':    # status code
+          description: "Group model serialized to JSON"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Group"
+
   /fastDial:
     get:
       tags:
