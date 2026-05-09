@@ -2,7 +2,7 @@
   "expo": {
     "name": "Runeo-Drive",
     "slug": "runeodrive",
-    "version": "2026.1.0",
+    "version": "2026.1.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "owner": "etml-inf-dev",
@@ -20,7 +20,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "etml.inf.dev.runeo",
-      "buildNumber": "2026.1.0",
+      "buildNumber": "2026.1.2",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -32,7 +32,8 @@
           "android": {
             "usesCleartextTraffic": true,
             "compileSdkVersion": 35,
-            "targetSdkVersion": 35
+            "targetSdkVersion": 35,
+            "extraCMakeArguments": ["-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"]
           }
         }
       ],
@@ -45,7 +46,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "ch.mosiby.runeo",
-      "versionCode": 202610,
+      "versionCode": 202612,
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },

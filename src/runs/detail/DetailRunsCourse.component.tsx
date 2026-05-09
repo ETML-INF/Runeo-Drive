@@ -1,5 +1,5 @@
 import {RunResource} from "../../common/resources/Run.resource";
-import {StyleSheet, Button, Text, TouchableOpacity, Linking, View} from "react-native";
+import {StyleSheet, Linking, View} from "react-native";
 import {CardComponentWithIcon} from "../../common/component/Card.component";
 import { WayPointTextComponent } from "../../common/component/text/WayPointText.component";
 import moment from "moment"
@@ -12,11 +12,10 @@ export interface CourseDetailRunsComponentProps {
 }
 
 export function DetailRunsCourseComponent({currentRun}: CourseDetailRunsComponentProps) {
-    const runDuration = currentRun.finished_at.diff(currentRun.begin_at);
     const {isInternetReachable} = NetworkContainer.useContainer();
 
     const showRunOnMap = () => {
-        if (currentRun.google.startsWith('http')) {
+        if (currentRun.google?.startsWith('http')) {
             Linking.openURL(currentRun.google).catch(err => console.error("Couldn't load page", err));
         } else {
             showToast("Désolé, les informations sont incomplètes", toastType.failed);
@@ -30,8 +29,8 @@ export function DetailRunsCourseComponent({currentRun}: CourseDetailRunsComponen
                     <WayPointTextComponent 
                         key={idx} 
                         place={waypoint.nickname} 
-                        time={moment(moment().format("YYYY-MM-DD ")+waypoint.passing_time).format("H:mm")} 
-                        isMeeting={waypoint.is_meeting == 1}
+                        time={waypoint.passing_time ? moment(waypoint.passing_time).format("H:mm") : ""}
+                        isMeeting={!!waypoint.is_meeting}
                     />))}
             </View>
             <View style={styles.container}>

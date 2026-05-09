@@ -47,7 +47,7 @@ export function ListVehiclesViewComponent(props: ListVehiclesViewComponentProps)
     )
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{flex: 1}}>
             <ListCommonResourceComponent
                 filter={props.filter}
                 sort={(vehicleA: VehicleResource, vehicleB: VehicleResource) => {

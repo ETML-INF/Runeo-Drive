@@ -136,15 +136,22 @@ function acknowledgeRunApi(run: RunResource): Promise<RunResource> {
     .catch((error) => error.text);
 }
 
+function parseDate(value: string | null | undefined): DateTime {
+  if (!value) return DateTime.invalid('null');
+  const iso = DateTime.fromISO(value);
+  if (iso.isValid) return iso;
+  return DateTime.fromSQL(value);
+}
+
 function parseRunResource(runFromApi: any): RunResource {
   return {
     ...runFromApi,
-    begin_at: DateTime.fromISO(runFromApi.begin_at),
-    end_at: DateTime.fromISO(runFromApi.end_at),
-    finished_at: DateTime.fromISO(runFromApi.finished_at),
-    start_at: DateTime.fromISO(runFromApi.start_at),
-    updated_at: DateTime.fromISO(runFromApi.updated_at),
-    acknowledged_at: DateTime.fromISO(runFromApi.acknowledged_at),
+    begin_at: parseDate(runFromApi.begin_at),
+    end_at: parseDate(runFromApi.end_at),
+    finished_at: parseDate(runFromApi.finished_at),
+    start_at: parseDate(runFromApi.start_at),
+    updated_at: parseDate(runFromApi.updated_at),
+    acknowledged_at: parseDate(runFromApi.acknowledged_at),
     waypoints: List(runFromApi.waypoints),
     runners: List(runFromApi.runners)
   };

@@ -28,7 +28,8 @@ export function ListUsersComponent() {
 
         if(baseURL)
         {
-            uri = baseURL.replace('api', 'storage/profiles/') + item.picture;
+            uri = baseURL.replace('api', 'storage/uploads/') + item.picture.path;
+            console.log(uri)
         }
 
         return (
@@ -55,7 +56,7 @@ export function ListUsersComponent() {
     }
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{flex: 1}}>
             <ListCommonResourceComponent
                 sort={(userA: UserResource, userB: UserResource) => {
                     return userA.firstname > userB.firstname ? 1 : -1

@@ -4,5 +4,6 @@
 export const urlConfigData = [
     { label: 'à Paléo', value: 'https://runeo.paleo.ch/api' },
     { label: 'aux Eurockéennes', value: 'https://runeurock.eurockeennes.fr/api' },
+    { label: 'En développement', value: 'http://localhost:3333/api' },
     { label: 'Ailleurs', value: '' }
   ];

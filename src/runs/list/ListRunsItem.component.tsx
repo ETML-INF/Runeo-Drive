@@ -25,7 +25,7 @@ export function ListRunsItemComponent ({onSelectRun, run} : ListRunsItemComponen
             <ListItem.Content>
                 <ListItem.Title style={{fontFamily: 'Montserrat-Medium'}}>{`${run.title.toUpperCase()}`}</ListItem.Title>
                 <ListItem.Subtitle style={{color: Colors.GREY, fontFamily: 'Montserrat-Regular'}}>
-                    { dateWithLocalDay(run.begin_at)} à {run.begin_at.toFormat(TIME_FORMAT)}
+                    { run.begin_at?.isValid ? `${dateWithLocalDay(run.begin_at)} à ${run.begin_at.toFormat(TIME_FORMAT)}` : 'Date non définie' }
                 </ListItem.Subtitle>
             </ListItem.Content>
 
