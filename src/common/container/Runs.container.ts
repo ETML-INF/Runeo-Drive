@@ -158,7 +158,7 @@ function parseRunResource(runFromApi: any): RunResource {
 }
 
 function getLogsFromApi(run: number): Promise<LogResource[]> {
-  return Axios.get(`/runs/${run}/logs`).then((res) => res.data);
+  return Axios.get(`/runs/${run}/logs`).then((res) => res.data.map(parseLogResource));
 }
 
 function postLogToApi(run: number, description: string): Promise<LogResource> {
