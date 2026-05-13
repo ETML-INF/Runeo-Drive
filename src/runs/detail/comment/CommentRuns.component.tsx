@@ -44,7 +44,7 @@ export function CommentRunsComponent() {
     }, [runId]);
 
     return (
-        <View>
+        <View style={{flex: 1}}>
         { isLoading ?
             <Text>Loading...</Text>
             : logs.length === 0 ?

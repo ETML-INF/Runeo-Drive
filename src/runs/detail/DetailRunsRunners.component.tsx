@@ -43,6 +43,8 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                         vehicleCategory = runner.vehicle.type;
                     }
 
+                    if (!runner.vehicle_category) return null;
+
                     return (
                         <CardContainerComponent key={runner.id}>
                             <View>
@@ -75,7 +77,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                         ) : null}
                                     </View>
 
-                                    { canTake (authenticatedUser,runner, currentRun) ? (
+                                    { (canTake(authenticatedUser, runner, currentRun) && navFromList) ? (
                                         <ButtonComponent
                                             title={"Je prends"}
                                             disabled={ !isInternetReachable }
