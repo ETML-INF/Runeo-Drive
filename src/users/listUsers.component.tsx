@@ -36,7 +36,6 @@ export function ListUsersComponent() {
         if(baseURL)
         {
             uri = baseURL.replace('api', 'storage/uploads/') + item.picture.path;
-            console.log(uri)
         }
 
         return (
