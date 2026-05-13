@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { AuthContainer } from "./Provider.component";
 import { AuthComponent } from "./auth/Auth.component";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { ListUsersComponent } from "./users/listUsers.component";
+import { UsersNavigatorComponent } from "./users/UsersNavigator.component";
 import { FontAwesome } from "@expo/vector-icons";
 import { RunsComponent } from "./runs/Runs.component";
 import { VehiclesComponent } from "./vehicles/Vehicles.components";
@@ -67,7 +67,7 @@ export function RouterComponent() {
                             options={{
                                 tabBarIcon: tabBarIconGen('drivers-license-o'),
                             }}
-                            component={ListUsersComponent}
+                            component={UsersNavigatorComponent}
                         />
                         <Tab.Screen
                             name="Véhicules"
