@@ -11,7 +11,7 @@ import { clearCaches } from "../utils/Cache.utils";
 export interface RunsContainer extends DataContainerInterface<RunResource> {
   updateVehicle: (runnerId: number, carId: number) => Promise<void>;
   startRun: (run: RunResource) => Promise<void>;
-  stopRun: (run: RunResource, gasLevel: number) => Promise<void>;
+  stopRun: (run: RunResource) => Promise<void>;
   takeRun: (run: RunResource, runner: RunnerResource) => Promise<void>;
   acknowledgeRun: (run: RunResource) => Promise<void>;
   getLogs: (runId: number) => Promise<LogResource[]>;
@@ -42,8 +42,8 @@ export function useRunsContainer(): RunsContainer {
       .then(cacheHelper.insertItem)
       .catch((error) => error.text);
 
-  const stopRun = (run: RunResource, gasLevel: number): Promise<void> =>
-    stopRunApi(run, gasLevel)
+  const stopRun = (run: RunResource): Promise<void> =>
+    stopRunApi(run)
       .then(cacheHelper.insertItem)
       .catch((error) => error.text);
 
@@ -95,10 +95,8 @@ function startRunApi(run: RunResource): Promise<RunResource> {
     .catch((error) => error.text);
 }
 
-function stopRunApi(run: RunResource, gasLevel: number): Promise<RunResource> {
-  return Axios.patch(`/runs/${run.id}/stop`, {
-    gas_level: gasLevel
-  })
+function stopRunApi(run: RunResource): Promise<RunResource> {
+  return Axios.patch(`/runs/${run.id}/stop`)
     .then((res) => parseRunResource(res.data))
     .catch((error) => error.text);
 }

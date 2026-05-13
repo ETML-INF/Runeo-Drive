@@ -1,10 +1,9 @@
 import {RunResource, RunStatus} from "../../common/resources/Run.resource";
-import React, {Fragment, useState} from "react";
+import React, {useState} from "react";
 import {CardComponentWithIcon, CardContainerComponent} from "../../common/component/Card.component";
 import {Alert, StyleSheet, Text, View} from "react-native";
 import {Icon, Button} from "react-native-elements";
 import {AuthContainer, NetworkContainer, RunsContainer} from "../../Provider.component";
-import {getGasLevelText} from "../../common/utils/Vehicle.utils";
 import { canSelectVehicle, canTake, canChangeVehicle } from "../../common/utils/Run.utils";
 import {useNavigation} from "@react-navigation/native";
 import {RunsSelectVehicleParams} from "../RunsSelectVehicle.component";
@@ -63,13 +62,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                         ) : null}
 
                                         {runner.vehicle ? (
-                                            <Fragment>
-                                                <Text style={styles.vehicleName}> {runner.vehicle?.name} </Text>
-                                                <View style={styles.gasView}>
-                                                    <Text style={styles.textRegular}>{getGasLevelText(runner.vehicle.gas_level)}</Text>
-                                                    <Icon type='material-community' name={'fuel'} size={18}/>
-                                                </View>
-                                            </Fragment>
+                                            <Text style={styles.vehicleName}> {runner.vehicle?.name} </Text>
                                         ) : null}
 
                                         { (canSelectVehicle (authenticatedUser,runner, currentRun) && navFromList) ? (
@@ -157,11 +150,5 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-Regular',
     },
 
-    gasView: {
-        flex: 2,
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center"
-    },
 
 });

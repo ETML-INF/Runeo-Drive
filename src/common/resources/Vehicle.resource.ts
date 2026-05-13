@@ -7,7 +7,6 @@ import {CommonResource} from "./Common.resource";
 export interface VehicleResource extends CommonResource {
     name: string,
     plate_number: string,
-    gas_level: number,
     nb_place: number,
     status: string,
     user: UserResource | boolean | null,

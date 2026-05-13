@@ -9,7 +9,6 @@ import {DetailRunsStatusControlBtn} from "./DetailRunsStatusControlBtn";
 import {DetailRunsAcknowledgeUpdateComponent} from "./DetailRunsAcknowledgeUpdate.component";
 import { DetailRunsOtherFromArtistComponent } from "./DetailRunsOtherFromArtist.component";
 import {DetailRunsCommentComponent} from "./DetailRunsComment.component";
-import {DetailRunsGasWarningComponent} from "./DetailRunsGasWarning.component"
 import {useRunFromRouteParam} from "../../common/hook/Run.hook";
 import {lastUpdatedRun} from "../../common/utils/LastUpdatedRun.utils";
 import {AuthContainer} from "../../Provider.component";
@@ -34,8 +33,6 @@ export function DetailRunsComponent() {
             {lastUpdatedRun(currentRun, authenticatedUser?.id) ? <DetailRunsAcknowledgeUpdateComponent currentRun={currentRun}/> : false }
 
             {navFromList && <DetailRunsStatusControlBtn currentRun={currentRun}/>}
-
-            <DetailRunsGasWarningComponent currentRun={currentRun}/>
 
             <DetailRunsScheduleComponent currentRun={currentRun}/>
 
