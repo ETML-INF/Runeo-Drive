@@ -3,7 +3,6 @@ import React, {Fragment} from "react";
 import {useRoute} from "@react-navigation/native";
 import {VehiclesContainer} from "../../Provider.component";
 import {PlateDetailVehiclesComponent} from "./PlateDetailVehicles.component";
-import {GasLevelDetailVehiclesComponent} from "./GasLevelDetailVehicles.component";
 import {CommentDetailVehiclesComponent} from "./CommentDetailVehicles.component";
 import {CreateCommentDetailVehicles} from "./CreateCommentDetailVehicles.component";
 
@@ -28,8 +27,6 @@ export function DetailVehiclesComponent() {
     return (
         <ScrollView style={{backgroundColor: 'white'}}>
             <PlateDetailVehiclesComponent currentVehicle={currentVehicle}/>
-
-            <GasLevelDetailVehiclesComponent currentVehicle={currentVehicle}/>
 
             <CreateCommentDetailVehicles currentVehicle={currentVehicle}/>
 

@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { AuthContainer } from "./Provider.component";
 import { AuthComponent } from "./auth/Auth.component";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { ListUsersComponent } from "./users/listUsers.component";
-import { Icon } from "react-native-elements";
+import { UsersNavigatorComponent } from "./users/UsersNavigator.component";
+import { FontAwesome } from "@expo/vector-icons";
 import { RunsComponent } from "./runs/Runs.component";
 import { VehiclesComponent } from "./vehicles/Vehicles.components";
 import { ScheduleNavigatorComponent } from "./schedule/ScheduleNavigator.component";
@@ -21,10 +21,10 @@ const INACTIVE_TAB_COLOR = Colors.BLACK;
 
 export function RouterComponent() {
     const authContainer = AuthContainer.useContainer();
-    const tabBarIconGen = (name: string) => {
-        return ({ focused }: { focused: boolean }) => (<Icon
-            type='font-awesome'
+    const tabBarIconGen = (name: React.ComponentProps<typeof FontAwesome>['name']) => {
+        return ({ focused }: { focused: boolean }) => (<FontAwesome
             name={name}
+            size={24}
             color={focused ? ACTIVE_TAB_COLOR : INACTIVE_TAB_COLOR}
         />)
     };
@@ -67,7 +67,7 @@ export function RouterComponent() {
                             options={{
                                 tabBarIcon: tabBarIconGen('drivers-license-o'),
                             }}
-                            component={ListUsersComponent}
+                            component={UsersNavigatorComponent}
                         />
                         <Tab.Screen
                             name="Véhicules"

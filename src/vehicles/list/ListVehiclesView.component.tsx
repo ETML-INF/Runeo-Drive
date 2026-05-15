@@ -3,7 +3,7 @@ import React from "react";
 import {VehiclesContainer} from "../../Provider.component"
 import {VehicleResource} from "../../common/resources/Vehicle.resource";
 import {ListItem} from "react-native-elements";
-import {gasLevelToColorRecord, getGasLevelText, statusColor} from "../../common/utils/Vehicle.utils"
+import {statusColor} from "../../common/utils/Vehicle.utils"
 import {ListCommonResourceComponent} from "../../common/component/ListCommonResource.component";
 import {StatusCircleComponent} from "../../common/component/StatusCircle.component";
 import {Colors} from "../../common/utils/Color.utils";
@@ -35,19 +35,12 @@ export function ListVehiclesViewComponent(props: ListVehiclesViewComponentProps)
                     </ListItem.Content>
                 ) : null}
 
-                <ListItem.Content style={styles.iconContainerContainer}>
-                    <View style={styles.iconContainer}>
-                        <Text style={[styles.iconText, {color: gasLevelToColorRecord[item.gas_level]}]}>
-                            Essence: {getGasLevelText(item.gas_level)}
-                        </Text>
-                    </View>        
-                </ListItem.Content>
             </View>
         </ListItem>
     )
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{flex: 1}}>
             <ListCommonResourceComponent
                 filter={props.filter}
                 sort={(vehicleA: VehicleResource, vehicleB: VehicleResource) => {

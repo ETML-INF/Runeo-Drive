@@ -1,25 +1,27 @@
 /**
  *   Author: Clément Sartoni
  *   Create Time: 2023-05-05
- *   Modified by: Clément Sartoni
- *   Modified time: 2023-06-02 09:27:26
+ *   Modified by: Alban Segalen
+ *   Modified time: 2026-02-11 16:04:47
  *   Description: Main page of the schedules fonctionnality
  */
+
 import { SafeAreaView, StyleSheet, View, Text } from "react-native";
 import { Icon, Avatar } from "react-native-elements";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Colors } from "../common/utils/Color.utils";
 import { AuthContainer, NetworkContainer } from "../Provider.component";
 import { ScheduleComponent } from "./Schedule.component";
 import { useSchedulesContainer } from "../common/container/Schedules.container";
 import { localDayOfWeek } from "../common/utils/Date.utils";
 import { RunResource } from "../common/resources/Run.resource";
-import { GroupResource } from "../common/resources/Group.resource";
 import { showToastLong, toastType } from "../notifications/ToastNotification";
 import { useUserRunsContainer } from "../common/container/UserRuns.container";
 import { useNavigation } from "@react-navigation/native";
 import { AxiosError } from "axios";
 import { userStatusColor } from "../common/utils/User.utils";
+import { ScheduleDropdownPicker } from "./ScheduleDropdownPicker.component";
+import { isEmptyArray } from "formik";
 
 export function SchedulePageComponent() {
     let authContainer = AuthContainer.useContainer();
@@ -29,9 +31,7 @@ export function SchedulePageComponent() {
     let { isInternetReachable } = NetworkContainer.useContainer();
     let currentUser = authContainer.authenticatedUser;
 
-
     const [day, setDay] = useState(new Date());
-
     const [isFirstLoading, setIsFirstLoading] = useState<boolean>(true);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -91,15 +91,31 @@ export function SchedulePageComponent() {
 
     const gotoRun = (run: RunResource) => navigation.navigate("detail", { run: run });
 
-    //#region Parameters for the profile page
-    let group: GroupResource | undefined;
-
-    if (schedulesContainer.items.toArray().length > 0) {
-        group = schedulesContainer.items.get(0)?.group;
-    }
+    const group = schedulesContainer.items.toArray().length > 0 ? schedulesContainer.userGroup : null;
 
     let statusColor = userStatusColor(currentUser.status);
-    //#endregion
+
+    const schedulesFilter = useRef<string[]>([]) //The array that holds the list of groups to show
+
+    //The list of schedules to show
+    const [schedulesToShow, setSchedulesToShow] = useState(schedulesContainer.items)
+
+    //Only keeps schedule that match the filter array
+    function FilterSchedules(filter: string[]) {
+        if (JSON.stringify(schedulesFilter.current) !== JSON.stringify(filter)) {
+            schedulesFilter.current = filter
+            const filteredSchedules = schedulesContainer.items.filter(s => schedulesFilter.current.includes(s.group.name))
+            setSchedulesToShow(filteredSchedules)
+        }
+    }
+
+    //Once the user's group is known, apply it as the default filter
+    useEffect(() => {
+        if (isEmptyArray(schedulesFilter.current) && group) {
+            FilterSchedules([group])
+        }
+    }, [group])
+    
 
     return (
         <SafeAreaView style={styles.body}>
@@ -108,13 +124,8 @@ export function SchedulePageComponent() {
                     <Text style={styles.dayText}>{localDayOfWeek(day)}</Text>
                     <Text style={styles.dayNumber}>{day.getDate()}</Text>
                 </View>
+                <ScheduleDropdownPicker schedules={schedulesContainer.items} onFilter={filter => FilterSchedules(filter)}></ScheduleDropdownPicker>
                 <View style={styles.iconsBox}>
-                    {/* <Icon
-                        type='font-awesome'
-                        name={'cog'}
-                        size={35}
-                        onPress={() =>{navigation.navigate("params")}}
-                    /> */}
                     <Icon
                         type='font-awesome'
                         name={'refresh'}
@@ -137,7 +148,7 @@ export function SchedulePageComponent() {
                 :
                 <ScheduleComponent
                     setCurrentDay={setDay}
-                    schedules={schedulesContainer.items}
+                    schedules={schedulesToShow}
                     runs={userRunsContainer.items}
                     loading={isLoading}
                     onRunPress={gotoRun}
@@ -156,7 +167,7 @@ const styles = StyleSheet.create({
 
     },
     header: {
-        height: "8%",
+        height: "auto",
 
         display: "flex",
         flexDirection: "row",
@@ -172,8 +183,6 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-
-
         width: "25%",
     },
     dayText: {
@@ -198,5 +207,5 @@ const styles = StyleSheet.create({
     avatar: {
         //put to three when implementing status
         borderWidth: 3,
-    },
+    }
 })

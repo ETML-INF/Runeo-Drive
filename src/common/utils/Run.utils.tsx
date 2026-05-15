@@ -82,19 +82,19 @@ export function participates (run: RunResource, user?: UserResource, ) {
 
 export function statusColor(run: RunResource) {
     switch (run.status) {
-        case 'gone':
+        case RunStatus.GONE:
             return Colors.STATUS_GONE
         break
-        case 'needs_filling':
+        case RunStatus.NEEDS_FILLING:
             return Colors.STATUS_NEED_DRIVER
             break
-        case 'almostready':
+        case RunStatus.ALMOSTREADY:
             return Colors.STATUS_NEED_CAR
             break
-        case 'error':
+        case RunStatus.ERROR:
             return Colors.STATUS_PROBLEM
         break
-        case 'ready':
+        case RunStatus.READY:
             return Colors.STATUS_READY
         break
         default:

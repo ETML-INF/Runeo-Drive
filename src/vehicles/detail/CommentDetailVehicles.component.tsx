@@ -21,8 +21,8 @@ export function CommentDetailVehiclesComponent({currentVehicle}: commentDetailVe
                         .map(comment =>
                             (
                                 <View key={comment.id} style={{width: "100%"}}>
-                                    <CardComponent title={`${comment.user.firstname} ${comment.user.lastname}`}>
-                                        <Text style={styles.dateSubTitle}>{comment.created_at.toFormat(DATE_FORMAT)}</Text>
+                                    <CardComponent title={comment.user.name}>
+                                        <Text style={styles.dateSubTitle}>{comment.created_at.setLocale('fr').toFormat(DATE_FORMAT)}</Text>
                                         <Text style={styles.commentText}>{comment.content} </Text>
                                     </CardComponent>
                                 </View>

@@ -22,6 +22,9 @@ export function CommentRunsComponent() {
      */
     const renderRow = (log: LogResource) => (
         <CardContainerComponent>
+            <View style={styles.header}>
+                <Text style={styles.headertext}>{ log.item.action }</Text>
+            </View>
             <Text style={styles.logmessage}>{ log.item.description }</Text>
             <View style={styles.header}>
                 <Text style={styles.headertext}>{ log.item.user ? log.item.user.name : '?' }</Text>
@@ -35,16 +38,17 @@ export function CommentRunsComponent() {
      */
     useEffect(() => {
         runsContainer.getLogs(runId).then((data) => {
-            if (logs.length == 0) setLogs(data)
-            setIsLoading(false)
-        })
-    });
-
+            setLogs(data);
+            setIsLoading(false);
+        });
+    }, [runId]);
 
     return (
-        <View>
-        { isLoading ? 
-            <Text>Loading...</Text> 
+        <View style={{flex: 1}}>
+        { isLoading ?
+            <Text>Loading...</Text>
+            : logs.length === 0 ?
+            <Text style={styles.empty}>Vide</Text>
             :
             <FlatList data={logs} renderItem={renderRow}/>
         }
@@ -63,5 +67,10 @@ const styles = StyleSheet.create({
     },
     logmessage: {
         fontSize: 16
+    },
+    empty: {
+        color: "#aaaaaa",
+        textAlign: "center",
+        marginTop: 20
     }
 });

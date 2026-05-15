@@ -3,22 +3,20 @@ import {Button} from "react-native-elements";
 import React, {useState} from "react";
 import {StyleSheet, View, Text} from "react-native";
 import {DateTime} from "luxon";
+import {Alert} from "react-native";
 import {AuthContainer, RunsContainer} from "../../Provider.component";
 import {useNavigation} from "@react-navigation/native";
-import {RunDetailParams} from "../Runs.component";
 import {Colors} from "../../common/utils/Color.utils";
 import { isStillFarOut, participates } from "../../common/utils/Run.utils";
-import { RunsEndPopUpComponent } from "../RunsEndPopUpFuil.component";
 
 export interface StatusRunControllerBtnDetailRunComponentProps {
     currentRun: RunResource
 }
 
 export function DetailRunsStatusControlBtn({currentRun}: StatusRunControllerBtnDetailRunComponentProps) {
-    const [toggleEndRunPopup, setToggleEndRunPopup] = useState(false);
     const navigation = useNavigation();
     const {authenticatedUser} = AuthContainer.useContainer()
-    const {startRun} = RunsContainer.useContainer();
+    const {startRun, stopRun} = RunsContainer.useContainer();
 
     if (currentRun.status === RunStatus.ERROR) {
         return (
@@ -44,16 +42,14 @@ export function DetailRunsStatusControlBtn({currentRun}: StatusRunControllerBtnD
     if (participates(currentRun, authenticatedUser) && currentRun.status == RunStatus.GONE) {
         return (
             <View>
-                <RunsEndPopUpComponent isVisable={toggleEndRunPopup} onPopUpClose={()=>{setToggleEndRunPopup(false)}}/>
                 <Button
                     title="TERMINER LE RUN"
                     buttonStyle={styles.endButton}
-                    onPress={() => {
-                        const params: RunDetailParams = {
-                            runId: currentRun.id
-                        }
-                        setToggleEndRunPopup(true);
-                    }}
+                    onPress={() =>
+                        stopRun(currentRun)
+                            .then(() => navigation.goBack())
+                            .catch(() => Alert.alert("Erreur", "Le run n'a pas pu être terminé."))
+                    }
                 />
             </View>
         );

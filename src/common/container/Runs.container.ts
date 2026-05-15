@@ -11,7 +11,7 @@ import { clearCaches } from "../utils/Cache.utils";
 export interface RunsContainer extends DataContainerInterface<RunResource> {
   updateVehicle: (runnerId: number, carId: number) => Promise<void>;
   startRun: (run: RunResource) => Promise<void>;
-  stopRun: (run: RunResource, gasLevel: number) => Promise<void>;
+  stopRun: (run: RunResource) => Promise<void>;
   takeRun: (run: RunResource, runner: RunnerResource) => Promise<void>;
   acknowledgeRun: (run: RunResource) => Promise<void>;
   getLogs: (runId: number) => Promise<LogResource[]>;
@@ -42,8 +42,8 @@ export function useRunsContainer(): RunsContainer {
       .then(cacheHelper.insertItem)
       .catch((error) => error.text);
 
-  const stopRun = (run: RunResource, gasLevel: number): Promise<void> =>
-    stopRunApi(run, gasLevel)
+  const stopRun = (run: RunResource): Promise<void> =>
+    stopRunApi(run)
       .then(cacheHelper.insertItem)
       .catch((error) => error.text);
 
@@ -95,10 +95,8 @@ function startRunApi(run: RunResource): Promise<RunResource> {
     .catch((error) => error.text);
 }
 
-function stopRunApi(run: RunResource, gasLevel: number): Promise<RunResource> {
-  return Axios.patch(`/runs/${run.id}/stop`, {
-    gas_level: gasLevel
-  })
+function stopRunApi(run: RunResource): Promise<RunResource> {
+  return Axios.patch(`/runs/${run.id}/stop`)
     .then((res) => parseRunResource(res.data))
     .catch((error) => error.text);
 }
@@ -136,22 +134,29 @@ function acknowledgeRunApi(run: RunResource): Promise<RunResource> {
     .catch((error) => error.text);
 }
 
+function parseDate(value: string | null | undefined): DateTime {
+  if (!value) return DateTime.invalid('null');
+  const iso = DateTime.fromISO(value);
+  if (iso.isValid) return iso;
+  return DateTime.fromSQL(value);
+}
+
 function parseRunResource(runFromApi: any): RunResource {
   return {
     ...runFromApi,
-    begin_at: DateTime.fromISO(runFromApi.begin_at),
-    end_at: DateTime.fromISO(runFromApi.end_at),
-    finished_at: DateTime.fromISO(runFromApi.finished_at),
-    start_at: DateTime.fromISO(runFromApi.start_at),
-    updated_at: DateTime.fromISO(runFromApi.updated_at),
-    acknowledged_at: DateTime.fromISO(runFromApi.acknowledged_at),
+    begin_at: parseDate(runFromApi.begin_at),
+    end_at: parseDate(runFromApi.end_at),
+    finished_at: parseDate(runFromApi.finished_at),
+    start_at: parseDate(runFromApi.start_at),
+    updated_at: parseDate(runFromApi.updated_at),
+    acknowledged_at: parseDate(runFromApi.acknowledged_at),
     waypoints: List(runFromApi.waypoints),
     runners: List(runFromApi.runners)
   };
 }
 
 function getLogsFromApi(run: number): Promise<LogResource[]> {
-  return Axios.get(`/runs/${run}/logs`).then((res) => res.data);
+  return Axios.get(`/runs/${run}/logs`).then((res) => res.data.map(parseLogResource));
 }
 
 function postLogToApi(run: number, description: string): Promise<LogResource> {

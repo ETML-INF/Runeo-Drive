@@ -18,8 +18,8 @@ interface ScheduleScheduleProps {
 
 export function ScheduleScheduleComponent(props: ScheduleScheduleProps){
     return (
-        <View style={[styles.view,{top: props.y, height: props.height, backgroundColor: addAlpha('#' + props.color, 0.13), borderLeftColor: '#' + props.color}]}>
-            <Text style={[styles.text,{color: '#' +props.color}]}>
+        <View style={[styles.view,{top: props.y, height: props.height, backgroundColor: addAlpha(props.color, 0.3), borderLeftColor: props.color}]}>
+            <Text style={[styles.text,{color: props.color}]}>
                 {props.text}
             </Text>
         </View>
@@ -38,15 +38,15 @@ function addAlpha(color : string, opacity: number) {
 const styles = StyleSheet.create({
     view:{
         position: "absolute",
-        width: "85%",
-        left: "14.6%",
+        width: "80%",
+        left: "16%",
 
         borderLeftWidth: 3,
     },
     text:{
-        position: "relative",
-        top: -25,
-        left: 5,
+        paddingLeft: 8,
+        paddingTop: 4,
         fontSize: 16,
+        fontWeight: "600",
     }
 });

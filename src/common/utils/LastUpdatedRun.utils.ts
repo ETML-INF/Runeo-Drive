@@ -7,24 +7,15 @@ import { DateTime } from "luxon";
 
 export function lastUpdatedRun(run: RunResource, userId: any): Boolean {
   const ONE_HOUR = 60 * 60 * 1000;
-  let now = DateTime.local();
+  const now = DateTime.local();
+  if (now.diff(run.updated_at).toMillis() < ONE_HOUR) {
+    const notAcknowledged = !run.acknowledged_at.isValid || run.updated_at.valueOf() > run.acknowledged_at.valueOf();
 
-  //the run was updated during the last hour
-  if (now - run.updated_at < ONE_HOUR) {
-    //the run was not acknowledged after the last update
-    if (isNaN(run.acknowledged_at)) {
-      //the runner object the authenticated user is driving
-      return !!run.runners.find((runner) => runner.user?.id === userId);
-    } else if (run.updated_at > run.acknowledged_at) {
-      //the runner object the authenticated user is driving
+    if (notAcknowledged) {
       return !!run.runners.find((runner) => runner.user?.id === userId);
     }
     return false;
   }
 
   return false;
-}
-
-function typeOf(acknowledged_at: DateTime) {
-  throw new Error("Function not implemented.");
 }

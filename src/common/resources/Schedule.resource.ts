@@ -12,7 +12,7 @@ import { CommonResource } from "./Common.resource";
 import { GroupResource } from "./Group.resource";
 
 export interface ScheduleResource extends CommonResource {
-    start_time: Date;
-    end_time: Date;
+    start_date: Date;
+    end_date: Date;
     group: GroupResource;
 }

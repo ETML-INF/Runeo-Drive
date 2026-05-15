@@ -4,15 +4,15 @@ import {RunnerResource} from "./Runner.resource";
 import {CommonResource} from "./Common.resource";
 
 export enum RunStatus {
-    GONE = "gone",
-    FINISHED = "finished",
-    NEEDS_FILLING = "needs_filling",
+    GONE = "started",
+    FINISHED = "completed",
+    NEEDS_FILLING = "to_complete",
     DRAFTING = "drafting",
     ERROR = "error",
     READY = "ready",
     CANCELLED = "cancelled",
     UNPUBLISHED = "unpublished",
-    ALMOSTREADY = "almostready"
+    ALMOSTREADY = "almost"
 }
 
 export interface RunResource extends CommonResource {
@@ -22,8 +22,7 @@ export interface RunResource extends CommonResource {
     start_at: DateTime,
     updated_at: DateTime,
     acknowledged_at: DateTime,
-    pax_tbc: boolean,
-    time_tbc: boolean,
+    pax_tbc: number,
     end_at: DateTime,
     finished_at: DateTime,
     nb_passenger: number,
@@ -31,6 +30,7 @@ export interface RunResource extends CommonResource {
     name_contact: string,
     num_contact: string,
     good_for_me: boolean,
+    google?: string,
     waypoints: List<Waypoint>,
     runners: List<RunnerResource>,
     artist_id: number
@@ -39,5 +39,5 @@ export interface RunResource extends CommonResource {
 export interface Waypoint {
     nickname: string,
     is_meeting: number,
-    meeting_time: string,
+    passing_time: string,
 }
