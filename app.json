@@ -1,13 +1,12 @@
 {
   "expo": {
-    "name": "Runeo-Drive",
-    "slug": "runeodrive",
-    "version": "2026.2.0",
+    "name": "RuneoDriver",
+    "slug": "runeodriver",
+    "version": "2026.2.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "owner": "etml-inf-dev",
     "userInterfaceStyle": "light",
-    "newArchEnabled": false,
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -19,8 +18,8 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "etml.inf.dev.runeo",
-      "buildNumber": "2026.2.0",
+      "bundleIdentifier": "ch.mosiby.runeodriver",
+      "buildNumber": "2026.2.1",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -31,13 +30,14 @@
         {
           "android": {
             "usesCleartextTraffic": true,
-            "compileSdkVersion": 35,
-            "targetSdkVersion": 35,
+            "compileSdkVersion": 36,
+            "targetSdkVersion": 36,
             "extraCMakeArguments": ["-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"]
           }
         }
       ],
-      "./plugins/withAndroidxCoreFix"
+      "./plugins/withAndroidxCoreFix",
+      "expo-font"
     ],
     "android": {
       "permissions": ["INTERNET", "ACCESS_NETWORK_STATE"],
@@ -45,10 +45,8 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "ch.mosiby.runeo",
-      "versionCode": 202620,
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "package": "ch.mosiby.runeodriver",
+      "versionCode": 202621
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -56,7 +54,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "c9fa705a-ca31-4885-94b2-29a88407d1b8"
+        "projectId": "d5569d2f-0ca9-4d7b-a8bf-7e4ff4f1319e"
       }
     }
   }

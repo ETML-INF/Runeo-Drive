@@ -11,15 +11,12 @@
       "distribution": "internal",
       "android": {
         "buildType": "apk"
-      },
-      "ios": {
-        "image": "macos-sonoma-14.6-xcode-16.1"
       }
     },
     "production": {
       "distribution": "store",
       "ios": {
-        "image": "macos-sonoma-14.6-xcode-16.1",
+        "image": "macos-sequoia-15.6-xcode-26.0",
         "resourceClass": "m-medium"
       },
       "android": {
@@ -34,7 +31,7 @@
       },
       "ios": {
         "appleId": "xavier.carrel.pro@gmail.com",
-        "ascAppId": "6450534619",
+        "ascAppId": "6770265232",
         "appleTeamId": "9NQ69T686N"
       }
     }
