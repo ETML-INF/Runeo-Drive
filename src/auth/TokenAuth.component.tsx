@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Text } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, ActivityIndicator } from "react-native";
 import { Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import axios, { AxiosError } from "axios";
@@ -7,19 +7,24 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TextInputComponent } from "../common/component/TextInput.component";
 import { ButtonComponent } from "../common/component/ButtonComponent";
 import Dropdown from "../common/component/Dropdown";
-import { urlConfigData } from "../../BackendList";
+import { useBackendList } from "../common/hook/BackendList.hook";
 import { AuthContainer } from "../Provider.component";
 
 export const TokenAuthComponent = () => {
-    const data = urlConfigData;
-    const [selected, setSelected] = useState(data[0]);
-    const [urlVisible, setUrlVisible] = useState(false);
+    const { backends, loading } = useBackendList();
+    const [selected, setSelected] = useState<{ label: string; value: string } | null>(null);
     const authContainer = AuthContainer.useContainer();
+
+    useEffect(() => {
+        if (backends.length > 0) {
+            setSelected(backends[0]);
+        }
+    }, [backends]);
 
     const initialValues = {
         email: "",
         password: "",
-        url: selected.value
+        url: selected?.value ?? ""
     };
 
     const onSubmit = async (
@@ -51,6 +56,10 @@ export const TokenAuthComponent = () => {
         }
     };
 
+    if (loading || selected === null) {
+        return <ActivityIndicator style={{ marginTop: 20 }} />;
+    }
+
     return (
         <Formik
             onSubmit={onSubmit}
@@ -63,17 +72,26 @@ export const TokenAuthComponent = () => {
         >
             {(formik) => {
                 const onPress = (item: { label: string; value: string }) => {
-                    setUrlVisible(item.value === "");
                     setSelected(item);
-                    formik.setFieldValue("url", item.value); // ✅ met à jour Formik
+                    formik.setFieldValue("url", item.value);
                 };
 
                 return (
                     <View>
-                        <Text style={{ fontFamily: "Montserrat-ExtraBold", marginLeft: 10 }}>Je suis</Text>
-                        <Dropdown label={selected.label} data={data} onSelect={setSelected} onPress={onPress} />
+                        {backends.length > 1 && (
+                            <>
+                                <Text style={{ fontFamily: "Montserrat-ExtraBold", marginLeft: 10 }}>Je suis</Text>
+                                <Dropdown label={selected.label} data={backends} onSelect={setSelected} onPress={onPress} />
+                            </>
+                        )}
 
-                        {urlVisible && (
+                        {backends.length === 1 && selected.value !== "" && (
+                            <Text style={{ fontFamily: "Montserrat-ExtraBold", marginLeft: 10 }}>
+                                Connexion {selected.label}
+                            </Text>
+                        )}
+
+                        {selected.value === "" && (
                             <>
                                 <Text style={{ fontFamily: "Montserrat-ExtraBold", marginLeft: 10 }}>URL</Text>
                                 <TextInputComponent
