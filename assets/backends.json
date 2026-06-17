@@ -1,4 +1,3 @@
 [
-  { "label": "aux Eurockéennes", "value": "https://runeurock.eurockeennes.fr/api" },
-  { "label": "en dev", "value": "http://localhost:3333/api" }
+  { "label": "aux Eurockéennes", "value": "https://runeurock.eurockeennes.fr/api" }
 ]
