@@ -1,6 +1,11 @@
 import React from "react"
-import {UserStatus} from "../resources/User.resource";
+import {UserStatus, UserStatusResource} from "../resources/User.resource";
 import { Colors } from "./Color.utils";
+
+function statusSlug(status: UserStatusResource | UserStatus | string): string {
+    if (typeof status === 'object' && status !== null) return (status as UserStatusResource).slug;
+    return status as string;
+}
 
 const userStatusMapping: Record<string, string> = {
     [UserStatus.INACTIVE]: 'Inactif',
@@ -14,8 +19,8 @@ const userStatusMapping: Record<string, string> = {
     [UserStatus.TAKEN]: 'En run'
 }
 
-export function getUserStatus(userStatus: string) {
-    return userStatusMapping[userStatus] || "aucun status"
+export function getUserStatus(userStatus: UserStatusResource | UserStatus | string) {
+    return userStatusMapping[statusSlug(userStatus)] || "aucun status"
 }
 
 const userStatusColorRecord: Record<string, string> = {
@@ -31,8 +36,8 @@ const userStatusColorRecord: Record<string, string> = {
 
 }
 
-export function userStatusColor(userStatus: string) {
-    return userStatusColorRecord[userStatus] || "white"
+export function userStatusColor(userStatus: UserStatusResource | UserStatus | string) {
+    return userStatusColorRecord[statusSlug(userStatus)] || "white"
 }
 
 const userRoleMapping: Record<string, string> = {

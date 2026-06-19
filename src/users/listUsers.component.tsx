@@ -1,7 +1,8 @@
 import React from "react";
 import {AuthContainer, RunsContainer, UsersContainer} from "../Provider.component";
 import {UserResource} from "../common/resources/User.resource";
-import {Button, Icon, ListItem, Avatar} from "react-native-elements";
+import {Button, Icon, ListItem} from "react-native-elements";
+import {UserAvatar} from "../common/component/UserAvatar.component";
 import {getUserStatus, userStatusColor} from "../common/utils/User.utils";
 import {RunStatus} from "../common/resources/Run.resource";
 import {useNavigation} from "@react-navigation/native";
@@ -14,9 +15,6 @@ import {callPhoneNumber} from "../common/utils/Phone.utils";
 import {SafeAreaView, StyleSheet, Text} from "react-native";
 import {ListCommonResourceComponent} from "../common/component/ListCommonResource.component";
 import {StatusCircleComponent} from "../common/component/StatusCircle.component";
-import Axios from "axios";
-
-
 export function ListUsersComponent() {
     const navigation = useNavigation<UsersNavProp>();
     const runContainer = RunsContainer.useContainer();
@@ -29,32 +27,23 @@ export function ListUsersComponent() {
         const isMe = item.id === authenticatedUser?.id;
         const userCurrentRun = startedRuns.find(run => !!run.runners.find(runner => runner.user?.id == item.id));
 
-        let baseURL = Axios.defaults.baseURL;
-
-        let uri = "";
-
-        if(baseURL)
-        {
-            uri = baseURL.replace('api', 'storage/uploads/') + item.picture.path;
-        }
-
         return (
             <ListItem bottomDivider={true} containerStyle={isMe ? styles.meContainer : undefined}>
-                <Avatar rounded size="medium" source={{ uri: uri}} />
-                <ListItem.Content>
+                <UserAvatar key="avatar" picture={item.picture ?? null} size="medium" />
+                <ListItem.Content key="content">
                     <ListItem.Title style={[styles.columnName, isMe ? styles.meName : undefined]}>
                         {item.firstname} {item.lastname}{isMe ? '  (moi)' : ''}
                     </ListItem.Title>
                 </ListItem.Content>
 
                 {isMe ? (
-                    <Button
+                    <Button key="action"
                         icon={<Icon type='font-awesome' name={'cog'} color={'white'}/>}
                         buttonStyle={{backgroundColor: Colors.BLUE}}
                         onPress={() => navigation.navigate('profile')}
                     />
                 ) : (
-                    <Button
+                    <Button key="action"
                         icon={<Icon type='font-awesome' name={'phone'} color={'white'}/>}
                         onPress={() => callPhoneNumber(item.phone_number)}
                     />
