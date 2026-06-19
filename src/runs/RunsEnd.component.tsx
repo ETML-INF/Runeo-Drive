@@ -1,6 +1,7 @@
 
 import React, {Fragment, useState} from "react";
-import {Alert, SafeAreaView, Text, View} from "react-native";
+import {Alert, Text, View} from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {useRunFromRouteParam} from "../common/hook/Run.hook";
 import {AuthContainer, RunsContainer} from "../Provider.component";
 import {Slider} from "react-native-elements";

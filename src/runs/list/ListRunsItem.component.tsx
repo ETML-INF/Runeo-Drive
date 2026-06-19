@@ -21,15 +21,15 @@ export function ListRunsItemComponent ({onSelectRun, run} : ListRunsItemComponen
     
     return (
         <ListItem bottomDivider onPress={() => onSelectRun(run)} containerStyle={ participates(run, authenticatedUser) ? (lastUpdatedRun(run, authenticatedUser?.id) ? styles.isnew : styles.ismine ) : false}>
-            <View style={{ backgroundColor: statusColor(run), padding: 15, borderRadius: 10}}>{getRunStatusIcon(run.status)}</View>
-            <ListItem.Content>
+            <View key="icon" style={{ backgroundColor: statusColor(run), padding: 15, borderRadius: 10}}>{getRunStatusIcon(run.status)}</View>
+            <ListItem.Content key="content">
                 <ListItem.Title style={{fontFamily: 'Montserrat-Medium'}}>{`${run.title.toUpperCase()}`}</ListItem.Title>
                 <ListItem.Subtitle style={{color: Colors.GREY, fontFamily: 'Montserrat-Regular'}}>
                     { run.begin_at?.isValid ? `${dateWithLocalDay(run.begin_at)} à ${run.begin_at.toFormat(TIME_FORMAT)}` : 'Date non définie' }
                 </ListItem.Subtitle>
             </ListItem.Content>
 
-            <ListItem.Chevron color="grey"/>
+            <ListItem.Chevron key="chevron" color="grey"/>
         </ListItem>
     )
     

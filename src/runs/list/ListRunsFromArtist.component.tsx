@@ -12,7 +12,8 @@
 import React, {useEffect, useState, Fragment} from "react";
 import {RunResource} from "../../common/resources/Run.resource";
 import {useNavigation} from "@react-navigation/native";
-import {SafeAreaView, StyleSheet, FlatList, Text} from "react-native";
+import {StyleSheet, FlatList, Text} from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {NetworkContainer, RunsContainer} from "../../Provider.component";
 import { ListRunsItemComponent } from "./ListRunsItem.component";
 import {useRunFromRouteParam} from "../../common/hook/Run.hook";

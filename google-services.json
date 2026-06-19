@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1056609784987",
+    "project_id": "runeodriver-fe418",
+    "storage_bucket": "runeodriver-fe418.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1056609784987:android:b9a245a990394ac281e23e",
+        "android_client_info": {
+          "package_name": "ch.mosiby.runeodriver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAazwQQaYRw8xhkW0M9lBfBT2fm36BJq24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

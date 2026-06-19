@@ -1,5 +1,12 @@
 import { CommonResource } from "./Common.resource";
 
+export interface UserStatusResource {
+  id: number;
+  slug: string;
+  name: string;
+}
+
+// Kept for userStatusColor / userStatusMapping lookups in User.utils
 export enum UserStatus {
   INACTIVE = "inactive",
   REQUESTED = "requested",
@@ -12,15 +19,23 @@ export enum UserStatus {
   TAKEN = "taken",
 }
 
+export interface UserPicture {
+  id: number;
+  url: string;
+  path: string;
+  type: string;
+  title: string;
+}
+
 export interface UserResource extends CommonResource {
   name: string;
   firstname: string;
   lastname: string;
   email: string;
   phone_number: string;
-  status: UserStatus;
+  // /api/me returns status as an object; /api/users returns it as a string
+  status: UserStatusResource | UserStatus;
   role: string;
-  image_profile: string;
-  has_notification_token: string;
-  picture: string;
+  has_notification_token: boolean;
+  picture: UserPicture | null;
 }

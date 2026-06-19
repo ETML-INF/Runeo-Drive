@@ -13,11 +13,10 @@ import { StyleSheet, View, Text } from "react-native";
 import React, { } from "react";
 import { Colors } from "../common/utils/Color.utils";
 import { UserResource } from "../common/resources/User.resource";
-import { Avatar } from "react-native-elements";
 import { GroupResource } from "../common/resources/Group.resource";
 import { Icon } from "react-native-elements";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import Axios from "axios";
+import { UserAvatar } from "../common/component/UserAvatar.component";
 import { getUserStatus, userStatusColor, getUserRole } from "../common/utils/User.utils";
 import { StatusCircleComponent } from "../common/component/StatusCircle.component";
 
@@ -38,21 +37,13 @@ export function ProfilePageComponent() {
     let user = params.user;
     let group = params.group;
 
-    let baseURL = Axios.defaults.baseURL;
-
-    let uri = "";
-
-    if (baseURL) {
-        uri = user.image_profile;
-    }
-
     let statusColor = userStatusColor(user.status);
 
     return (
         <View style={styles.mainView}>
             <View style={styles.viewTop}>
                 {
-                    uri != "" && <Avatar containerStyle={[styles.avatar, { borderColor: statusColor }]} rounded size={200} source={{ uri: uri }} />
+                    user.picture && <UserAvatar picture={user.picture} size={200} containerStyle={[styles.avatar, { borderColor: statusColor }]} />
                 }
                 <Text style={styles.name}>{user.name}</Text>
                 <Text style={styles.role}>{getUserRole(user.role)}</Text>

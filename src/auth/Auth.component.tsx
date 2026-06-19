@@ -1,4 +1,5 @@
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import React from "react";
 import { TokenAuthComponent } from "./TokenAuth.component";
 
@@ -9,7 +10,7 @@ export function AuthComponent() {
         <Text style={{ fontFamily: "Montserrat-SemiBold", fontSize: 30, marginBottom: 50 }}>Runeo Drive</Text>
       </View>
       <TokenAuthComponent />
-      <Text style={styles.version}>2026.2.2</Text>
+      <Text style={styles.version}>2026.3.1</Text>
     </SafeAreaView>
   );
 }

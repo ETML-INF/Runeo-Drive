@@ -1,4 +1,5 @@
-import {Dimensions, SafeAreaView, StyleSheet} from "react-native";
+import {Dimensions, StyleSheet} from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import React from "react";
 import {FastDialsContainer} from "../Provider.component"
 import {FastDialResource} from "../common/resources/FastDial.resource";
@@ -10,12 +11,12 @@ import {Colors} from "../common/utils/Color.utils";
 export function ListFastDialsComponent() {
     const renderItem = (item: FastDialResource) => (
         <ListItem bottomDivider onPress={() => callPhoneNumber(item.phone_number)}>
-            <ListItem.Content>
+            <ListItem.Content key="content">
                 <ListItem.Title style={{fontFamily: 'Montserrat-Medium'}}>
                     {item.label}
                 </ListItem.Title>
             </ListItem.Content>
-            <Button
+            <Button key="button"
                 buttonStyle={{backgroundColor: Colors.BLUE}}
                 icon={
                     <Icon

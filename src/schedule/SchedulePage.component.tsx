@@ -6,8 +6,9 @@
  *   Description: Main page of the schedules fonctionnality
  */
 
-import { SafeAreaView, StyleSheet, View, Text } from "react-native";
-import { Icon, Avatar } from "react-native-elements";
+import {StyleSheet, View, Text } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Icon } from "react-native-elements";
 import React, { useEffect, useRef, useState } from "react";
 import { Colors } from "../common/utils/Color.utils";
 import { AuthContainer, NetworkContainer } from "../Provider.component";
@@ -19,6 +20,7 @@ import { showToastLong, toastType } from "../notifications/ToastNotification";
 import { useUserRunsContainer } from "../common/container/UserRuns.container";
 import { useNavigation } from "@react-navigation/native";
 import { AxiosError } from "axios";
+import { UserAvatar } from "../common/component/UserAvatar.component";
 import { userStatusColor } from "../common/utils/User.utils";
 import { ScheduleDropdownPicker } from "./ScheduleDropdownPicker.component";
 import { isEmptyArray } from "formik";
@@ -135,9 +137,9 @@ export function SchedulePageComponent() {
                             load(afterLoad);
                         }}
                     />
-                    <Avatar
-                        rounded size="medium"
-                        source={{ uri: currentUser?.image_profile }}
+                    <UserAvatar
+                        picture={currentUser?.picture ?? null}
+                        size="medium"
                         onPress={() => { navigation.navigate("profile", { user: currentUser, group: group }) }}
                         containerStyle={[styles.avatar, { borderColor: statusColor }]}
                     />

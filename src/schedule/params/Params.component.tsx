@@ -1,4 +1,5 @@
-import {Alert, SafeAreaView, StyleSheet, View} from "react-native";
+import {Alert, StyleSheet, View} from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import React from "react";
 import {AuthContainer} from "../../Provider.component"
 import {ButtonComponent} from "../../common/component/ButtonComponent";

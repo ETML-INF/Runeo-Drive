@@ -11,6 +11,8 @@ import { Colors } from "./common/utils/Color.utils";
 import { ListFastDialsComponent } from "./fastDials/FastDials.component";
 import { Text, View, StyleSheet } from "react-native";
 import { ButtonComponent } from "./common/component/ButtonComponent";
+import * as Notifications from "expo-notifications";
+import { showToastLong, toastType } from "./notifications/ToastNotification";
 
 const Tab = createBottomTabNavigator();
 
@@ -32,9 +34,18 @@ export function RouterComponent() {
     // ugly hotfix to solve race condition on some devices
     useEffect( () => {
         if(!authContainer.authenticatedUser) {
-            setTimeout(refreshAuth, 1000) 
+            setTimeout(refreshAuth, 1000)
         }
     } )
+
+    useEffect(() => {
+        const subscription = Notifications.addNotificationReceivedListener((notification) => {
+            const { title, body } = notification.request.content;
+            const text = [title, body].filter(Boolean).join("\n");
+            if (text) showToastLong(text, toastType.neutral);
+        });
+        return () => subscription.remove();
+    }, []);
 
     function refreshAuth() {
         authContainer.refreshAuthenticated().catch((error) => { console.error(error); });
