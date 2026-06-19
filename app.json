@@ -26,6 +26,13 @@
     },
     "plugins": [
       [
+        "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#ffffff"
+        }
+      ],
+      [
         "expo-build-properties",
         {
           "android": {
@@ -37,10 +44,11 @@
         }
       ],
       "./plugins/withAndroidxCoreFix",
+      "./plugins/withAndroidGoogleServices",
       "expo-font"
     ],
     "android": {
-      "permissions": ["INTERNET", "ACCESS_NETWORK_STATE"],
+      "permissions": ["INTERNET", "ACCESS_NETWORK_STATE", "RECEIVE_BOOT_COMPLETED", "VIBRATE"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"

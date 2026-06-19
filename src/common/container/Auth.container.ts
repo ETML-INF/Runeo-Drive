@@ -13,6 +13,7 @@ import { Container } from "unstated-next";
 import { NetworkContainer } from "./Network.container";
 import { clearCaches } from "../utils/Cache.utils";
 import parseErrorStack from "react-native/Libraries/Core/Devtools/parseErrorStack";
+import { registerPushToken } from "../../notifications/PushNotification";
 
 const TOKEN_STORAGE_KEY = "apiToken";
 const URL_STORAGE_KEY = "apiUrl";
@@ -53,6 +54,7 @@ export function useAuthContainer(networkContainer: Container<NetworkContainer>) 
           const user = await getAuthenticatedUserApi();
           await AsyncStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
           setAuthenticatedUser(user);
+          registerPushToken().catch(console.error);
         } catch (e) {
           console.log(e);
           throw e;
