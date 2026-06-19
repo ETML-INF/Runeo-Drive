@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, Text, View, FlatList, ActivityIndicator, RefreshControl } from "react-native";
+import {StyleSheet, Text, View, FlatList, ActivityIndicator, RefreshControl } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthContainer } from "../../Provider.component";
 import { ButtonComponent } from "../../common/component/ButtonComponent";
 import { useNavigation } from "@react-navigation/native";

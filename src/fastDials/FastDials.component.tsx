@@ -1,4 +1,5 @@
-import {Dimensions, SafeAreaView, StyleSheet} from "react-native";
+import {Dimensions, StyleSheet} from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import React from "react";
 import {FastDialsContainer} from "../Provider.component"
 import {FastDialResource} from "../common/resources/FastDial.resource";

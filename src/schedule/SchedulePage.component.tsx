@@ -6,7 +6,8 @@
  *   Description: Main page of the schedules fonctionnality
  */
 
-import { SafeAreaView, StyleSheet, View, Text } from "react-native";
+import {StyleSheet, View, Text } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Icon } from "react-native-elements";
 import React, { useEffect, useRef, useState } from "react";
 import { Colors } from "../common/utils/Color.utils";

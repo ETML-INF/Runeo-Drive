@@ -12,7 +12,8 @@ type UsersStackParamList = { users_list: undefined; profile: undefined };
 type UsersNavProp = StackNavigationProp<UsersStackParamList>;
 import {Colors} from "../common/utils/Color.utils";
 import {callPhoneNumber} from "../common/utils/Phone.utils";
-import {SafeAreaView, StyleSheet, Text} from "react-native";
+import {StyleSheet, Text} from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {ListCommonResourceComponent} from "../common/component/ListCommonResource.component";
 import {StatusCircleComponent} from "../common/component/StatusCircle.component";
 export function ListUsersComponent() {

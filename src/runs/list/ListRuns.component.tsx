@@ -1,7 +1,8 @@
 import React, {useMemo, useState} from "react";
 import {RunResource, RunStatus} from "../../common/resources/Run.resource";
 import {useNavigation} from "@react-navigation/native";
-import {SafeAreaView, StyleSheet} from "react-native";
+import {StyleSheet} from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {AuthContainer, NetworkContainer, RunsContainer} from "../../Provider.component";
 import {Map} from "immutable"
 import {useRefreshAllDataContainers} from "../../common/hook/Loader.hook";
