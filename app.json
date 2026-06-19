@@ -2,7 +2,7 @@
   "expo": {
     "name": "RuneoDriver",
     "slug": "runeodriver",
-    "version": "2026.3.0",
+    "version": "2026.3.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "owner": "etml-inf-dev",
@@ -19,7 +19,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "ch.mosiby.runeodriver",
-      "buildNumber": "2026.3.0",
+      "buildNumber": "2026.3.1",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -54,7 +54,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "ch.mosiby.runeodriver",
-      "versionCode": 202630
+      "versionCode": 202631
     },
     "web": {
       "favicon": "./assets/favicon.png",
