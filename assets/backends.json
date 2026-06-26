@@ -1,5 +1,5 @@
 [
-  { "label": "aux Eurockéennes", "value": "https://runeurock.eurockeenne.fr/api" },
+  { "label": "aux Eurockéennes", "value": "https://runeurock.eurockeennes.fr/api" },
   { "label": "à Paléo", "value": "https://runeo.paleo.ch/api" },
   { "label": "aux Eurockéennes staging", "value": "https://runeurock.w3.pm2etml.ch/api" },
   { "label": "à Paléo staging", "value": "https://runeado.w3.pm2etml.ch/api" }
