@@ -50,7 +50,7 @@ export function CommentRunsComponent() {
             : logs.length === 0 ?
             <Text style={styles.empty}>Vide</Text>
             :
-            <FlatList data={logs} renderItem={renderRow} keyExtractor={(log) => log.item.id.toString()}/>
+            <FlatList data={logs} renderItem={renderRow} keyExtractor={(log) => log.id.toString()}/>
         }
         </View>
     )
