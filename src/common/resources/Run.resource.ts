@@ -12,7 +12,8 @@ export enum RunStatus {
     READY = "ready",
     CANCELLED = "cancelled",
     UNPUBLISHED = "unpublished",
-    ALMOSTREADY = "almost"
+    ALMOSTREADY = "almost",
+    PROBLEM = "problem"
 }
 
 export interface RunResource extends CommonResource {

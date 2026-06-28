@@ -11,6 +11,7 @@ const runStatusIconMapping: Record<string, string> = {
     [RunStatus.GONE]: 'shipping-fast',
     [RunStatus.FINISHED]: 'check-circle',
     [RunStatus.ERROR]: 'exclamation-circle',
+    [RunStatus.PROBLEM]: 'exclamation-triangle',
     [RunStatus.READY]: 'thumbs-up',
     [RunStatus.NEEDS_FILLING]: 'question-circle',
     [RunStatus.ALMOSTREADY]: 'question-circle',
@@ -94,8 +95,14 @@ export function statusColor(run: RunResource) {
         case RunStatus.ERROR:
             return Colors.STATUS_PROBLEM
         break
+        case RunStatus.PROBLEM:
+            return Colors.STATUS_PROBLEM
+        break
         case RunStatus.READY:
             return Colors.STATUS_READY
+        break
+        case RunStatus.FINISHED:
+            return Colors.STATUS_FINISHED
         break
         default:
             return Colors.GREY;
