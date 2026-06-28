@@ -13,6 +13,7 @@ import Axios from "axios";
 import { useFonts } from 'expo-font';
 import { RootSiblingParent } from 'react-native-root-siblings';
 import Constants from 'expo-constants';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function App() {
   const [loaded] = useFonts({
@@ -27,11 +28,13 @@ export default function App() {
   }
 
   return (
-    <RootSiblingParent>
-      <SafeAreaView style={styles.container}>
-        <AppComponent/>
-      </SafeAreaView>
-    </RootSiblingParent>
+    <SafeAreaProvider>
+      <RootSiblingParent>
+        <SafeAreaView style={styles.container}>
+          <AppComponent/>
+        </SafeAreaView>
+      </RootSiblingParent>
+    </SafeAreaProvider>
   )
 }
 
