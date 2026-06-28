@@ -10,7 +10,7 @@ export function AuthComponent() {
         <Text style={{ fontFamily: "Montserrat-SemiBold", fontSize: 30, marginBottom: 50 }}>Runeo Drive</Text>
       </View>
       <TokenAuthComponent />
-      <Text style={styles.version}>2026.3.1</Text>
+      <Text style={styles.version}>2026.4.0</Text>
     </SafeAreaView>
   );
 }
