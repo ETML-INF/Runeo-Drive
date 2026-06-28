@@ -31,6 +31,8 @@ export interface RunResource extends CommonResource {
     name_contact: string,
     num_contact: string,
     good_for_me: boolean,
+    driver_can_apply: boolean,
+    driver_can_pick_vehicle: boolean,
     google?: string,
     waypoints: List<Waypoint>,
     runners: List<RunnerResource>,

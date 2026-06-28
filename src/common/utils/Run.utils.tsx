@@ -47,25 +47,28 @@ export function getRunStatusIcon(status: string) {
 
 // Tells if the given user is allowed to select the vehicle for a certain runner (transport) within a run
 export function canSelectVehicle (user: UserResource, runner: RunnerResource, run: RunResource) : boolean {
-    return (runner.vehicle == null) && 
-            (run.status != RunStatus.FINISHED) && 
-            (runner.user != null) && 
+    return run.driver_can_pick_vehicle &&
+            (runner.vehicle == null) &&
+            (run.status != RunStatus.FINISHED) &&
+            (runner.user != null) &&
             (runner.user.id == user.id) &&
             (runner.vehicle_category != null)
 }
 
 // Tells if the given user is allowed to change the selected vehicle for a certain runner (transport) within a run
 export function canChangeVehicle (user: UserResource, runner: RunnerResource, run: RunResource) : boolean {
-    return (runner.vehicle != null) && 
-            (run.status != RunStatus.FINISHED) && 
-            (runner.user != null) && 
+    return run.driver_can_pick_vehicle &&
+            (runner.vehicle != null) &&
+            (run.status != RunStatus.FINISHED) &&
+            (runner.user != null) &&
             (runner.user.id == user.id) &&
             (runner.vehicle_category != null)
 }
 
 // Tells if the given user can participate to the run
 export function canTake (user: UserResource, runner: RunnerResource, run: RunResource) : boolean {
-    return (runner.user == null) && 
+    return run.driver_can_apply &&
+            (runner.user == null) &&
             (run.status != RunStatus.FINISHED) &&
             (!participates(run, user))
 }
