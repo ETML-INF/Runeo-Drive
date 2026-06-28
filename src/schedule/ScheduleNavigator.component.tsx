@@ -12,17 +12,15 @@ import { SchedulePageComponent } from "./SchedulePage.component";
 import { ParamsComponent } from "./params/Params.component"
 import { DetailRunsComponent } from "../runs/detail/DetailRuns.component";
 import { RunsSelectVehicleComponent } from "../runs/RunsSelectVehicle.component";
-import { ProfilePageComponent } from "./ProfilePage.compoment";
 
 const Stack = createStackNavigator();
 
 export function ScheduleNavigatorComponent() {
 
     return (
-        <Stack.Navigator initialRouteName={"schedule"}>
+        <Stack.Navigator initialRouteName={"schedule"} screenOptions={{ headerBackTitleVisible: false }}>
             <Stack.Screen name={"schedule"} component={SchedulePageComponent} options={{ headerShown: false }} />
-            <Stack.Screen name={"profile"} component={ProfilePageComponent} options={{ title: "Mon profil" }} />
-            <Stack.Screen name={"params"} component={ParamsComponent} options={{ title: "Paramètres / crédits" }} />
+<Stack.Screen name={"params"} component={ParamsComponent} options={{ title: "Paramètres / crédits" }} />
             <Stack.Screen
                 name={"detail"}
                 component={DetailRunsComponent}

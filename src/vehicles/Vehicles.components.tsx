@@ -16,7 +16,7 @@ export function VehiclesComponent() {
     const VehicleContainer = VehiclesContainer.useContainer();
 
     return (
-        <Stack.Navigator initialRouteName={"list"}>
+        <Stack.Navigator initialRouteName={"list"} screenOptions={{ headerBackTitleVisible: false }}>
             <Stack.Screen name={"list"} component={ListVehiclesComponent} options={{headerShown: false}}/>
             <Stack.Screen
                 name={"detail"}

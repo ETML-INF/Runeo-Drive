@@ -47,7 +47,7 @@ export function RunsComponent() {
     }
 
     return (
-        <Stack.Navigator initialRouteName={"list"}>
+        <Stack.Navigator initialRouteName={"list"} screenOptions={{ headerBackTitleVisible: false }}>
             <Stack.Screen name={"list"} component={ListRunsComponent} options={{headerShown: false}}/>
             <Stack.Screen
                 name={"detail"}
@@ -56,7 +56,7 @@ export function RunsComponent() {
             />
             <Stack.Screen name={"select_vehicle"}
                           component={RunsSelectVehicleComponent}
-                          options={{title: "Choisissez un véhicule", headerBackTitle: "Annuler"}}/>
+                          options={{title: "Choisissez un véhicule", headerBackTitle: "Annuler", headerBackTitleVisible: true}}/>
             <Stack.Screen name={"listFromArtist"}
                           component={ListRunsFromArtistComponent}
                           options={{title : "Autres runs de l'artiste"}}/>            
@@ -65,7 +65,8 @@ export function RunsComponent() {
                           options={(route) => {
                               return {
                                   ...generateStackOptionWithRunTitle(route),
-                                  headerBackTitle: "Annuler"
+                                  headerBackTitle: "Annuler",
+                                  headerBackTitleVisible: true
                               }
                           }}/>
             <Stack.Screen

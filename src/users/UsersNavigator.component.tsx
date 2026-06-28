@@ -7,7 +7,7 @@ const Stack = createStackNavigator();
 
 export function UsersNavigatorComponent() {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{ headerBackTitleVisible: false }}>
             <Stack.Screen name="users_list" component={ListUsersComponent} options={{headerShown: false}}/>
             <Stack.Screen name="profile" component={ProfileComponent} options={{title: "Mon profil"}}/>
         </Stack.Navigator>

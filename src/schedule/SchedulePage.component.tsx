@@ -11,7 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Icon } from "react-native-elements";
 import React, { useEffect, useRef, useState } from "react";
 import { Colors } from "../common/utils/Color.utils";
-import { AuthContainer, NetworkContainer } from "../Provider.component";
+import { NetworkContainer } from "../Provider.component";
 import { ScheduleComponent } from "./Schedule.component";
 import { useSchedulesContainer } from "../common/container/Schedules.container";
 import { localDayOfWeek } from "../common/utils/Date.utils";
@@ -20,19 +20,14 @@ import { showToastLong, toastType } from "../notifications/ToastNotification";
 import { useUserRunsContainer } from "../common/container/UserRuns.container";
 import { useNavigation } from "@react-navigation/native";
 import { AxiosError } from "axios";
-import { UserAvatar } from "../common/component/UserAvatar.component";
-import { userStatusColor } from "../common/utils/User.utils";
 import { ScheduleDropdownPicker } from "./ScheduleDropdownPicker.component";
 import { isEmptyArray } from "formik";
 
 export function SchedulePageComponent() {
-    let authContainer = AuthContainer.useContainer();
     let schedulesContainer = useSchedulesContainer();
     let userRunsContainer = useUserRunsContainer();
     let navigation = useNavigation<any>();
     let { isInternetReachable } = NetworkContainer.useContainer();
-    let currentUser = authContainer.authenticatedUser;
-
     const [day, setDay] = useState(new Date());
     const [isFirstLoading, setIsFirstLoading] = useState<boolean>(true);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -65,8 +60,7 @@ export function SchedulePageComponent() {
         if (isInternetReachable) {
             Promise.all([
                 schedulesContainer.refresh(),
-                userRunsContainer.refresh(),
-                authContainer.refreshUserStatus()
+                userRunsContainer.refresh()
             ]).then(() => {
                 callback("");
             }).catch((e: AxiosError) => {
@@ -94,8 +88,6 @@ export function SchedulePageComponent() {
     const gotoRun = (run: RunResource) => navigation.navigate("detail", { run: run });
 
     const group = schedulesContainer.items.toArray().length > 0 ? schedulesContainer.userGroup : null;
-
-    let statusColor = userStatusColor(currentUser.status);
 
     const schedulesFilter = useRef<string[]>([]) //The array that holds the list of groups to show
 
@@ -136,12 +128,6 @@ export function SchedulePageComponent() {
                             setIsLoading(true);
                             load(afterLoad);
                         }}
-                    />
-                    <UserAvatar
-                        picture={currentUser?.picture ?? null}
-                        size="medium"
-                        onPress={() => { navigation.navigate("profile", { user: currentUser, group: group }) }}
-                        containerStyle={[styles.avatar, { borderColor: statusColor }]}
                     />
                 </View>
             </View>
