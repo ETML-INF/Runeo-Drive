@@ -46,10 +46,19 @@ export const TokenAuthComponent = () => {
             await authContainer.refreshAuthenticated();
         } catch (error) {
             const e = error as AxiosError;
-            if (e.response?.status === 401) {
-                setFieldError("password", "Email ou mot de passe invalide.");
+            if (e.response) {
+                const status = e.response.status;
+                if (status === 401 || status === 400 || status === 422) {
+                    setFieldError("password", "Email ou mot de passe invalide.");
+                } else if (status === 403) {
+                    setFieldError("email", "Votre compte est désactivé ou vous n'avez pas accès.");
+                } else {
+                    setFieldError("email", `Le serveur a rencontré une erreur (${status}). Réessayez plus tard.`);
+                }
+            } else if (e.request) {
+                setFieldError("email", "Impossible de joindre le serveur. Vérifiez votre connexion internet.");
             } else {
-                setFieldError("email", "Erreur de connexion au serveur.");
+                setFieldError("email", "Une erreur inattendue s'est produite.");
             }
         } finally {
             setSubmitting(false);
