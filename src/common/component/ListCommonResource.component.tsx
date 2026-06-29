@@ -1,5 +1,5 @@
 import React, {useMemo, useState} from "react";
-import {FlatList} from "react-native";
+import {FlatList, Text, View} from "react-native";
 import {DataContainerInterface} from "../container/DataContainer.interface";
 import {CommonResource} from "../resources/Common.resource";
 import {Container} from "unstated-next";
@@ -57,6 +57,11 @@ export function ListCommonResourceComponent<T extends CommonResource>(props: Lis
             style={{
                 height: "100%"
             }}
+            ListEmptyComponent={
+                <View style={{flex: 1, alignItems: "center", justifyContent: "center", marginTop: "50%"}}>
+                    <Text>Aucun</Text>
+                </View>
+            }
         />
     )
 }

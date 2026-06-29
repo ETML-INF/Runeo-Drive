@@ -8,7 +8,6 @@ export enum RunStatus {
     FINISHED = "completed",
     NEEDS_FILLING = "to_complete",
     DRAFTING = "drafting",
-    ERROR = "error",
     READY = "ready",
     CANCELLED = "cancelled",
     UNPUBLISHED = "unpublished",

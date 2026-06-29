@@ -10,11 +10,19 @@ import { View, StyleSheet } from "react-native";
 const runStatusIconMapping: Record<string, string> = {
     [RunStatus.GONE]: 'shipping-fast',
     [RunStatus.FINISHED]: 'check-circle',
-    [RunStatus.ERROR]: 'exclamation-circle',
     [RunStatus.PROBLEM]: 'exclamation-triangle',
     [RunStatus.READY]: 'thumbs-up',
     [RunStatus.NEEDS_FILLING]: 'question-circle',
     [RunStatus.ALMOSTREADY]: 'question-circle',
+}
+
+const runStatusLabelMapping: Partial<Record<RunStatus, string>> = {
+    [RunStatus.GONE]: "Démarré",
+    [RunStatus.FINISHED]: "Terminé",
+    [RunStatus.PROBLEM]: "Problème !!!",
+    [RunStatus.READY]: "Prêt",
+    [RunStatus.NEEDS_FILLING]: "Cherche Chauffeur",
+    [RunStatus.ALMOSTREADY]: "Quel véhicule ?",
 }
 
 export function getRunStatusIcon(status: string) {
@@ -84,6 +92,10 @@ export function participates (run: RunResource, user?: UserResource, ) {
     return !!run.runners.find(runner => runner.user?.id === user?.id);
 }
 
+export function statusLabel(run: RunResource): string {
+    return runStatusLabelMapping[run.status] ?? run.status;
+}
+
 export function statusColor(run: RunResource) {
     switch (run.status) {
         case RunStatus.GONE:
@@ -95,9 +107,6 @@ export function statusColor(run: RunResource) {
         case RunStatus.ALMOSTREADY:
             return Colors.STATUS_NEED_CAR
             break
-        case RunStatus.ERROR:
-            return Colors.STATUS_PROBLEM
-        break
         case RunStatus.PROBLEM:
             return Colors.STATUS_PROBLEM
         break

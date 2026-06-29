@@ -18,7 +18,7 @@ export function DetailRunsStatusControlBtn({currentRun}: StatusRunControllerBtnD
     const {authenticatedUser} = AuthContainer.useContainer()
     const {startRun, stopRun} = RunsContainer.useContainer();
 
-    if (currentRun.status === RunStatus.ERROR) {
+    if (currentRun.status === RunStatus.PROBLEM) {
         return (
             <View style={styles.problem}>
                 <Text>Le status de ce run pose problème!</Text>
