@@ -73,6 +73,7 @@ export function ListRunsComponent() {
                 refreshing={isLoading}
                 onRefresh={isInternetReachable ? refreshRuns : null}
                 style={styles.fill}
+                contentContainerStyle={styles.contentContainer}
                 ListEmptyComponent={
                     <View style={styles.empty}>
                         <Text>Aucun</Text>
@@ -86,6 +87,9 @@ export function ListRunsComponent() {
 const styles = StyleSheet.create({
     fill: {
         height: "100%"
+    },
+    contentContainer: {
+        flexGrow: 1,
     },
     sectionHeader: {
         backgroundColor: "#f0f0f0",
