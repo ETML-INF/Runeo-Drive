@@ -2,11 +2,10 @@ import { RunResource } from "../resources/Run.resource";
 import { List } from "immutable";
 import Axios from "axios";
 import { DateTime } from "luxon";
-import { useCacheHelper } from "../utils/CacheHelper.utils";
+import { useState } from "react";
 import { DataContainerInterface } from "./DataContainer.interface";
 import { RunnerResource } from "../resources/Runner.resource";
 import { LogResource } from "../resources/Log.resource";
-import { clearCaches } from "../utils/Cache.utils";
 
 export interface RunsContainer extends DataContainerInterface<RunResource> {
   updateVehicle: (runnerId: number, carId: number) => Promise<void>;
@@ -20,37 +19,46 @@ export interface RunsContainer extends DataContainerInterface<RunResource> {
 }
 
 export function useRunsContainer(): RunsContainer {
-  const cacheHelper = useCacheHelper<RunResource>("RUN", parseRunResource);
+  const [items, setItems] = useState<List<RunResource>>(List());
 
-  const refresh = (): Promise<void> => {
-    return getRunsFromApi()
-      .then((fetchedRuns) => cacheHelper.insertItems(List(fetchedRuns)));
+  const upsertRun = (run: RunResource) => {
+    setItems(prev => {
+      const idx = prev.findIndex(r => r.id === run.id);
+      return idx >= 0 ? prev.set(idx, run) : prev.push(run);
+    });
   };
 
-  const getRunsFromSameArtist = (run: RunResource): Promise<RunResource[]> => {
-    return getRunsFromSameArtistApi(run);
-  };
+  const refresh = (): Promise<void> =>
+    getRunsFromApi().then(runs => setItems(List(runs)));
+
+  const readFromCache = (): Promise<void> => Promise.resolve();
+
+  const empty = () => setItems(List());
+
+  const getRunsFromSameArtist = (run: RunResource): Promise<RunResource[]> =>
+    getRunsFromSameArtistApi(run);
 
   const updateVehicle = (runnerId: number, carId: number): Promise<void> =>
     updateRunnerCarApi(runnerId, carId)
-      .then(cacheHelper.insertItem)
+      .then(upsertRun)
       .catch((error) => error.text);
 
   const startRun = (run: RunResource): Promise<void> =>
     startRunApi(run)
-      .then(cacheHelper.insertItem)
+      .then(upsertRun)
       .catch((error) => error.text);
 
   const stopRun = (run: RunResource): Promise<void> =>
     stopRunApi(run)
-      .then(cacheHelper.insertItem)
+      .then(upsertRun)
       .catch((error) => error.text);
 
-  const takeRun = (run: RunResource, runner: RunnerResource) => takeRunApi(run, runner).then(cacheHelper.insertItem);
+  const takeRun = (run: RunResource, runner: RunnerResource) =>
+    takeRunApi(run, runner).then(upsertRun);
 
   const acknowledgeRun = (run: RunResource): Promise<void> =>
     acknowledgeRunApi(run)
-      .then(cacheHelper.insertItem)
+      .then(upsertRun)
       .catch((error) => error.text);
 
   const getLogs = (runId: number) => getLogsFromApi(runId);
@@ -58,9 +66,10 @@ export function useRunsContainer(): RunsContainer {
   const postLog = (run: number, message: string) => postLogToApi(run, message);
 
   return {
-    items: cacheHelper.items,
-    readFromCache: cacheHelper.readFromCache,
+    items,
+    readFromCache,
     refresh,
+    empty,
     getRunsFromSameArtist,
     updateVehicle,
     startRun,
@@ -69,7 +78,6 @@ export function useRunsContainer(): RunsContainer {
     acknowledgeRun,
     getLogs,
     postLog,
-    empty: cacheHelper.empty
   };
 }
 
@@ -80,7 +88,6 @@ function takeRunApi(run: RunResource, runner: RunnerResource): Promise<RunResour
     .then((res) => parseRunResource(res.data))
     .catch((error) => {
       if (error.response.status === 409) {
-        // On garde le message clair depuis l'API ou le statut
         throw new Error("Ce poste est déjà pris par un autre conducteur.");
       } else {
         throw new Error(error.message);
@@ -110,7 +117,6 @@ function updateRunnerCarApi(runnerId: number, carId: number): Promise<RunResourc
 
 function getRunsFromApi(onlyFromTime?: DateTime): Promise<RunResource[]> {
   const params: any = {};
-  clearCaches();
 
   if (onlyFromTime) {
     params.onlyFromTime = onlyFromTime.toString();
@@ -163,11 +169,6 @@ function postLogToApi(run: number, description: string): Promise<LogResource> {
   }).then((res) => res.data);
 }
 
-/**
- * Parses a log from the API
- * @param logFromApi
- * @returns {LogResource}
- */
 function parseLogResource(logFromApi: any): LogResource {
   return {
     ...logFromApi,
