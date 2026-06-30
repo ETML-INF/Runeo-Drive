@@ -25,7 +25,7 @@ export function ListRunsComponent() {
         }).catch(()=>{});
         try {
             setIsLoading(true)
-            await Promise.race([refreshAllDataContainers, timeout]);
+            await Promise.race([refreshAllDataContainers(), timeout]);
             setIsLoading(false)
         } catch (e) {
             showToast(e, toastType.failed);

@@ -40,7 +40,7 @@ export function LoaderComponent(props: PropsWithChildren<any>) {
         if (hasCacheBeenRead && authContainer.authenticatedUser && networkContainer.isInternetReachable) {
             dataContainers.forEach(container => {
                 if (container.items.size == 0) {
-                    container.refresh()
+                    container.refresh().catch(() => {})
                 }
             })
         }

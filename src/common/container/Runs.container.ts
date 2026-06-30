@@ -24,8 +24,7 @@ export function useRunsContainer(): RunsContainer {
 
   const refresh = (): Promise<void> => {
     return getRunsFromApi()
-      .then((fetchedRuns) => cacheHelper.insertItems(List(fetchedRuns)))
-      .catch((error) => error.text);
+      .then((fetchedRuns) => cacheHelper.insertItems(List(fetchedRuns)));
   };
 
   const getRunsFromSameArtist = (run: RunResource): Promise<RunResource[]> => {
@@ -118,8 +117,7 @@ function getRunsFromApi(onlyFromTime?: DateTime): Promise<RunResource[]> {
   }
 
   return Axios.get("/runs", { params })
-    .then((res) => res.data.map(parseRunResource))
-    .catch((error) => error.text);
+    .then((res) => res.data.map(parseRunResource));
 }
 
 function getRunsFromSameArtistApi(run: RunResource): Promise<RunResource[]> {
