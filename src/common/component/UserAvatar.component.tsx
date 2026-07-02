@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import Axios from 'axios';
+import { Directory, File, Paths } from 'expo-file-system';
 import { UserPicture } from '../resources/User.resource';
 
 interface UserAvatarProps {
@@ -10,6 +11,17 @@ interface UserAvatarProps {
     rounded?: boolean;
     containerStyle?: object;
     onPress?: () => void;
+}
+
+// Persisted to the document directory (not the cache dir) so downloaded avatars
+// survive app restarts instead of being wiped by OS cache eviction.
+const avatarsDirectory = new Directory(Paths.document, 'avatars');
+
+function getCachedAvatarFile(picture: UserPicture): File {
+    if (!avatarsDirectory.exists) {
+        avatarsDirectory.create({ idempotent: true, intermediates: true });
+    }
+    return new File(avatarsDirectory, `${picture.id}.${picture.type}`);
 }
 
 export function UserAvatar({ picture, size = 'medium', rounded = true, containerStyle, onPress }: UserAvatarProps) {
@@ -30,14 +42,19 @@ export function UserAvatar({ picture, size = 'medium', rounded = true, container
                 })
                 .catch(() => {});
         } else {
-            Axios.get<ArrayBuffer>(relativeUrl, { responseType: 'arraybuffer' })
-                .then(response => {
-                    const bytes = new Uint8Array(response.data);
-                    const chunks: string[] = [];
-                    bytes.forEach(b => chunks.push(String.fromCharCode(b)));
-                    setDataUri(`data:image/${picture.type};base64,${btoa(chunks.join(''))}`);
-                })
-                .catch(() => {});
+            const file = getCachedAvatarFile(picture);
+
+            if (file.exists) {
+                setDataUri(file.uri);
+            } else {
+                Axios.get<ArrayBuffer>(relativeUrl, { responseType: 'arraybuffer' })
+                    .then(response => {
+                        if (!file.exists) file.create({ intermediates: true });
+                        file.write(new Uint8Array(response.data));
+                        setDataUri(file.uri);
+                    })
+                    .catch(() => {});
+            }
         }
 
         return () => {
@@ -46,7 +63,7 @@ export function UserAvatar({ picture, size = 'medium', rounded = true, container
                 objectUrlRef.current = '';
             }
         };
-    }, [picture?.url]);
+    }, [picture?.id, picture?.url]);
 
     return (
         <Avatar
