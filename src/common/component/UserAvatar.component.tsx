@@ -15,13 +15,40 @@ interface UserAvatarProps {
 
 // Persisted to the document directory (not the cache dir) so downloaded avatars
 // survive app restarts instead of being wiped by OS cache eviction.
-const avatarsDirectory = new Directory(Paths.document, 'avatars');
+// Lazily constructed: expo-file-system isn't supported on web, and merely
+// instantiating a Directory there throws, so this must never run at import time.
+let avatarsDirectory: Directory | undefined;
 
 function getCachedAvatarFile(picture: UserPicture): File {
+    if (!avatarsDirectory) {
+        avatarsDirectory = new Directory(Paths.document, 'avatars');
+    }
     if (!avatarsDirectory.exists) {
         avatarsDirectory.create({ idempotent: true, intermediates: true });
     }
     return new File(avatarsDirectory, `${picture.id}.${picture.type}`);
+}
+
+// On web (dev in a browser included), Expo's file system isn't backed by real
+// persistent storage, so we use the standard Cache Storage API instead, keyed
+// the same way as the native disk cache so a new picture id busts old entries.
+const WEB_AVATAR_CACHE_NAME = 'avatars';
+
+function getWebAvatarCacheKey(picture: UserPicture): string {
+    return `https://avatar-cache.local/${picture.id}.${picture.type}`;
+}
+
+async function getWebAvatarBlob(picture: UserPicture, relativeUrl: string): Promise<Blob> {
+    const hasCacheStorage = typeof caches !== 'undefined';
+    const cacheKey = getWebAvatarCacheKey(picture);
+    const cache = hasCacheStorage ? await caches.open(WEB_AVATAR_CACHE_NAME) : null;
+    const match = await cache?.match(cacheKey);
+    if (match) return match.blob();
+
+    const response = await Axios.get(relativeUrl, { responseType: 'blob' });
+    const blob = response.data as Blob;
+    await cache?.put(cacheKey, new Response(blob));
+    return blob;
 }
 
 export function UserAvatar({ picture, size = 'medium', rounded = true, containerStyle, onPress }: UserAvatarProps) {
@@ -34,9 +61,9 @@ export function UserAvatar({ picture, size = 'medium', rounded = true, container
         const relativeUrl = picture.url.replace(/^\//, '');
 
         if (Platform.OS === 'web') {
-            Axios.get(relativeUrl, { responseType: 'blob' })
-                .then(response => {
-                    const url = URL.createObjectURL(response.data as Blob);
+            getWebAvatarBlob(picture, relativeUrl)
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
                     objectUrlRef.current = url;
                     setDataUri(url);
                 })
