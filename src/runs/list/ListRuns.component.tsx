@@ -1,4 +1,5 @@
 import React, {useMemo, useState} from "react";
+import {DateTime} from "luxon";
 import {RunResource, RunStatus} from "../../common/resources/Run.resource";
 import {useNavigation} from "@react-navigation/native";
 import {SectionList, StyleSheet, Text, View} from "react-native";
@@ -8,6 +9,8 @@ import {useRefreshAllDataContainers} from "../../common/hook/Loader.hook";
 import { toastType, showToast } from "../../notifications/ToastNotification";
 import { ListRunsItemComponent } from "./ListRunsItem.component";
 import {participates} from "../../common/utils/Run.utils"
+
+const HISTORY_THRESHOLD_MINUTES = 30;
 
 export function ListRunsComponent() {
     const navigation = useNavigation();
@@ -37,11 +40,22 @@ export function ListRunsComponent() {
 
     const byDate = (a: RunResource, b: RunResource) => a.begin_at.diff(b.begin_at).toMillis()
 
+    const isOldHistory = (run: RunResource) =>
+        run.status === RunStatus.FINISHED &&
+        run.finished_at.isValid &&
+        DateTime.now().diff(run.finished_at, "minutes").minutes > HISTORY_THRESHOLD_MINUTES
+
     const sections = useMemo(() => {
         const allRuns = runContainer.items.toArray()
 
-        const myRuns = allRuns
-            .filter(r => participates(r, authenticatedUser))
+        const myRuns = allRuns.filter(r => participates(r, authenticatedUser))
+
+        const history = myRuns
+            .filter(isOldHistory)
+            .sort((a, b) => b.begin_at.diff(a.begin_at).toMillis())
+
+        const activeMyRuns = myRuns
+            .filter(r => !isOldHistory(r))
             .sort(byDate)
 
         const needsDriver = allRuns
@@ -53,9 +67,10 @@ export function ListRunsComponent() {
             .sort(byDate)
 
         return [
-            {title: "Mes runs", data: myRuns},
+            {title: "Mes runs", data: activeMyRuns},
             {title: "Besoin de chauffeurs", data: needsDriver},
             {title: "Autres", data: others},
+            {title: "Historique", data: history},
         ].filter(section => section.data.length > 0)
     }, [runContainer.items, authenticatedUser])
 
