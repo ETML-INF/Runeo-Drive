@@ -12,7 +12,6 @@ export interface RunsContainer extends DataContainerInterface<RunResource> {
   startRun: (run: RunResource) => Promise<void>;
   stopRun: (run: RunResource) => Promise<void>;
   takeRun: (run: RunResource, runner: RunnerResource) => Promise<void>;
-  acknowledgeRun: (run: RunResource) => Promise<void>;
   getLogs: (runId: number) => Promise<LogResource[]>;
   getRunsFromSameArtist: (run: RunResource) => Promise<RunResource[]>;
   postLog: (run: number, message: string) => Promise<LogResource>;
@@ -56,11 +55,6 @@ export function useRunsContainer(): RunsContainer {
   const takeRun = (run: RunResource, runner: RunnerResource) =>
     takeRunApi(run, runner).then(upsertRun);
 
-  const acknowledgeRun = (run: RunResource): Promise<void> =>
-    acknowledgeRunApi(run)
-      .then(upsertRun)
-      .catch((error) => error.text);
-
   const getLogs = (runId: number) => getLogsFromApi(runId);
 
   const postLog = (run: number, message: string) => postLogToApi(run, message);
@@ -75,7 +69,6 @@ export function useRunsContainer(): RunsContainer {
     startRun,
     stopRun,
     takeRun,
-    acknowledgeRun,
     getLogs,
     postLog,
   };
@@ -132,12 +125,6 @@ function getRunsFromSameArtistApi(run: RunResource): Promise<RunResource[]> {
     .catch((error) => error);
 }
 
-function acknowledgeRunApi(run: RunResource): Promise<RunResource> {
-  return Axios.patch(`/runs/${run}/acknowledge`)
-    .then((res) => parseRunResource(res.data))
-    .catch((error) => error.text);
-}
-
 function parseDate(value: string | null | undefined): DateTime {
   if (!value) return DateTime.invalid('null');
   const iso = DateTime.fromISO(value);
@@ -153,7 +140,6 @@ function parseRunResource(runFromApi: any): RunResource {
     finished_at: parseDate(runFromApi.finished_at),
     start_at: parseDate(runFromApi.start_at),
     updated_at: parseDate(runFromApi.updated_at),
-    acknowledged_at: parseDate(runFromApi.acknowledged_at),
     waypoints: List(runFromApi.waypoints),
     runners: List(runFromApi.runners)
   };

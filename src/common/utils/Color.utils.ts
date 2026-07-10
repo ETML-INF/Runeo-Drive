@@ -13,6 +13,5 @@ export const Colors = {
   STATUS_NEED_CAR: "#cdf78d",
   STATUS_NEED_DRIVER: "#ff9900",
   STATUS_READY: "#00b050",
-  STATUS_FINISHED: "#aaaaaa",
-  HAS_CHANGED: "#ffaa00"
+  STATUS_FINISHED: "#aaaaaa"
 };

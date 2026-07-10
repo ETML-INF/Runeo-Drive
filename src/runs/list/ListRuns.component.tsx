@@ -10,6 +10,12 @@ import { toastType, showToast } from "../../notifications/ToastNotification";
 import { ListRunsItemComponent } from "./ListRunsItem.component";
 import {participates} from "../../common/utils/Run.utils"
 
+const FINISHED_SINCE_THRESHOLD_MINUTES = 15;
+
+const isFinishedForAWhile = (run: RunResource) =>
+    run.status === RunStatus.FINISHED &&
+    DateTime.local().diff(run.finished_at).as("minutes") > FINISHED_SINCE_THRESHOLD_MINUTES
+
 const HISTORY_THRESHOLD_MINUTES = 30;
 
 export function ListRunsComponent() {
@@ -48,14 +54,10 @@ export function ListRunsComponent() {
     const sections = useMemo(() => {
         const allRuns = runContainer.items.toArray()
 
-        const myRuns = allRuns.filter(r => participates(r, authenticatedUser))
-
-        const history = myRuns
-            .filter(isOldHistory)
-            .sort((a, b) => b.begin_at.diff(a.begin_at).toMillis())
-
         const activeMyRuns = myRuns
             .filter(r => !isOldHistory(r))
+        const myRuns = allRuns
+            .filter(r => participates(r, authenticatedUser) && !isFinishedForAWhile(r))
             .sort(byDate)
 
         const needsDriver = allRuns
@@ -66,11 +68,16 @@ export function ListRunsComponent() {
             .filter(r => !participates(r, authenticatedUser) && r.status !== RunStatus.NEEDS_FILLING)
             .sort(byDate)
 
+        const doneByMe = allRuns
+            .filter(r => participates(r, authenticatedUser) && isFinishedForAWhile(r))
+            .sort(byDate)
+            .reverse()
+
         return [
             {title: "Mes runs", data: activeMyRuns},
             {title: "Besoin de chauffeurs", data: needsDriver},
             {title: "Autres", data: others},
-            {title: "Historique", data: history},
+            {title: "J'ai fait", data: doneByMe},
         ].filter(section => section.data.length > 0)
     }, [runContainer.items, authenticatedUser])
 

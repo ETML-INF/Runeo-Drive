@@ -57,7 +57,6 @@ function parseRunResource(runFromApi: any): RunResource {
     finished_at: DateTime.fromISO(runFromApi.finished_at),
     start_at: DateTime.fromISO(runFromApi.start_at),
     updated_at: DateTime.fromISO(runFromApi.updated_at),
-    acknowledged_at: DateTime.fromISO(runFromApi.acknowledged_at),
     waypoints: List(runFromApi.waypoints),
     runners: List(runFromApi.runners)
   };
