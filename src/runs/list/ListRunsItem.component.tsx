@@ -5,7 +5,6 @@ import React from "react";
 import {RunResource} from "../../common/resources/Run.resource";
 import {Colors} from "../../common/utils/Color.utils";
 import { participates } from "../../common/utils/Run.utils";
-import {lastUpdatedRun} from "../../common/utils/LastUpdatedRun.utils";
 import {AuthContainer} from "../../Provider.component";
 import { View, StyleSheet } from "react-native";
 
@@ -20,7 +19,7 @@ export function ListRunsItemComponent ({onSelectRun, run} : ListRunsItemComponen
     const {authenticatedUser} = AuthContainer.useContainer();
     
     return (
-        <ListItem bottomDivider onPress={() => onSelectRun(run)} containerStyle={ participates(run, authenticatedUser) ? (lastUpdatedRun(run, authenticatedUser?.id) ? styles.isnew : styles.ismine ) : false}>
+        <ListItem bottomDivider onPress={() => onSelectRun(run)} containerStyle={ participates(run, authenticatedUser) ? styles.ismine : false}>
             <View key="icon" style={{ backgroundColor: statusColor(run), padding: 15, borderRadius: 10}}>{getRunStatusIcon(run.status)}</View>
             <ListItem.Content key="content">
                 <ListItem.Title style={{fontFamily: 'Montserrat-Medium'}}>{`${run.title.toUpperCase()}`}</ListItem.Title>
@@ -38,9 +37,6 @@ export function ListRunsItemComponent ({onSelectRun, run} : ListRunsItemComponen
 const styles = StyleSheet.create({
     ismine: {
         backgroundColor: Colors.ME,
-    },
-    isnew: {
-        backgroundColor: Colors.HAS_CHANGED
     },
     statusgone: {
         backgroundColor: Colors.STATUS_GONE
