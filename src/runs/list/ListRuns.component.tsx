@@ -8,6 +8,13 @@ import {useRefreshAllDataContainers} from "../../common/hook/Loader.hook";
 import { toastType, showToast } from "../../notifications/ToastNotification";
 import { ListRunsItemComponent } from "./ListRunsItem.component";
 import {participates} from "../../common/utils/Run.utils"
+import {DateTime} from "luxon";
+
+const FINISHED_SINCE_THRESHOLD_MINUTES = 15;
+
+const isFinishedForAWhile = (run: RunResource) =>
+    run.status === RunStatus.FINISHED &&
+    DateTime.local().diff(run.finished_at).as("minutes") > FINISHED_SINCE_THRESHOLD_MINUTES
 
 export function ListRunsComponent() {
     const navigation = useNavigation();
@@ -41,7 +48,7 @@ export function ListRunsComponent() {
         const allRuns = runContainer.items.toArray()
 
         const myRuns = allRuns
-            .filter(r => participates(r, authenticatedUser))
+            .filter(r => participates(r, authenticatedUser) && !isFinishedForAWhile(r))
             .sort(byDate)
 
         const needsDriver = allRuns
@@ -52,10 +59,16 @@ export function ListRunsComponent() {
             .filter(r => !participates(r, authenticatedUser) && r.status !== RunStatus.NEEDS_FILLING)
             .sort(byDate)
 
+        const doneByMe = allRuns
+            .filter(r => participates(r, authenticatedUser) && isFinishedForAWhile(r))
+            .sort(byDate)
+            .reverse()
+
         return [
             {title: "Mes runs", data: myRuns},
             {title: "Besoin de chauffeurs", data: needsDriver},
             {title: "Autres", data: others},
+            {title: "J'ai fait", data: doneByMe},
         ].filter(section => section.data.length > 0)
     }, [runContainer.items, authenticatedUser])
 
