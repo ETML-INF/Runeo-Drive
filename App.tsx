@@ -7,13 +7,12 @@
 
 
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { AppComponent } from './src/App.component';
 import Axios from "axios";
 import { useFonts } from 'expo-font';
 import { RootSiblingParent } from 'react-native-root-siblings';
-import Constants from 'expo-constants';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default function App() {
   const [loaded] = useFonts({
@@ -41,7 +40,5 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 0,
-    //marginTop: (Platform.OS === 'ios') ? 0 : Constants.statusBarHeight,
   },
 });
