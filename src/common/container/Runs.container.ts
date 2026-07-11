@@ -39,18 +39,15 @@ export function useRunsContainer(): RunsContainer {
 
   const updateVehicle = (runnerId: number, carId: number): Promise<void> =>
     updateRunnerCarApi(runnerId, carId)
-      .then(upsertRun)
-      .catch((error) => error.text);
+      .then(upsertRun);
 
   const startRun = (run: RunResource): Promise<void> =>
     startRunApi(run)
-      .then(upsertRun)
-      .catch((error) => error.text);
+      .then(upsertRun);
 
   const stopRun = (run: RunResource): Promise<void> =>
     stopRunApi(run)
-      .then(upsertRun)
-      .catch((error) => error.text);
+      .then(upsertRun);
 
   const takeRun = (run: RunResource, runner: RunnerResource) =>
     takeRunApi(run, runner).then(upsertRun);
@@ -83,7 +80,7 @@ function takeRunApi(run: RunResource, runner: RunnerResource): Promise<RunResour
       if (error.response.status === 409) {
         throw new Error("Ce poste est déjà pris par un autre conducteur.");
       } else {
-        throw new Error(error.message);
+        throw new Error(apiErrorMessage(error));
       }
     });
 }
@@ -91,13 +88,17 @@ function takeRunApi(run: RunResource, runner: RunnerResource): Promise<RunResour
 function startRunApi(run: RunResource): Promise<RunResource> {
   return Axios.patch(`/runs/${run.id}/start`)
     .then((res) => parseRunResource(res.data))
-    .catch((error) => error.text);
+    .catch((error) => {
+      throw new Error(apiErrorMessage(error));
+    });
 }
 
 function stopRunApi(run: RunResource): Promise<RunResource> {
   return Axios.patch(`/runs/${run.id}/stop`)
     .then((res) => parseRunResource(res.data))
-    .catch((error) => error.text);
+    .catch((error) => {
+      throw new Error(apiErrorMessage(error));
+    });
 }
 
 function updateRunnerCarApi(runnerId: number, carId: number): Promise<RunResource> {
@@ -105,7 +106,13 @@ function updateRunnerCarApi(runnerId: number, carId: number): Promise<RunResourc
     car_id: carId
   })
     .then((res) => parseRunResource(res.data))
-    .catch((error) => error.text);
+    .catch((error) => {
+      throw new Error(apiErrorMessage(error));
+    });
+}
+
+function apiErrorMessage(error: any): string {
+  return error.response?.data?.error ?? error.response?.data?.message ?? error.message;
 }
 
 function getRunsFromApi(onlyFromTime?: DateTime): Promise<RunResource[]> {

@@ -28,8 +28,8 @@ export function RunsSelectVehicleComponent() {
                     .then(() => {
                         navigation.goBack()
                     })
-                    .catch(() => {
-                        Alert.alert("Erreur", "Le véhicule n'a pas pu être sélectionné")
+                    .catch((err) => {
+                        Alert.alert("Erreur", `Le véhicule n'a pas pu être sélectionné.\n${err.message}`)
                     })
                 }
             }

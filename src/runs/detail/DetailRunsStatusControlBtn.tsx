@@ -33,7 +33,10 @@ export function DetailRunsStatusControlBtn({currentRun}: StatusRunControllerBtnD
                 <Button
                     buttonStyle={styles.startButton}
                     title={ "COMMENCER LE RUN"}
-                    onPress={() => startRun(currentRun)}
+                    onPress={() =>
+                        startRun(currentRun)
+                            .catch((err) => Alert.alert("Erreur", `Le run n'a pas pu être démarré.\n${err.message}`))
+                    }
                 />
             </View>
         );
@@ -48,7 +51,7 @@ export function DetailRunsStatusControlBtn({currentRun}: StatusRunControllerBtnD
                     onPress={() =>
                         stopRun(currentRun)
                             .then(() => navigation.goBack())
-                            .catch(() => Alert.alert("Erreur", "Le run n'a pas pu être terminé."))
+                            .catch((err) => Alert.alert("Erreur", `Le run n'a pas pu être terminé.\n${err.message}`))
                     }
                 />
             </View>

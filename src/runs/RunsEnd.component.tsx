@@ -67,8 +67,8 @@ export function RunsEndComponent() {
                             .then(() => {
                                 navigation.goBack()
                             })
-                            .catch(() => {
-                                Alert.alert("Erreur", "Le run n'a pas pu être terminé.")
+                            .catch((err) => {
+                                Alert.alert("Erreur", `Le run n'a pas pu être terminé.\n${err.message}`)
                             })
                     }>
                 </ButtonComponent>

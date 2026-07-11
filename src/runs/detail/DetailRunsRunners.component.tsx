@@ -82,7 +82,7 @@ export function DetailRunsRunnersComponent({currentRun}: RunnersDetailRunsCompon
                                             title={"Je prends"}
                                             disabled={ !isInternetReachable }
                                             onPress={() => takeRun(currentRun, runner)
-                                                .catch((err) => Alert.alert("Erreur", err.message || "Erreur lors de la prise du Run."))
+                                                .catch((err) => Alert.alert("Erreur", `Erreur lors de la prise du Run.\n${err.message}`))
                                             }/>
                                     ) : null}
 
