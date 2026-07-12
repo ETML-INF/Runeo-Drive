@@ -1,5 +1,5 @@
 import {getRunStatusIcon, statusColor} from "../../common/utils/Run.utils";
-import {ListItem} from "react-native-elements";
+import {Icon, ListItem} from "react-native-elements";
 import {dateWithLocalDay, TIME_FORMAT} from "../../common/utils/Date.utils";
 import React from "react";
 import {RunResource} from "../../common/resources/Run.resource";
@@ -18,7 +18,12 @@ export function ListRunsItemComponent ({onSelectRun, run} : ListRunsItemComponen
         <ListItem bottomDivider onPress={() => onSelectRun(run)}>
             <View key="icon" style={{ backgroundColor: statusColor(run), padding: 15, borderRadius: 10}}>{getRunStatusIcon(run.status)}</View>
             <ListItem.Content key="content">
-                <ListItem.Title style={{fontFamily: 'Montserrat-Medium'}}>{`${run.title.toUpperCase()}`}</ListItem.Title>
+                <ListItem.Title style={{fontFamily: 'Montserrat-Medium'}}>
+                    {`${run.title.toUpperCase()}`}
+                    { run.schedule_overlap !== null && run.schedule_overlap !== 0 &&
+                        <Icon type='font-awesome-5' name='star' solid size={14} color={Colors.YELLOW} containerStyle={{marginLeft: 6}}/>
+                    }
+                </ListItem.Title>
                 <ListItem.Subtitle style={{color: Colors.GREY, fontFamily: 'Montserrat-Regular'}}>
                     { run.begin_at?.isValid ? `${dateWithLocalDay(run.begin_at)} à ${run.begin_at.toFormat(TIME_FORMAT)}` : 'Date non définie' }
                 </ListItem.Subtitle>

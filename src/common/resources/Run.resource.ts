@@ -35,7 +35,8 @@ export interface RunResource extends CommonResource {
     google?: string,
     waypoints: List<Waypoint>,
     runners: List<RunnerResource>,
-    artist_id: number
+    artist_id: number,
+    schedule_overlap: number | null
 }
 
 export interface Waypoint {
