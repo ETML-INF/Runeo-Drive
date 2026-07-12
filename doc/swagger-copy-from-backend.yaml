@@ -93,6 +93,51 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Run'
+  /me/push-token:
+    post:
+      tags:
+        - 'me'
+      summary: 'Register or update the push notification token'
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+              properties:
+                token:
+                  type: string
+                  example: 'ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]'
+      responses:
+        '200':
+          description: 'Token saved'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+  /me/notifications:
+    get:
+      tags:
+        - 'me'
+      summary: 'Get the last 50 push notifications sent to the authenticated user'
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
   /users:
     get:
       tags:
@@ -133,6 +178,75 @@ paths:
               schema:
                 $ref: '#/components/schemas/Schedule'
 
+  /allruns:
+    get:
+      tags:
+        - 'runs'
+      summary: 'Get all runs without status filter (admin only)'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: onlyFromTime
+          in: query
+          required: false
+          description: 'Filter runs from a specific date/time (ISO DateTime string)'
+          example: '2019-03-13T11:42:53'
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Run'
+        '403':
+          description: 'Forbidden — requires runreadall permission'
+  /notifications/send:
+    post:
+      tags:
+        - 'me'
+      summary: 'Send a notification (SMS or push) to a specific user'
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+                - message
+              properties:
+                userId:
+                  type: integer
+                  example: 42
+                message:
+                  type: string
+                  maxLength: 640
+                  example: 'Votre run démarre dans 10 minutes.'
+      responses:
+        '200':
+          description: 'Notification sent'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  channel:
+                    type: string
+                    example: 'push'
+                  status:
+                    type: string
+                    example: 'sent'
+        '400':
+          description: 'Bad request (no active channel, missing token, send failure)'
+        '403':
+          description: 'Forbidden — requires sendnotifications permission'
   /runs:
     get:
       tags:
@@ -323,6 +437,64 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LogEntry'
+  /units/{unit}/driver:
+    patch:
+      tags:
+        - 'runners'
+      summary: 'Add the current authenticated user to the selected unit'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: unit
+          in: path
+          required: true
+          description: 'The id of the unit'
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: 'Run model serialized to JSON'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Run'
+        '409':
+          description: 'Ce poste est déjà pris par un autre conducteur'
+  /units/{unit}/car:
+    patch:
+      tags:
+        - 'runners'
+      summary: 'Add the parameter car to the selected unit'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: unit
+          in: path
+          required: true
+          description: 'The id of the unit'
+          example: 1
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                car_id:
+                  type: integer
+                  example: 1
+      responses:
+        '200':
+          description: 'Run model serialized to JSON'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Run'
   /runners/{runner}/driver:
     patch:
       tags:
@@ -722,7 +894,22 @@ components:
           type: 'string'
         num_contact:
           type: 'string'
-        good_for_me:
+        is_mine:
+          type: 'boolean'
+          description: "true si l'utilisateur authentifié est référencé par une unité de ce run"
+        schedule_overlap:
+          type: 'integer'
+          description: >
+            Relation entre le run et l'horaire du chauffeur :
+            -2 = aucun chevauchement (run entièrement avant ou après l'horaire),
+            -1 = le run commence avant l'horaire (mais se termine dans l'horaire),
+            0 = le run est entièrement dans l'horaire,
+            1 = le run se termine après l'horaire (mais commence dans l'horaire),
+            2 = le run déborde avant et après l'horaire.
+            null si le chauffeur n'est pas assigné ou n'a pas d'horaire.
+        driver_can_apply:
+          type: 'boolean'
+        driver_can_pick_vehicle:
           type: 'boolean'
         waypoints:
           type: 'array'
@@ -734,6 +921,10 @@ components:
             $ref: '#/components/schemas/Runner'
         artist_id:
           type: 'integer'
+        google:
+          type: 'string'
+          nullable: true
+          description: 'Google Maps URL linking all waypoints in order, or null if coordinates are missing'
     Track:
       type: 'object'
       properties:
@@ -769,7 +960,21 @@ components:
         id:
           type: 'integer'
         user:
-          $ref: '#/components/schemas/User'
+          type: 'object'
+          nullable: true
+          properties:
+            id:
+              type: 'integer'
+            name:
+              type: 'string'
+            firstname:
+              type: 'string'
+            lastname:
+              type: 'string'
+            email:
+              type: 'string'
+            phone_number:
+              type: 'string'
         vehicle_category:
           $ref: '#/components/schemas/CarType'
         vehicle:
@@ -868,13 +1073,35 @@ components:
           example: 'The guy that created this doc is awesome!'
     UserRequest:
       type: 'object'
+      required:
+        - name
+        - firstname
+        - lastname
+        - email
       properties:
-        username:
+        name:
           type: 'string'
-          example: 'Toto'
-        Password:
+          example: 'jdupont'
+        firstname:
           type: 'string'
-          example: 'Pa$$w0rd'
+          example: 'Jean'
+        lastname:
+          type: 'string'
+          example: 'Dupont'
+        email:
+          type: 'string'
+          example: 'jean.dupont@example.com'
+        phoneNumber:
+          type: 'string'
+          example: '+41791234567'
+        statusId:
+          type: 'integer'
+          example: 2
+        roleIds:
+          type: 'array'
+          items:
+            type: 'integer'
+          example: [1, 3]
     PhotoRequest:
       type: 'object'
       properties:
@@ -934,6 +1161,27 @@ components:
           type: string
         phone_number:
           type: string
+    Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+          example: 'Nouveau run'
+        body:
+          type: string
+          example: 'Votre run démarre dans 10 minutes.'
+        run_id:
+          type: integer
+          nullable: true
+        read_at:
+          type: string
+          format: date-time
+          nullable: true
+        sent_at:
+          type: string
+          format: date-time
     Schedule:
       type: object
       properties:
