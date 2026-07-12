@@ -12,7 +12,6 @@ import {RouteProp} from "@react-navigation/native";
 import {DetailRunsComponent} from "./detail/DetailRuns.component";
 import {RunsContainer} from "../Provider.component";
 import {RunsSelectVehicleComponent} from "./RunsSelectVehicle.component";
-import {RunsEndComponent} from "./RunsEnd.component";
 import { CommentRunsComponent } from "./detail/comment/CommentRuns.component";
 import { RunResource } from "../common/resources/Run.resource";
 
@@ -60,15 +59,6 @@ export function RunsComponent() {
             <Stack.Screen name={"listFromArtist"}
                           component={ListRunsFromArtistComponent}
                           options={{title : "Autres runs de l'artiste"}}/>            
-            <Stack.Screen name={"end_run"}
-                          component={RunsEndComponent}
-                          options={(route) => {
-                              return {
-                                  ...generateStackOptionWithRunTitle(route),
-                                  headerBackTitle: "Annuler",
-                                  headerBackTitleVisible: true
-                              }
-                          }}/>
             <Stack.Screen
                 name={"comment"}
                 component={CommentRunsComponent}
