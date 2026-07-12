@@ -13,8 +13,6 @@ import {CardComponentWithIcon} from "../../common/component/Card.component";
 import {InlineTextComponent} from "../../common/component/text/InlineText.component";
 import {ImportantTextComponent} from "../../common/component/text/ImportantText.component";
 import {Colors} from "../../common/utils/Color.utils";
-import { participates } from "../../common/utils/Run.utils";
-import { AuthContainer } from "../../Provider.component";
 import { DetailRunsContactBtn } from "./DetailRunsContactBtn.component";
 import { List } from "immutable";
 import {VehicleResource} from "../../common/resources/Vehicle.resource";
@@ -26,8 +24,6 @@ export interface GasWarningDetailRunsComponentProps {
 }
 
 export function DetailRunsGasWarningComponent({currentRun}: GasWarningDetailRunsComponentProps) {
-
-    const {authenticatedUser} = AuthContainer.useContainer();
 
     let emptyVehicles = Array<JSX.Element>();
 

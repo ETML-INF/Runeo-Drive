@@ -78,18 +78,12 @@ export function canTake (user: UserResource, runner: RunnerResource, run: RunRes
     return run.driver_can_apply &&
             (runner.user == null) &&
             (run.status != RunStatus.FINISHED) &&
-            (!participates(run, user))
+            (!run.is_mine)
 }
 
 // Tells if the run is still far in the future (thus can be quit by the driver)
 export function isStillFarOut(run: RunResource) {
     return run.begin_at.diff(DateTime.local()).as("hour") > 4
-}
-
-// Tels if the user is one of the drivers involved in the run
-export function participates (run: RunResource, user?: UserResource, ) {
-    if (!user) return false
-    return !!run.runners.find(runner => runner.user?.id === user?.id);
 }
 
 export function statusLabel(run: RunResource): string {

@@ -4,11 +4,11 @@ import {RunResource, RunStatus} from "../../common/resources/Run.resource";
 import {useNavigation} from "@react-navigation/native";
 import {SectionList, StyleSheet, Text, View} from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {AuthContainer, NetworkContainer, RunsContainer} from "../../Provider.component";
+import {NetworkContainer, RunsContainer} from "../../Provider.component";
 import {useRefreshAllDataContainers} from "../../common/hook/Loader.hook";
 import { toastType, showToast } from "../../notifications/ToastNotification";
 import { ListRunsItemComponent } from "./ListRunsItem.component";
-import {participates} from "../../common/utils/Run.utils"
+import { apiErrorMessage } from "../../common/utils/Api.utils";
 
 const HISTORY_THRESHOLD_MINUTES = 15;
 
@@ -18,7 +18,6 @@ const isFinishedForAWhile = (run: RunResource) =>
 
 export function ListRunsComponent() {
     const navigation = useNavigation();
-    const {authenticatedUser} = AuthContainer.useContainer();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const runContainer = RunsContainer.useContainer();
     const refreshAllDataContainers = useRefreshAllDataContainers();
@@ -35,7 +34,7 @@ export function ListRunsComponent() {
             await Promise.race([refreshAllDataContainers(), timeout]);
             setIsLoading(false)
         } catch (e) {
-            showToast(e, toastType.failed);
+            showToast(apiErrorMessage(e), toastType.failed);
             setIsLoading(false)
         }
     }
@@ -48,22 +47,22 @@ export function ListRunsComponent() {
         const allRuns = runContainer.items.toArray()
 
         const myRuns = allRuns
-            .filter(r => participates(r, authenticatedUser) && !isFinishedForAWhile(r))
+            .filter(r => r.is_mine && !isFinishedForAWhile(r))
             .sort(byDate)
 
         const activeMyRuns = myRuns
             .filter(r => !isFinishedForAWhile(r))
 
         const needsDriver = allRuns
-            .filter(r => !participates(r, authenticatedUser) && r.status === RunStatus.NEEDS_FILLING)
+            .filter(r => !r.is_mine && r.status === RunStatus.NEEDS_FILLING)
             .sort(byDate)
 
         const others = allRuns
-            .filter(r => !participates(r, authenticatedUser) && r.status !== RunStatus.NEEDS_FILLING)
+            .filter(r => !r.is_mine && r.status !== RunStatus.NEEDS_FILLING)
             .sort(byDate)
 
         const doneByMe = allRuns
-            .filter(r => participates(r, authenticatedUser) && isFinishedForAWhile(r))
+            .filter(r => r.is_mine && isFinishedForAWhile(r))
             .sort(byDate)
             .reverse()
 
@@ -73,7 +72,7 @@ export function ListRunsComponent() {
             {title: "Autres", data: others},
             {title: "J'ai fait", data: doneByMe},
         ].filter(section => section.data.length > 0)
-    }, [runContainer.items, authenticatedUser])
+    }, [runContainer.items])
 
     return (
         <SafeAreaView style={styles.fill}>

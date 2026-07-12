@@ -28,6 +28,7 @@ export interface RunResource extends CommonResource {
     runinfo: string,
     name_contact: string,
     num_contact: string,
+    is_mine: boolean,
     good_for_me: boolean,
     driver_can_apply: boolean,
     driver_can_pick_vehicle: boolean,

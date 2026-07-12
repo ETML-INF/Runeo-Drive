@@ -4,10 +4,10 @@ import React, {useState} from "react";
 import {StyleSheet, View, Text} from "react-native";
 import {DateTime} from "luxon";
 import {Alert} from "react-native";
-import {AuthContainer, RunsContainer} from "../../Provider.component";
+import {RunsContainer} from "../../Provider.component";
 import {useNavigation} from "@react-navigation/native";
 import {Colors} from "../../common/utils/Color.utils";
-import { isStillFarOut, participates } from "../../common/utils/Run.utils";
+import { isStillFarOut } from "../../common/utils/Run.utils";
 
 export interface StatusRunControllerBtnDetailRunComponentProps {
     currentRun: RunResource
@@ -15,7 +15,6 @@ export interface StatusRunControllerBtnDetailRunComponentProps {
 
 export function DetailRunsStatusControlBtn({currentRun}: StatusRunControllerBtnDetailRunComponentProps) {
     const navigation = useNavigation();
-    const {authenticatedUser} = AuthContainer.useContainer()
     const {startRun, stopRun} = RunsContainer.useContainer();
 
     if (currentRun.status === RunStatus.PROBLEM) {
@@ -27,7 +26,7 @@ export function DetailRunsStatusControlBtn({currentRun}: StatusRunControllerBtnD
         )
     }
 
-    if (participates(currentRun, authenticatedUser) && !isStillFarOut(currentRun) && currentRun.status === RunStatus.READY) {
+    if (currentRun.is_mine && !isStillFarOut(currentRun) && currentRun.status === RunStatus.READY) {
         return (
             <View>
                 <Button
@@ -42,7 +41,7 @@ export function DetailRunsStatusControlBtn({currentRun}: StatusRunControllerBtnD
         );
     }
 
-    if (participates(currentRun, authenticatedUser) && currentRun.status == RunStatus.GONE) {
+    if (currentRun.is_mine && currentRun.status == RunStatus.GONE) {
         return (
             <View>
                 <Button

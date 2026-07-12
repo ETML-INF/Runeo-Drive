@@ -15,6 +15,7 @@ import { Icon } from "react-native-elements";
 import * as Notifications from "expo-notifications";
 import { showToastLong, showToast, toastType } from "./notifications/ToastNotification";
 import { useRefreshAllDataContainers } from "./common/hook/Loader.hook";
+import { apiErrorMessage } from "./common/utils/Api.utils";
 
 const Tab = createBottomTabNavigator();
 
@@ -77,7 +78,7 @@ export function RouterComponent() {
         try {
             await refreshAllDataContainers();
         } catch (error) {
-            showToast(String(error), toastType.failed);
+            showToast(apiErrorMessage(error), toastType.failed);
         } finally {
             setIsRefreshingRuns(false);
         }

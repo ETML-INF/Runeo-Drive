@@ -6,6 +6,7 @@ import { useState } from "react";
 import { DataContainerInterface } from "./DataContainer.interface";
 import { RunnerResource } from "../resources/Runner.resource";
 import { LogResource } from "../resources/Log.resource";
+import { apiErrorMessage } from "../utils/Api.utils";
 
 export interface RunsContainer extends DataContainerInterface<RunResource> {
   updateVehicle: (runnerId: number, carId: number) => Promise<void>;
@@ -109,10 +110,6 @@ function updateRunnerCarApi(runnerId: number, carId: number): Promise<RunResourc
     .catch((error) => {
       throw new Error(apiErrorMessage(error));
     });
-}
-
-function apiErrorMessage(error: any): string {
-  return error.response?.data?.error ?? error.response?.data?.message ?? error.message;
 }
 
 function getRunsFromApi(onlyFromTime?: DateTime): Promise<RunResource[]> {
