@@ -23,13 +23,11 @@ export function DetailRunsInfoComponent({currentRun}: InfoDetailRunsComponentPro
 
             <Text style={styles.textInfo}>{currentRun.runinfo}</Text>
 
-            {currentRun.name_contact ? (
-                <InlineTextComponent>
-                    <Text style={styles.textRegular}>Contact : </Text>
-                    <Text style={styles.textContact}>{currentRun.name_contact} {currentRun.num_contact}</Text>
-                </InlineTextComponent>
-            ) : <Fragment/>}
-            {currentRun.name_contact && currentRun.is_mine ? (
+            <InlineTextComponent>
+                <Text style={styles.textRegular}>Contact</Text>
+                <Text style={styles.textContact}>{currentRun.name_contact ? ` : ${currentRun.name_contact} ` : ''}{currentRun.num_contact}</Text>
+            </InlineTextComponent>
+            {currentRun.is_mine ? (
                 <DetailRunsContactBtn currentRun={currentRun}/>
             ) : <Fragment/>}
 
